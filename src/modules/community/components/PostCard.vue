@@ -20,12 +20,18 @@
           :key="index"
           :src="img"
           @click.stop="previewImage(img)"
+          @load="($event.target as HTMLImageElement).style.opacity = '1'"
+          @error="($event.target as HTMLImageElement).style.display = 'none'"
         />
       </div>
 
       <!-- 书籍推荐 -->
       <div v-if="post.book" class="book-card" @click.stop="goToBook">
-        <img :src="post.book.cover" :alt="post.book.title" />
+        <img
+          :src="resolveBookCover(post.book)"
+          :alt="post.book.title"
+          @error="handleCoverError($event, post.book)"
+        />
         <div class="book-info">
           <span class="book-title">{{ post.book.title }}</span>
           <span class="book-author">{{ post.book.author }}</span>
@@ -70,6 +76,7 @@
 <script setup lang="ts">
 import { QyIcon } from '@/design-system/components'
 import { Avatar, Tag } from '@/design-system/base'
+import { resolveBookCover, getFallbackBookCover } from '@/modules/bookstore/utils/cover-resolver'
 import type { Post } from '@/types/community'
 
 interface Props {
@@ -86,6 +93,16 @@ const emit = defineEmits<{
   (e: 'bookmark', postId: string): void
   (e: 'topic', topic: string): void
 }>()
+
+function handleCoverError(event: Event, book: any) {
+  const img = event.target as HTMLImageElement
+  if (!img.dataset.fallback) {
+    img.dataset.fallback = 'true'
+    img.src = getFallbackBookCover(book)
+  } else {
+    img.style.display = 'none'
+  }
+}
 
 function formatTime(time: string): string {
   const date = new Date(time)
@@ -135,7 +152,8 @@ function goToBook() {
   // 跳转到书籍详情
 }
 
-function previewImage(_img: string) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function previewImage(_img?: string) {
   // 预览图片
 }
 </script>
@@ -202,6 +220,9 @@ function previewImage(_img: string) {
     object-fit: cover;
     border-radius: 8px;
     cursor: zoom-in;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: linear-gradient(135deg, #e8e8e8 0%, #f5f5f5 100%);
   }
 }
 

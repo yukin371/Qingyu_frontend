@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-undef */
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -9,14 +8,19 @@ import { fileURLToPath, URL } from 'node:url'
 // 根据环境决定是否加载 VueDevTools
 // Vitest 和 Storybook 环境下禁用，避免兼容性问题
 const isTest = process.env.VITEST || process.env.NODE_ENV === 'test'
-const isStorybook = process.env.STORYBOOK === 'true' || process.env.npm_lifecycle_event === 'storybook'
-const plugins = [tailwindcss(), vue({
-  // 启用 JSX 支持
-  script: {
-    defineModel: true,
-    propsDestructure: true
-  }
-}), vueJsx()]
+const isStorybook =
+  process.env.STORYBOOK === 'true' || process.env.npm_lifecycle_event === 'storybook'
+const plugins = [
+  tailwindcss(),
+  vue({
+    // 启用 JSX 支持
+    script: {
+      defineModel: true,
+      propsDestructure: true,
+    },
+  }),
+  vueJsx(),
+]
 if (!isTest && !isStorybook) {
   plugins.push(VueDevTools())
 }
@@ -35,8 +39,8 @@ export default defineConfig({
       '@writer': fileURLToPath(new URL('./src/modules/writer', import.meta.url)),
       '@admin': fileURLToPath(new URL('./src/modules/admin', import.meta.url)),
       '@shared': fileURLToPath(new URL('./src/modules/shared', import.meta.url)),
-      '@ai': fileURLToPath(new URL('./src/modules/ai', import.meta.url))
-    }
+      '@ai': fileURLToPath(new URL('./src/modules/ai', import.meta.url)),
+    },
   },
   server: {
     port: 5173,
@@ -48,15 +52,22 @@ export default defineConfig({
         target: 'http://localhost:9090',
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path
+        rewrite: (path) => path,
       },
+      // 静态资源代理（封面图片等）—— 仅在生产构建中需要，
+      // 开发模式下 Vite 直接从 public/ 提供静态文件
+      // '/images': {
+      //   target: 'http://localhost:9090',
+      //   changeOrigin: true,
+      //   secure: false
+      // },
       // WebSocket代理（实时通知、评论等）
       '/ws': {
         target: 'ws://localhost:9090',
         ws: true,
-        changeOrigin: true
-      }
-    }
+        changeOrigin: true,
+      },
+    },
   },
   build: {
     // 提高chunk大小警告阈值
@@ -68,11 +79,11 @@ export default defineConfig({
           // Vue核心库
           'vue-vendor': ['vue', 'vue-router', 'pinia'],
           // 图表库
-          'echarts': ['echarts'],
+          echarts: ['echarts'],
           // 工具库
-          'utils': ['axios', 'marked', 'nanoid', 'nprogress']
-        }
-      }
+          utils: ['axios', 'marked', 'nanoid', 'nprogress'],
+        },
+      },
     },
     // 启用CSS代码分割
     cssCodeSplit: true,
@@ -82,14 +93,14 @@ export default defineConfig({
     minify: 'esbuild',
     // 生产环境移除 console
     esbuild: {
-      drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : []
-    }
+      drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : [],
+    },
   },
   // 定义全局变量
   define: {
     'process.env.VITEST': JSON.stringify(process.env.VITEST),
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
     'process.env.STORYBOOK': JSON.stringify(process.env.STORYBOOK),
-    'process.env.npm_lifecycle_event': JSON.stringify(process.env.npm_lifecycle_event)
-  }
+    'process.env.npm_lifecycle_event': JSON.stringify(process.env.npm_lifecycle_event),
+  },
 })

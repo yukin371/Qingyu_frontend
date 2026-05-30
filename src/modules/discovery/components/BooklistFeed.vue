@@ -1,5 +1,6 @@
 <template>
   <div class="booklist-feed">
+    <!-- 空状态 -->
     <div v-if="booklists.length === 0" class="empty-state">
       <el-icon :size="64" color="#ddd">
         <Collection />
@@ -7,50 +8,57 @@
       <p>暂无书单</p>
     </div>
 
+    <!-- 书单列表 -->
     <div v-else class="booklist-grid">
       <div
         v-for="booklist in booklists"
         :key="booklist.id"
         class="booklist-card"
-        @click="handleBooklistClick(booklist)"
+        @click="router.push('/booklist/' + booklist.id)"
       >
         <!-- 封面区域 -->
         <div class="booklist-cover">
           <div class="cover-images">
             <img
-              v-for="(book, index) in booklist.books.slice(0, 3)"
+              v-for="(book, index) in (booklist.books || []).slice(0, 3)"
               :key="index"
-              :src="book.cover"
+              :src="resolveBookCover(book)"
               :alt="book.title"
               class="cover-image"
-              :style="{ transform: `rotate(${index * 5}deg) translateY(${index * 2}px)` }"
+              :style="{
+                transform: `rotate(${Number(index) * 5}deg) translateY(${Number(index) * 2}px)`,
+              }"
+              @error="handleCoverError($event, book)"
             />
           </div>
-          <div class="cover-badge">{{ booklist.bookCount }}本书</div>
+          <div class="cover-badge">{{ booklist.bookCount || 0 }}本书</div>
         </div>
 
         <!-- 内容区域 -->
         <div class="booklist-content">
           <h3 class="booklist-title">{{ booklist.title }}</h3>
-          <p class="booklist-description">{{ booklist.description }}</p>
+          <p v-if="booklist.description" class="booklist-description">{{ booklist.description }}</p>
 
           <!-- 创建者信息 -->
-          <div class="creator-info">
+          <div v-if="booklist.creator" class="creator-info">
             <Avatar size="sm" :src="booklist.creator.avatar" :alt="booklist.creator.nickname" />
             <span class="creator-name">{{ booklist.creator.nickname }}</span>
           </div>
 
           <!-- 统计信息 -->
-          <div class="booklist-stats">
-            <div class="stat-item">
+          <div
+            v-if="booklist.viewCount !== undefined || booklist.favoriteCount !== undefined"
+            class="booklist-stats"
+          >
+            <div v-if="booklist.viewCount !== undefined" class="stat-item">
               <el-icon><View /></el-icon>
               <span>{{ formatCount(booklist.viewCount) }}</span>
             </div>
-            <div class="stat-item">
+            <div v-if="booklist.favoriteCount !== undefined" class="stat-item">
               <el-icon><Star /></el-icon>
               <span>{{ formatCount(booklist.favoriteCount) }}</span>
             </div>
-            <div class="stat-item">
+            <div v-if="booklist.bookCount !== undefined" class="stat-item">
               <el-icon><Collection /></el-icon>
               <span>{{ formatCount(booklist.bookCount) }}</span>
             </div>
@@ -65,204 +73,33 @@
         </div>
       </div>
     </div>
-
-    <!-- 加载更多 -->
-    <div v-if="hasMore" class="load-more">
-      <el-button @click="loadMore" :loading="loading"> 加载更多 </el-button>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { Collection, View, Star } from '@element-plus/icons-vue'
 import { Avatar } from '@/design-system/base'
+import { resolveBookCover, getFallbackBookCover } from '@/modules/bookstore/utils/cover-resolver'
 
-interface Book {
-  bookId: string
-  title: string
-  cover: string
-  author: string
+interface Props {
+  booklists?: any[]
 }
 
-interface Creator {
-  id: string
-  username: string
-  nickname: string
-  avatar: string
-}
-
-interface Booklist {
-  id: string
-  title: string
-  description: string
-  cover: string
-  books: Book[]
-  bookCount: number
-  creator: Creator
-  viewCount: number
-  favoriteCount: number
-  isFavorited: boolean
-  tags: string[]
-  createdAt: string
-  updatedAt: string
-}
-
-// Mock数据
-const mockBooklists: Booklist[] = [
-  {
-    id: 'bl1',
-    title: '科幻迷必读经典',
-    description: '精选20本科幻小说，从三体到沙丘，带你领略宇宙的无限可能',
-    cover: '',
-    books: [
-      {
-        bookId: 'b1',
-        title: '三体',
-        cover: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=200&h=280&fit=crop',
-        author: '刘慈欣',
-      },
-      {
-        bookId: 'b2',
-        title: '沙丘',
-        cover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=200&h=280&fit=crop',
-        author: '弗兰克·赫伯特',
-      },
-      {
-        bookId: 'b3',
-        title: '银河帝国',
-        cover: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=200&h=280&fit=crop',
-        author: '阿西莫夫',
-      },
-    ],
-    bookCount: 20,
-    creator: {
-      id: 'u1',
-      username: 'scififan',
-      nickname: '科幻迷小张',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=scifi',
-    },
-    viewCount: 12580,
-    favoriteCount: 2340,
-    isFavorited: false,
-    tags: ['科幻', '经典', '太空'],
-    createdAt: '2025-01-15T10:00:00Z',
-    updatedAt: '2025-01-15T10:00:00Z',
-  },
-  {
-    id: 'bl2',
-    title: '治愈系书单｜缓解焦虑',
-    description: '当你感到焦虑不安时，这些书能给你力量和慰藉',
-    cover: '',
-    books: [
-      {
-        bookId: 'b4',
-        title: '小王子',
-        cover: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=200&h=280&fit=crop',
-        author: '圣埃克苏佩里',
-      },
-      {
-        bookId: 'b5',
-        title: '解忧杂货店',
-        cover: 'https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?w=200&h=280&fit=crop',
-        author: '东野圭吾',
-      },
-    ],
-    bookCount: 12,
-    creator: {
-      id: 'u2',
-      username: 'bookhealer',
-      nickname: '治愈系书单',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=healer',
-    },
-    viewCount: 8960,
-    favoriteCount: 1560,
-    isFavorited: true,
-    tags: ['治愈', '心理', '成长'],
-    createdAt: '2025-01-20T14:30:00Z',
-    updatedAt: '2025-01-20T14:30:00Z',
-  },
-  {
-    id: 'bl3',
-    title: '2024年度最佳推理小说',
-    description: '年度最佳推理小说榜单，挑战你的智商！',
-    cover: '',
-    books: [
-      {
-        bookId: 'b6',
-        title: '白夜行',
-        cover: 'https://images.unsplash.com/photo-1589998059171-988d887df646?w=200&h=280&fit=crop',
-        author: '东野圭吾',
-      },
-      {
-        bookId: 'b7',
-        title: '嫌疑人X的献身',
-        cover: 'https://images.unsplash.com/photo-1495631342678-477851d94a5c?w=200&h=280&fit=crop',
-        author: '东野圭吾',
-      },
-    ],
-    bookCount: 15,
-    creator: {
-      id: 'u3',
-      username: 'detective',
-      nickname: '推理达人',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=detective',
-    },
-    viewCount: 15620,
-    favoriteCount: 3120,
-    isFavorited: false,
-    tags: ['推理', '悬疑', '烧脑'],
-    createdAt: '2025-01-10T09:00:00Z',
-    updatedAt: '2025-01-10T09:00:00Z',
-  },
-  {
-    id: 'bl4',
-    title: '历史爱好者的书架',
-    description: '从古代到现代，了解历史的必读书单',
-    cover: '',
-    books: [
-      {
-        bookId: 'b8',
-        title: '万历十五年',
-        cover: 'https://images.unsplash.com/photo-1524578271613-d550eacf6090?w=200&h=280&fit=crop',
-        author: '黄仁宇',
-      },
-    ],
-    bookCount: 18,
-    creator: {
-      id: 'u4',
-      username: 'historian',
-      nickname: '历史爱好者',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=history',
-    },
-    viewCount: 9230,
-    favoriteCount: 1780,
-    isFavorited: false,
-    tags: ['历史', '人文', '经典'],
-    createdAt: '2025-01-25T16:20:00Z',
-    updatedAt: '2025-01-25T16:20:00Z',
-  },
-]
-
-const route = useRoute()
-const isTestMode = computed(() => route.query.test === 'true')
-
-const booklists = ref<Booklist[]>([])
-const loading = ref(false)
-const hasMore = ref(false)
-
-onMounted(async () => {
-  if (isTestMode.value) {
-    booklists.value = mockBooklists
-    return
-  }
-  // TODO: 调用真实 API
+withDefaults(defineProps<Props>(), {
+  booklists: () => [],
 })
 
-function handleBooklistClick(booklist: Booklist) {
-  console.log('点击书单:', booklist)
-  // 跳转到书单详情
+const router = useRouter()
+
+function handleCoverError(event: Event, book: any) {
+  const img = event.target as HTMLImageElement
+  if (!img.dataset.fallback) {
+    img.dataset.fallback = 'true'
+    img.src = getFallbackBookCover(book)
+  } else {
+    img.style.display = 'none'
+  }
 }
 
 function formatCount(count: number): string {
@@ -273,14 +110,6 @@ function formatCount(count: number): string {
     return `${(count / 1000).toFixed(1)}k`
   }
   return count.toString()
-}
-
-function loadMore() {
-  loading.value = true
-  setTimeout(() => {
-    loading.value = false
-    hasMore.value = false
-  }, 1000)
 }
 </script>
 
@@ -310,27 +139,37 @@ function loadMore() {
 }
 
 .booklist-card {
-  background: #fff;
-  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 245, 0.96), rgba(247, 240, 230, 0.92)), #fffdfa;
+  border: 1px solid rgba(120, 94, 62, 0.1);
+  border-radius: 18px;
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 18px 40px -28px rgba(86, 60, 24, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-6px);
+    border-color: rgba(176, 124, 52, 0.18);
+    box-shadow:
+      0 24px 48px -30px rgba(86, 60, 24, 0.42),
+      inset 0 1px 0 rgba(255, 255, 255, 0.76);
   }
 }
 
 .booklist-cover {
   position: relative;
   height: 160px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background:
+    radial-gradient(circle at top left, rgba(255, 247, 228, 0.95), transparent 46%),
+    linear-gradient(145deg, #f1e1c3 0%, #d8b98e 52%, #b58a58 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  border-bottom: 1px solid rgba(120, 94, 62, 0.08);
 
   .cover-images {
     display: flex;
@@ -342,21 +181,24 @@ function loadMore() {
     width: 60px;
     height: 84px;
     object-fit: cover;
-    border-radius: 4px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow:
+      0 12px 18px -12px rgba(54, 35, 10, 0.48),
+      0 2px 6px rgba(60, 36, 8, 0.18);
   }
 
   .cover-badge {
     position: absolute;
     top: 12px;
     right: 12px;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 4px 12px;
-    border-radius: 12px;
+    background: rgba(255, 249, 238, 0.92);
+    border: 1px solid rgba(161, 118, 57, 0.18);
+    padding: 5px 12px;
+    border-radius: 999px;
     font-size: 12px;
     font-weight: 600;
-    color: #667eea;
+    color: #7d5521;
   }
 }
 
@@ -367,7 +209,7 @@ function loadMore() {
 .booklist-title {
   font-size: 16px;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #2f2416;
   margin: 0 0 8px 0;
   line-height: 1.4;
 
@@ -379,7 +221,7 @@ function loadMore() {
 
 .booklist-description {
   font-size: 13px;
-  color: #666;
+  color: #65584b;
   margin: 0 0 12px 0;
   line-height: 1.5;
 
@@ -397,7 +239,7 @@ function loadMore() {
 
   .creator-name {
     font-size: 12px;
-    color: #999;
+    color: #8a745f;
   }
 }
 
@@ -411,7 +253,7 @@ function loadMore() {
     align-items: center;
     gap: 4px;
     font-size: 12px;
-    color: #999;
+    color: #7d6951;
 
     .el-icon {
       font-size: 14px;
@@ -425,19 +267,9 @@ function loadMore() {
   gap: 6px;
 
   .el-tag {
-    border: none;
-    background: #f5f5f5;
-  }
-}
-
-.load-more {
-  display: flex;
-  justify-content: center;
-  margin-top: 24px;
-  padding: 20px 0;
-
-  .el-button {
-    min-width: 120px;
+    border: 1px solid rgba(178, 140, 91, 0.18);
+    background: rgba(255, 248, 235, 0.92);
+    color: #7a5930;
   }
 }
 </style>
