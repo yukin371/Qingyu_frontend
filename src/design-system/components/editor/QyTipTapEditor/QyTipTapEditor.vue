@@ -82,6 +82,8 @@
     <!-- 隐藏的文件输入框 -->
     <input
       ref="imageInputRef"
+      id="writer-editor-image-upload"
+      name="writerEditorImageUpload"
       type="file"
       accept="image/*"
       style="display: none"
@@ -129,19 +131,19 @@ import CharacterCount from '@tiptap/extension-character-count'
 import Underline from '@tiptap/extension-underline'
 import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
-import QyKeywordPopover from '../QySmartKeyword/QyKeywordPopover.vue'
-import QyCompletionPopover from '../QySmartKeyword/QyCompletionPopover.vue'
-import QyEntityCreateDialog from '../QySmartKeyword/QyEntityCreateDialog.vue'
-import { SmartKeyword, type KeywordInfo } from '../QySmartKeyword/extensions/SmartKeyword'
-import { ParagraphWithId } from '../QySmartKeyword/extensions/ParagraphWithId'
-import { AiDiffExtension } from '../QySmartKeyword/extensions/AiDiffExtension'
+import QyKeywordPopover from '@editor-shared/components/QySmartKeyword/QyKeywordPopover.vue'
+import QyCompletionPopover from '@editor-shared/components/QySmartKeyword/QyCompletionPopover.vue'
+import QyEntityCreateDialog from '@editor-shared/components/QySmartKeyword/QyEntityCreateDialog.vue'
+import { SmartKeyword, type KeywordInfo } from '@editor-shared/extensions/SmartKeyword'
+import { ParagraphWithId } from '@editor-shared/extensions/ParagraphWithId'
+import { AiDiffExtension } from '@editor-shared/extensions/AiDiffExtension'
 import {
   ProofreadHighlightExtension,
   focusProofreadHighlight,
   setFocusedProofreadHighlight,
   setProofreadHighlights,
   type ProofreadHighlightRange,
-} from '../QySmartKeyword/extensions/ProofreadHighlightExtension'
+} from '@editor-shared/extensions/ProofreadHighlightExtension'
 import { searchProjectKeywords, type ParagraphContent } from '@/modules/writer/api/wrapper'
 import { storageAPI } from '@/modules/shared/api/storage'
 
@@ -192,24 +194,35 @@ type ToolbarCommand =
   | 'undo'
   | 'redo'
 
+const isTipTapDebugEnabled = () => {
+  if (!import.meta.env.DEV || typeof window === 'undefined') return false
+  return window.localStorage.getItem('qy:tiptap-debug') === 'true'
+}
+
+const debugLog = (...args: unknown[]) => {
+  if (isTipTapDebugEnabled()) {
+    console.debug('[QyTipTapEditor]', ...args)
+  }
+}
+
 // 图片上传相关
 const imageInputRef = ref<HTMLInputElement | null>(null)
 const isUploadingImage = ref(false)
 
 function parseInitialContent() {
-  console.log('[QyTipTapEditor] parseInitialContent 输入:', props.modelValue?.substring(0, 200))
+  debugLog('parseInitialContent 输入:', props.modelValue?.substring(0, 200))
 
   if (!props.modelValue) {
-    console.log('[QyTipTapEditor] modelValue为空，返回默认段落')
+    debugLog('modelValue为空，返回默认段落')
     return '<p></p>'
   }
 
   try {
     const parsed = JSON.parse(props.modelValue)
-    console.log('[QyTipTapEditor] JSON解析成功:', parsed)
+    debugLog('JSON解析成功:', parsed)
     return parsed
   } catch (error) {
-    console.log('[QyTipTapEditor] JSON解析失败，返回原始内容:', error)
+    debugLog('JSON解析失败，返回原始内容:', error)
     return props.modelValue
   }
 }
@@ -371,7 +384,10 @@ const editor = useEditor({
   editable: !props.readonly,
   content: parseInitialContent(),
   extensions: [
-    StarterKit,
+    StarterKit.configure({
+      link: false,
+      underline: false,
+    }),
     Underline,
     Link,
     Image,
@@ -424,19 +440,19 @@ const editor = useEditor({
     },
   },
   onCreate({ editor: currentEditor }: { editor: CoreEditor }) {
-    console.log('[QyTipTapEditor] ========== 编辑器创建成功 ==========')
-    console.log('[QyTipTapEditor] 编辑器实例:', currentEditor)
-    console.log('[QyTipTapEditor] 编辑器是否可编辑:', currentEditor.isEditable)
+    debugLog('========== 编辑器创建成功 ==========')
+    debugLog('编辑器实例:', currentEditor)
+    debugLog('编辑器是否可编辑:', currentEditor.isEditable)
 
     // 检查编辑器的初始内容
     const initialContent = currentEditor.getJSON()
-    console.log('[QyTipTapEditor] 初始内容:', initialContent)
+    debugLog('初始内容:', initialContent)
 
     // 检查DOM是否正确渲染
     setTimeout(() => {
       const editorElement = document.querySelector('.ProseMirror')
-      console.log('[QyTipTapEditor] ProseMirror DOM元素:', editorElement)
-      console.log('[QyTipTapEditor] ProseMirror HTML:', editorElement?.innerHTML?.substring(0, 500))
+      debugLog('ProseMirror DOM元素:', editorElement)
+      debugLog('ProseMirror HTML:', editorElement?.innerHTML?.substring(0, 500))
     }, 100)
 
     emit('ready', currentEditor)
@@ -544,58 +560,55 @@ watch(
 watch(
   () => props.modelValue,
   (value) => {
-    console.log('[QyTipTapEditor] ========== modelValue changed ==========')
-    console.log('[QyTipTapEditor] 新value长度:', value?.length || 0)
-    console.log('[QyTipTapEditor] 新value预览:', value?.substring(0, 200) + '...')
+    debugLog('========== modelValue changed ==========')
+    debugLog('新value长度:', value?.length || 0)
+    debugLog('新value预览:', value?.substring(0, 200) + '...')
 
     if (!editor.value) {
-      console.log('[QyTipTapEditor] editor not ready yet')
+      debugLog('editor not ready yet')
       return
     }
 
     const next = value || ''
     if (!next) {
-      console.log('[QyTipTapEditor] value is empty, skipping')
+      debugLog('value is empty, skipping')
       return
     }
 
     try {
       // 尝试解析为 JSON
       const nextJson = JSON.parse(next)
-      console.log('[QyTipTapEditor] JSON解析成功，类型:', typeof nextJson)
-      console.log('[QyTipTapEditor] nextJson:', nextJson)
+      debugLog('JSON解析成功，类型:', typeof nextJson)
+      debugLog('nextJson:', nextJson)
 
       const currentJson = editor.value.getJSON()
-      console.log('[QyTipTapEditor] 当前编辑器内容:', currentJson)
+      debugLog('当前编辑器内容:', currentJson)
 
       // 比较内容是否相同
       if (JSON.stringify(nextJson) !== JSON.stringify(currentJson)) {
-        console.log('[QyTipTapEditor] 内容不同，更新编辑器')
+        debugLog('内容不同，更新编辑器')
         editor.value.commands.setContent(nextJson, { emitUpdate: false })
-        console.log('[QyTipTapEditor] 编辑器更新完成')
+        debugLog('编辑器更新完成')
 
         // 检查更新后的DOM
         setTimeout(() => {
           const proseMirror = document.querySelector('.ProseMirror')
-          console.log(
-            '[QyTipTapEditor] 更新后的ProseMirror HTML:',
-            proseMirror?.innerHTML?.substring(0, 500),
-          )
+          debugLog('更新后的ProseMirror HTML:', proseMirror?.innerHTML?.substring(0, 500))
         }, 100)
       } else {
-        console.log('[QyTipTapEditor] 内容相同，跳过更新')
+        debugLog('内容相同，跳过更新')
       }
     } catch (error) {
-      console.log('[QyTipTapEditor] JSON解析失败:', error)
-      console.log('[QyTipTapEditor] 尝试作为纯文本处理')
+      debugLog('JSON解析失败:', error)
+      debugLog('尝试作为纯文本处理')
       // 不是 JSON，可能是纯文本，直接设置
       const currentText = editor.value.getText()
       if (next !== currentText) {
-        console.log('[QyTipTapEditor] 纯文本模式，更新编辑器')
+        debugLog('纯文本模式，更新编辑器')
         editor.value.commands.setContent(next, { emitUpdate: false })
       }
     }
-    console.log('[QyTipTapEditor] ===================')
+    debugLog('===================')
   },
 )
 

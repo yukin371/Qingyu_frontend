@@ -40,12 +40,30 @@ export default defineConfig({
       '@admin': fileURLToPath(new URL('./src/modules/admin', import.meta.url)),
       '@shared': fileURLToPath(new URL('./src/modules/shared', import.meta.url)),
       '@ai': fileURLToPath(new URL('./src/modules/ai', import.meta.url)),
+      '@editor-shared': fileURLToPath(new URL('../packages/editor-shared/src', import.meta.url)),
     },
+    dedupe: [
+      'vue',
+      'vue-router',
+      'pinia',
+      '@tiptap/core',
+      '@tiptap/pm',
+      '@tiptap/vue-3',
+      '@tiptap/starter-kit',
+      '@tiptap/extension-placeholder',
+      '@tiptap/extension-character-count',
+      '@tiptap/extension-image',
+      '@tiptap/extension-underline',
+      '@tiptap/extension-link',
+    ],
   },
   server: {
     port: 5173,
     host: true,
     open: true,
+    watch: {
+      ignored: ['!**/../packages/editor-shared/**'],
+    },
     proxy: {
       // API代理到后端
       '/api': {

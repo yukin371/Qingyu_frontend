@@ -199,7 +199,7 @@ import {
   clearPendingDiffs,
   setDiffCallbacks,
   type PendingDiff,
-} from '@/design-system/components/editor/QySmartKeyword/extensions/AiDiffExtension'
+} from '@editor-shared/extensions/AiDiffExtension'
 import {
   extractEntitiesFromTipTapContent,
   groupEntitiesByType,
@@ -1530,7 +1530,8 @@ watch(
 watch(
   () => flatChapters.value,
   (chapters) => {
-    if (!currentChapterId.value && chapters.length > 0) {
+    const hasCurrentChapter = chapters.some((chapter) => chapter.id === currentChapterId.value)
+    if ((!currentChapterId.value || !hasCurrentChapter) && chapters.length > 0) {
       const firstChapter = chapters.find((chapter) => chapter.nodeType !== 'directory')
       const targetChapter = firstChapter || chapters[0]
       if (targetChapter) {

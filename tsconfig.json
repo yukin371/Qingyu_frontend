@@ -36,7 +36,14 @@
       "@user/*": ["src/modules/user/*"],
       "@writer/*": ["src/modules/writer/*"],
       "@admin/*": ["src/modules/admin/*"],
-      "@shared/*": ["src/modules/shared/*"]
+      "@shared/*": ["src/modules/shared/*"],
+      "@editor-shared/*": ["../packages/editor-shared/src/*"],
+      "vue": ["./node_modules/vue"],
+      "@tiptap/core": ["./node_modules/@tiptap/core"],
+      "@tiptap/pm": ["./node_modules/@tiptap/pm"],
+      "@tiptap/pm/*": ["./node_modules/@tiptap/pm/*"],
+      "@tiptap/vue-3": ["./node_modules/@tiptap/vue-3"],
+      "@tiptap/starter-kit": ["./node_modules/@tiptap/starter-kit"]
     },
 
     /* Types */
