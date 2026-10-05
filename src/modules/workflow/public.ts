@@ -5,7 +5,9 @@ export {
   listPublishedBookDetails,
   shouldUsePublishedBridge,
   syncPublishedBookFromRecords,
+  syncPublishedBookFromRecordsAsync,
 } from './publishedBridge'
+export { createPublishedApiSource } from './apiSource'
 export type {
   PublishedBridgeBook,
   PublishedBridgeBookDetail,
@@ -16,4 +18,5 @@ export type {
   PublishedBridgeBookSeed,
   PublishedBridgeProject,
   PublishedBridgeSource,
+  PublishedBridgeAsyncSource,
 } from './ports'

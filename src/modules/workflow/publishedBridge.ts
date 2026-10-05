@@ -1,5 +1,5 @@
 import { createDemoPublishedBridgeSource } from './demoSource'
-import type { PublishedBridgeSource } from './ports'
+import type { PublishedBridgeAsyncSource, PublishedBridgeSource } from './ports'
 
 const STORAGE_KEY = 'qingyu:workflow:published-books:v1'
 
@@ -89,7 +89,7 @@ const buildBaseFromWriterProject = (
 ): PublishedBridgeBookDetail | null => {
   const mockProject = source.getProject(projectId)
   if (!mockProject) return null
-  const bookSeed = source.getBookSeed()
+  const bookSeed = source.getBookSeed(projectId)
 
   const chapters = mockProject.chapters
     .slice()
@@ -128,6 +128,21 @@ const buildBaseFromWriterProject = (
   }
 }
 
+const buildBaseFromAsyncSource = async (
+  projectId: string,
+  fallbackTitle: string | undefined,
+  source: PublishedBridgeAsyncSource,
+): Promise<PublishedBridgeBookDetail | null> => {
+  const project = await source.getProject(projectId)
+  if (!project) return null
+  const bookSeed = await source.getBookSeed(projectId)
+
+  return buildBaseFromWriterProject(projectId, fallbackTitle, {
+    getProject: () => project,
+    getBookSeed: () => bookSeed,
+  })
+}
+
 const toSet = (records: PublishedBridgePublishRecord[]) =>
   new Set(records.filter((item) => item.status === 'published').map((item) => item.chapter_id))
 
@@ -162,6 +177,46 @@ export const syncPublishedBookFromRecords = (
       wordCount: publishedChapters.reduce((sum, item) => sum + (item.wordCount || 0), 0),
       lastUpdateTime: new Date().toISOString(),
       title: options?.title || base.book.title,
+    },
+    chapters: publishedChapters,
+  }
+
+  storage[projectId] = detail
+  writeStorage(storage)
+  return detail
+}
+
+export const syncPublishedBookFromRecordsAsync = async (
+  projectId: string,
+  records: PublishedBridgePublishRecord[],
+  options: { title?: string; source: PublishedBridgeAsyncSource },
+): Promise<PublishedBridgeBookDetail | null> => {
+  const base = await buildBaseFromAsyncSource(projectId, options.title, options.source)
+  if (!base) return null
+
+  const publishedSet = toSet(records)
+  const publishedAtMap = new Map(records.map((item) => [item.chapter_id, item.published_at]))
+  const publishedChapters = base.chapters
+    .filter((chapter) => publishedSet.has(chapter.id))
+    .map((chapter) => ({
+      ...chapter,
+      publishedAt: publishedAtMap.get(chapter.id),
+    }))
+
+  const storage = readStorage()
+  if (publishedChapters.length === 0) {
+    delete storage[projectId]
+    writeStorage(storage)
+    return null
+  }
+
+  const detail: PublishedBridgeBookDetail = {
+    book: {
+      ...base.book,
+      chapterCount: publishedChapters.length,
+      wordCount: publishedChapters.reduce((sum, item) => sum + (item.wordCount || 0), 0),
+      lastUpdateTime: new Date().toISOString(),
+      title: options.title || base.book.title,
     },
     chapters: publishedChapters,
   }

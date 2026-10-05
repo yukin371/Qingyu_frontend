@@ -14,7 +14,12 @@ import {
   type PublishStats,
   type ChapterPublishConfig,
 } from '@/modules/writer/api'
-import { syncPublishedBookFromRecords } from '@/modules/workflow/publishedBridge'
+import {
+  createPublishedApiSource,
+  syncPublishedBookFromRecords,
+  syncPublishedBookFromRecordsAsync,
+  type PublishedBridgePublishRecord,
+} from '@/modules/workflow/public'
 import { getWorkspaceMockProject } from '@/modules/writer/mock/workspaceMock'
 import { getDocumentContent } from '@/modules/writer/api/wrapper'
 import {
@@ -22,6 +27,28 @@ import {
   getProofreadQualityGateStatus,
 } from '@/modules/writer/services/proofreadQualityGate.service'
 import { extractPlainTextFromEditorContent } from '@/modules/writer/utils/editorContent'
+
+const publishedApiSource = createPublishedApiSource()
+
+const refreshPublishedProjectionFromApi = async (projectId: string, records: PublishRecord[]) => {
+  const publishedRecords: PublishedBridgePublishRecord[] = records
+    .filter((record) => record.status === 'published')
+    .map((record) => ({
+      chapter_id: record.chapter_id,
+      status: record.status,
+      published_at: record.published_at,
+    }))
+
+  if (publishedRecords.length === 0) return
+
+  try {
+    await syncPublishedBookFromRecordsAsync(projectId, publishedRecords, {
+      source: publishedApiSource,
+    })
+  } catch (error) {
+    console.warn('[useChapterManager] 刷新已发布书籍投影失败:', error)
+  }
+}
 
 // 导出类型
 export type { PublishRecord, PublishStatus, PublishStats }
@@ -195,6 +222,7 @@ export function useChapterManager(
       })
       publishRecords.value = res.items
       recordTotal.value = res.total
+      void refreshPublishedProjectionFromApi(bookId.value, res.items)
     } catch (error: unknown) {
       const err = error as Error
       message.error(err.message || '加载失败')

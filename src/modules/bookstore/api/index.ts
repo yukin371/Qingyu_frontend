@@ -4,5 +4,6 @@
  */
 
 export * from './bookstore'
+export { getBookPublishedChapters, getChapterContent } from './wrapper'
 // 注意：bookstore.ts 没有默认导出，移除这行
 // export { default } from './bookstore'
