@@ -145,14 +145,8 @@ import { useResponsive } from '@/composables/useResponsive'
 import { message } from '@/design-system/services'
 import { QyButton } from '@/design-system/components'
 import CommentDrawer from '../components/comments/CommentDrawer.vue'
-import {
-  YUNLAN_TOTAL_CHAPTERS,
-  createYunlanReaderChapters,
-} from '@/modules/bookstore/yunlanDemo.mock'
-import {
-  getPublishedBookDetail,
-  shouldUsePublishedBridge,
-} from '@/modules/workflow/publishedBridge'
+import { YUNLAN_TOTAL_CHAPTERS, createYunlanReaderChapters } from '@/modules/bookstore/public'
+import { getPublishedBookDetail, shouldUsePublishedBridge } from '@/modules/workflow/public'
 import * as readerAPI from '@/modules/reader/api'
 
 // 子组件
@@ -247,13 +241,15 @@ const isInBookshelf = ref(false)
 const readingDuration = ref(0)
 const readingDurationTimer = ref<number | null>(null)
 const hasAddedToBookshelfThisSession = ref(false)
-const recommendedBooks = ref<Array<{
-  id: string
-  title: string
-  author: string
-  cover: string
-  reason?: string
-}>>([])
+const recommendedBooks = ref<
+  Array<{
+    id: string
+    title: string
+    author: string
+    cover: string
+    reason?: string
+  }>
+>([])
 const demoChapterList = ref(createYunlanReaderChapters())
 const demoCurrentChapter = ref<Chapter | null>(null)
 const publishedChapterList = ref<Chapter[]>([])
@@ -336,7 +332,9 @@ const isLockedChapter = computed(() => {
   if (isDemoMode.value || isPublishedMode.value) return false
   return !!currentChapter.value && (currentChapter.value as any).canAccess === false
 })
-const lockReason = computed(() => (currentChapter.value as any)?.accessReason || '该章节需要购买后阅读')
+const lockReason = computed(
+  () => (currentChapter.value as any)?.accessReason || '该章节需要购买后阅读',
+)
 const currentChapterPrice = computed(() => Number(currentChapter.value?.price || 0) / 100)
 const isLoggedIn = computed(() => Boolean(authStore.token))
 const purchasing = ref(false)
@@ -570,22 +568,24 @@ const loadRecommendedBooks = async () => {
 
     if (books && books.length > 0) {
       // 转换为推荐书籍格式（包含推荐理由）
-      recommendedBooks.value = books.map((book: {
-        id: string
-        title: string
-        author: string
-        cover?: string
-        categories?: string[]
-        tags?: string[]
-        rating?: number
-      }) => ({
-        id: book.id,
-        title: book.title || '未知书名',
-        author: book.author || '未知作者',
-        cover: book.cover || '',
-        // 推荐理由：基于分类和评分生成
-        reason: generateRecommendationReason(book),
-      }))
+      recommendedBooks.value = books.map(
+        (book: {
+          id: string
+          title: string
+          author: string
+          cover?: string
+          categories?: string[]
+          tags?: string[]
+          rating?: number
+        }) => ({
+          id: book.id,
+          title: book.title || '未知书名',
+          author: book.author || '未知作者',
+          cover: book.cover || '',
+          // 推荐理由：基于分类和评分生成
+          reason: generateRecommendationReason(book),
+        }),
+      )
     } else {
       // API 返回空数据时，使用备用的热门书籍
       await loadFallbackRecommendedBooks()
@@ -635,20 +635,24 @@ const loadFallbackRecommendedBooks = async () => {
 
     if (books && books.length > 0) {
       // 从首页书籍中获取前 6 本作为推荐
-      recommendedBooks.value = books.slice(0, 6).map((book: {
-        id: string
-        title: string
-        author: string
-        cover?: string
-        categories?: string[]
-        rating?: number
-      }) => ({
-        id: book.id,
-        title: book.title || '推荐书籍',
-        author: book.author || '青羽平台',
-        cover: book.cover || '',
-        reason: book.rating && book.rating >= 9.0 ? '高分神作' : '热门推荐',
-      }))
+      recommendedBooks.value = books
+        .slice(0, 6)
+        .map(
+          (book: {
+            id: string
+            title: string
+            author: string
+            cover?: string
+            categories?: string[]
+            rating?: number
+          }) => ({
+            id: book.id,
+            title: book.title || '推荐书籍',
+            author: book.author || '青羽平台',
+            cover: book.cover || '',
+            reason: book.rating && book.rating >= 9.0 ? '高分神作' : '热门推荐',
+          }),
+        )
     } else {
       // 如果 API 也为空，设置空数组
       recommendedBooks.value = []
@@ -976,8 +980,7 @@ watch(commentDrawerVisible, (visible) => {
   padding: 28px;
   border-radius: 24px;
   border: 1px solid rgba(217, 119, 6, 0.22);
-  background:
-    linear-gradient(145deg, rgba(255, 247, 237, 0.96), rgba(255, 255, 255, 0.94));
+  background: linear-gradient(145deg, rgba(255, 247, 237, 0.96), rgba(255, 255, 255, 0.94));
   box-shadow: 0 18px 42px rgba(217, 119, 6, 0.12);
   text-align: center;
 

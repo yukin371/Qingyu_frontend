@@ -1,6 +1,6 @@
-import { yunlanBookMeta } from '@/modules/bookstore/yunlanDemo.mock'
-import { getWorkspaceMockProject } from '@/modules/writer/mock/workspaceMock'
-import type { PublishRecord } from '@/modules/writer/api/publish'
+// TODO(F-004-WF-001): Replace demo/mock inputs with approved public ports; see MODULE.md.
+import { yunlanBookMeta } from '@/modules/bookstore/public'
+import { getWorkspaceMockProject, type PublishRecord } from '@/modules/writer'
 
 const STORAGE_KEY = 'qingyu:workflow:published-books:v1'
 

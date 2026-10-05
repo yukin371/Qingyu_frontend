@@ -4,7 +4,7 @@ import {
   YUNLAN_BOOK_TITLE,
   createYunlanReaderChapters,
   yunlanBookMeta,
-} from '@/modules/bookstore/yunlanDemo.mock'
+} from '@/modules/bookstore/public'
 import type { OutlineNode } from '@/types/writer'
 
 export interface WorkspaceProjectSummary {
