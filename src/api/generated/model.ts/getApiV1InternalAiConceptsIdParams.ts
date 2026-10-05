@@ -6,13 +6,13 @@
  * OpenAPI spec version: 1.0
  */
 
-export type GetApiV1ReaderPurchasesBookIdParams = {
+export type GetApiV1InternalAiConceptsIdParams = {
   /**
-   * 页码
+   * 用户ID
    */
-  page?: number
+  user_id: string
   /**
-   * 每页数量
+   * 项目ID
    */
-  size?: number
+  project_id: string
 }

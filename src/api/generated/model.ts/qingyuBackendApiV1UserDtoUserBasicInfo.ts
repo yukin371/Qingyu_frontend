@@ -9,6 +9,8 @@
 export interface QingyuBackendApiV1UserDtoUserBasicInfo {
   email?: string
   role?: string
+  /** 用户角色列表 */
+  roles?: string[]
   user_id?: string
   username?: string
 }

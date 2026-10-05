@@ -9,10 +9,13 @@ import type { QingyuBackendModelsWriterCommentMetadata } from './qingyuBackendMo
 import type { QingyuBackendModelsWriterCommentPosition } from './qingyuBackendModelsWriterCommentPosition'
 
 export interface ApiV1WriterCreateCommentRequest {
+  /** Deprecated: 禁止新写 */
   chapterId?: string
   content: string
   metadata?: QingyuBackendModelsWriterCommentMetadata
+  paragraphId: string
   parentId?: string
-  position: QingyuBackendModelsWriterCommentPosition
+  /** Deprecated: 禁止新写 */
+  position?: QingyuBackendModelsWriterCommentPosition
   type?: string
 }

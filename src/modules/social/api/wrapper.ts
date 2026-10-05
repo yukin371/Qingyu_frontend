@@ -536,7 +536,8 @@ export const deleteCollection = api.deleteApiV1ReaderCollectionsId
 /**
  * 检查是否已收藏
  */
-export const checkCollected = api.getApiV1ReaderCollectionsCheckBookId
+export const checkCollected = (bookId: string) =>
+  api.getApiV1SocialCollectionsCheck({ book_id: bookId })
 
 /**
  * 根据标签获取收藏
@@ -588,7 +589,8 @@ export const deleteFolder = api.deleteApiV1ReaderCollectionsFoldersId
 /**
  * 获取评分统计
  */
-export const getRatingStats = api.getApiV1BookstoreBooksIdAverageRating
+export const getRatingStats = (bookId: string) =>
+  api.getApiV1RatingsTargetTypeTargetIdStats('book', bookId)
 
 /**
  * 获取书籍评分
@@ -598,27 +600,34 @@ export const getBookRating = api.getApiV1BookstoreBooksIdRating
 /**
  * 创建书籍评分
  */
-export const createBookRating = api.postApiV1BookstoreBooksIdRating
+export async function createBookRating(): Promise<never> {
+  throw new Error('当前后端未提供评分写入路由，评分能力 owner 尚未收敛')
+}
 
 /**
  * 更新书籍评分
  */
-export const updateBookRating = api.putApiV1BookstoreBooksIdRating
+export async function updateBookRating(): Promise<never> {
+  throw new Error('当前后端未提供评分更新路由，评分能力 owner 尚未收敛')
+}
 
 /**
  * 删除书籍评分
  */
-export const deleteBookRating = api.deleteApiV1BookstoreBooksIdRating
+export async function deleteBookRating(): Promise<never> {
+  throw new Error('当前后端未提供评分删除路由，评分能力 owner 尚未收敛')
+}
 
 /**
  * 获取评分分布
  */
-export const getRatingDistribution = api.getApiV1BookstoreBooksIdRatingDistribution
+export const getRatingDistribution = (bookId: string) =>
+  api.getApiV1RatingsTargetTypeTargetIdStats('book', bookId)
 
 /**
  * 获取书籍评分列表
  */
-export const getBookRatings = api.getApiV1BookstoreBooksIdRatings
+export const getBookRatings = api.getApiV1SocialReviews
 
 // ==================== 提及相关 API ====================
 

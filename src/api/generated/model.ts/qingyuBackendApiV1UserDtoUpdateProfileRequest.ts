@@ -5,12 +5,19 @@
  * 青羽写作平台后端服务API文档，提供AI辅助写作、阅读社区、书城管理等核心功能。
  * OpenAPI spec version: 1.0
  */
+import type { QingyuBackendApiV1UserDtoUpdateProfileRequestGender } from './qingyuBackendApiV1UserDtoUpdateProfileRequestGender'
 
 export interface QingyuBackendApiV1UserDtoUpdateProfileRequest {
   avatar?: string
   /** @maxLength 500 */
   bio?: string
+  /** RFC3339格式：2006-01-02T15:04:05Z07:00，在handler中验证 */
+  birthday?: string
+  gender?: QingyuBackendApiV1UserDtoUpdateProfileRequestGender
+  /** @maxLength 100 */
+  location?: string
   /** @maxLength 50 */
   nickname?: string
   phone?: string
+  website?: string
 }

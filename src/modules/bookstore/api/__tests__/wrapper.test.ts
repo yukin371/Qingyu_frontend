@@ -332,31 +332,26 @@ describe('Bookstore API Wrapper', () => {
       expect(wrapper.getBookLastChapter).toBeDefined()
     })
 
-    it('应该能调用createBook', async () => {
+    it('应该明确拒绝通过书城创建书籍', async () => {
       const wrapper = await import('../wrapper')
 
-      await wrapper.createBook({
-        title: 'Test Book',
-        author: 'Test Author',
-      } as any)
+      await expect(wrapper.createBook()).rejects.toThrow('writer 项目发布流程')
 
       expect(wrapper.createBook).toBeDefined()
     })
 
-    it('应该能调用updateBook', async () => {
+    it('应该明确拒绝通过书城更新书籍', async () => {
       const wrapper = await import('../wrapper')
 
-      await wrapper.updateBook('book-123', {
-        title: 'Updated Book',
-      } as any)
+      await expect(wrapper.updateBook()).rejects.toThrow('writer 项目编辑流程')
 
       expect(wrapper.updateBook).toBeDefined()
     })
 
-    it('应该能调用deleteBook', async () => {
+    it('应该明确拒绝通过书城删除书籍', async () => {
       const wrapper = await import('../wrapper')
 
-      await wrapper.deleteBook('book-123')
+      await expect(wrapper.deleteBook()).rejects.toThrow('后端管理域 owner')
 
       expect(wrapper.deleteBook).toBeDefined()
     })

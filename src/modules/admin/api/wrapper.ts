@@ -446,7 +446,7 @@ export async function getOperationLogs(params?: {
  * 兼容旧API: getUserQuotaDetails(userId)
  */
 export async function getUserQuotaDetails(userId: string): Promise<APIResponse<any>> {
-  return api.getApiV1AdminQuotaUserId(userId) as any
+  return api.getApiV1AdminQuotaUsersUserId(userId) as any
 }
 
 /**
@@ -461,7 +461,7 @@ export async function updateUserQuota(
     resetDate?: string
   },
 ): Promise<APIResponse<void>> {
-  return api.putApiV1AdminQuotaUserId(userId, params as any) as any
+  return api.putApiV1AdminQuotaUsersUserId(userId, params as any) as any
 }
 
 /**
@@ -469,7 +469,7 @@ export async function updateUserQuota(
  * 兼容旧API: suspendUserQuota(userId, reason)
  */
 export async function suspendUserQuota(userId: string): Promise<APIResponse<void>> {
-  return api.postApiV1AdminQuotaUserIdSuspend(userId) as any
+  return api.postApiV1AdminQuotaUsersUserIdSuspend(userId) as any
 }
 
 /**
@@ -477,7 +477,7 @@ export async function suspendUserQuota(userId: string): Promise<APIResponse<void
  * 兼容旧API: activateUserQuota(userId)
  */
 export async function activateUserQuota(userId: string): Promise<APIResponse<void>> {
-  return api.postApiV1AdminQuotaUserIdActivate(userId) as any
+  return api.postApiV1AdminQuotaUsersUserIdActivate(userId) as any
 }
 
 /**

@@ -419,7 +419,9 @@ const markAsRead = async () => {
   if (!selectedConversation.value) return
 
   try {
-    await markConversationAsRead(selectedConversation.value.id, {})
+    await markConversationAsRead(selectedConversation.value.id, {
+      read_at: Math.floor(Date.now() / 1000),
+    })
     const conv = conversations.value.find((c) => c.id === selectedConversation.value?.id)
     if (conv) {
       conv.unread_count = 0
@@ -501,7 +503,11 @@ const createNewConversation = async () => {
 
   creating.value = true
   try {
-    const conv = await createConversation({ participantId: newChatUserId.value })
+    const participantIds = [currentUserId.value, newChatUserId.value].filter(Boolean)
+    if (participantIds.length < 2) {
+      throw new Error('当前用户信息未加载，无法创建会话')
+    }
+    const conv = await createConversation({ participant_ids: participantIds })
     conversations.value.unshift(conv as any)
     selectedConversation.value = conv as any
     showNewChatDialog.value = false

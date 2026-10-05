@@ -13,5 +13,5 @@ export interface ApiV1ReaderSaveProgressRequest {
    * @minimum 0
    * @maximum 1
    */
-  progress: number
+  progress?: number
 }

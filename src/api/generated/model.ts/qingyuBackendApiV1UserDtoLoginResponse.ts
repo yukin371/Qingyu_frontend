@@ -8,6 +8,8 @@
 import type { QingyuBackendApiV1UserDtoUserBasicInfo } from './qingyuBackendApiV1UserDtoUserBasicInfo'
 
 export interface QingyuBackendApiV1UserDtoLoginResponse {
+  /** 用户角色列表 */
+  roles?: string[]
   token?: string
   user?: QingyuBackendApiV1UserDtoUserBasicInfo
 }

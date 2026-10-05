@@ -8,7 +8,7 @@
 
 export interface ApiV1SocialReplyCommentRequest {
   /**
-   * @minLength 10
+   * @minLength 1
    * @maxLength 500
    */
   content: string

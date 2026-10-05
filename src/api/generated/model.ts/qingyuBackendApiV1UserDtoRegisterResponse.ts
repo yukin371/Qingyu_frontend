@@ -9,6 +9,8 @@
 export interface QingyuBackendApiV1UserDtoRegisterResponse {
   email?: string
   role?: string
+  /** 用户角色列表 */
+  roles?: string[]
   status?: string
   token?: string
   user_id?: string

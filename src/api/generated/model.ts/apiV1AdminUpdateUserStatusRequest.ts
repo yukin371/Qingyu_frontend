@@ -7,5 +7,6 @@
  */
 
 export interface ApiV1AdminUpdateUserStatusRequest {
+  banReason?: string
   status: string
 }

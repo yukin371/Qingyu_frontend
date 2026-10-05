@@ -8,7 +8,7 @@
 
 export type PostApiV1WriterDocumentsIdPublishParams = {
   /**
-   * 项目ID
+   * 项目ID（可选，如不提供则从文档中获取）
    */
-  projectId: string
+  projectId?: string
 }

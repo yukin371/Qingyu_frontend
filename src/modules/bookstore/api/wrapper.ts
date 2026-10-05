@@ -9,11 +9,9 @@
 
 import { getApi } from './generated/bookstore'
 import type { APIResponse } from '@/types/api'
-import type {
-  BookDetail,
-  Category,
-} from '@/modules/bookstore/types'
+import type { BookDetail, Category } from '@/modules/bookstore/types'
 import { normalizeBookDetail, normalizeBookList } from '../utils/contract-normalizer'
+import { getBookReviews as getSocialBookReviews } from '@/modules/review/api'
 
 // 获取生成的API对象
 const api = getApi()
@@ -55,8 +53,8 @@ export async function getBookList(params?: any) {
         ...payload,
         data: {
           ...payload.data,
-          books: normalizeBookList(payload.data.books)
-        }
+          books: normalizeBookList(payload.data.books),
+        },
       }
     }
   }
@@ -76,7 +74,7 @@ export async function getBookDetail(id: string): Promise<APIResponse<BookDetail>
     if (response?.data) {
       return {
         ...response,
-        data: normalizeBookDetail(response.data) ?? response.data
+        data: normalizeBookDetail(response.data) ?? response.data,
       }
     }
 
@@ -88,7 +86,7 @@ export async function getBookDetail(id: string): Promise<APIResponse<BookDetail>
       if (direct?.data) {
         return {
           ...direct,
-          data: normalizeBookDetail(direct.data) ?? direct.data
+          data: normalizeBookDetail(direct.data) ?? direct.data,
         }
       }
 
@@ -112,17 +110,26 @@ export async function getBookDetail(id: string): Promise<APIResponse<BookDetail>
 /**
  * 创建书籍
  */
-export const createBook = api.postApiV1BookstoreBooks
+/**
+ * 书城公开 API 没有书籍写入路由。书籍创建由 writer 域负责，保留该 facade 仅用于兼容旧调用并显式失败。
+ */
+export async function createBook(): Promise<never> {
+  throw new Error('书籍创建不属于书城 API，请使用 writer 项目发布流程')
+}
 
 /**
  * 更新书籍
  */
-export const updateBook = api.putApiV1BookstoreBooksId
+export async function updateBook(): Promise<never> {
+  throw new Error('书籍更新不属于书城 API，请使用 writer 项目编辑流程')
+}
 
 /**
  * 删除书籍
  */
-export const deleteBook = api.deleteApiV1BookstoreBooksId
+export async function deleteBook(): Promise<never> {
+  throw new Error('书籍删除不属于书城 API，请联系后端管理域 owner')
+}
 
 /**
  * 搜索书籍
@@ -180,7 +187,7 @@ export async function getFeaturedBooks(page: number = 1, size: number = 20) {
  * 适配器函数：将limit参数转换为对象参数
  */
 export async function getPopularBooks(limit: number = 10) {
-  return api.getApiV1BookstoreBooksPopular({ limit })
+  return getBookList({ page: 1, size: limit })
 }
 
 /**
@@ -188,7 +195,7 @@ export async function getPopularBooks(limit: number = 10) {
  * 适配器函数：将limit参数转换为对象参数
  */
 export async function getLatestBooks(limit: number = 10) {
-  return api.getApiV1BookstoreBooksLatest({ limit })
+  return getBookList({ page: 1, size: limit })
 }
 
 /**
@@ -207,47 +214,56 @@ export const incrementBookView = api.postApiV1BookstoreBooksIdView
 /**
  * 获取书籍统计信息
  */
-export const getBookStatistics = api.getApiV1BookstoreBooksIdStatistics
+export const getBookStatistics = api.getApiV1ReadingBooksBookIdStatistics
 
 /**
  * 点赞书籍
  */
-export const likeBook = api.postApiV1BookstoreBooksIdLike
+export const likeBook = api.postApiV1ReaderBooksBookIdLike
 
 /**
  * 取消点赞书籍
  */
-export const unlikeBook = api.postApiV1BookstoreBooksIdUnlike
+export const unlikeBook = api.deleteApiV1ReaderBooksBookIdLike
 
 /**
  * 获取书籍评分分布
  */
-export const getBookRatingDistribution = api.getApiV1BookstoreBooksIdRatingDistribution
+export const getBookRatingDistribution = api.getApiV1RatingsTargetTypeTargetIdStats.bind(
+  null,
+  'book',
+)
 
 /**
  * 获取书籍评论列表
  */
-export const getBookReviews = api.getApiV1BookstoreBooksIdRatings
+export const getBookReviews = getSocialBookReviews
 
 /**
  * 为书籍评分
  */
-export const rateBook = api.postApiV1BookstoreBooksIdRating
+export async function rateBook(): Promise<never> {
+  throw new Error('当前后端未提供书城评分写入路由，请使用已确认的评分 owner')
+}
 
 /**
  * 更新书籍评分
  */
-export const updateBookRating = api.putApiV1BookstoreBooksIdRating
+export async function updateBookRating(): Promise<never> {
+  throw new Error('当前后端未提供书城评分更新路由，请使用已确认的评分 owner')
+}
 
 /**
  * 删除书籍评分
  */
-export const deleteBookRating = api.deleteApiV1BookstoreBooksIdRating
+export async function deleteBookRating(): Promise<never> {
+  throw new Error('当前后端未提供书城评分删除路由，请使用已确认的评分 owner')
+}
 
 /**
  * 获取书籍平均评分
  */
-export const getBookAverageRating = api.getApiV1BookstoreBooksIdAverageRating
+export const getBookAverageRating = api.getApiV1RatingsTargetTypeTargetIdStats.bind(null, 'book')
 
 /**
  * 获取书籍章节列表
@@ -297,13 +313,18 @@ export const getBookVipChapters = api.getApiV1BookstoreBooksIdVipChapters
 /**
  * 按分类获取书籍
  */
-export async function getBooksByCategory(categoryIdOrParams: string | Record<string, any>, params?: any) {
-  const requestParams =
+export async function getBooksByCategory(
+  categoryIdOrParams: string | Record<string, any>,
+  params?: any,
+) {
+  const categoryId =
     typeof categoryIdOrParams === 'string'
-      ? { categoryId: categoryIdOrParams, ...(params || {}) }
-      : { ...(categoryIdOrParams || {}) }
-
-  const response = await api.getApiV1BookstoreBooksCategory(requestParams as any)
+      ? categoryIdOrParams
+      : String(
+          (categoryIdOrParams as any)?.categoryId ?? (categoryIdOrParams as any)?.category_id ?? '',
+        )
+  const requestParams = typeof categoryIdOrParams === 'string' ? params : categoryIdOrParams
+  const response = await api.getApiV1BookstoreCategoriesIdBooks(categoryId, requestParams as any)
 
   if (Array.isArray(response)) {
     return normalizeBookList(response)
@@ -316,8 +337,8 @@ export async function getBooksByCategory(categoryIdOrParams: string | Record<str
         ...payload,
         data: {
           ...payload.data,
-          books: normalizeBookList(payload.data.books)
-        }
+          books: normalizeBookList(payload.data.books),
+        },
       }
     }
     if (Array.isArray(payload.data)) {
@@ -473,7 +494,7 @@ export async function getNewbieRanking(limit?: number) {
 export async function getRankingByType(
   type: 'realtime' | 'weekly' | 'monthly' | 'newbie',
   period?: string,
-  limit?: number
+  limit?: number,
 ) {
   return api.getApiV1BookstoreRankingsType(type, { period, limit })
 }
@@ -493,7 +514,7 @@ export const getBookChapterById = api.getApiV1BookstoreBooksIdChaptersChapterId
 /**
  * 获取用户对指定书籍的评分
  */
-export const getUserBookRating = api.getApiV1BookstoreRatingsUserId
+export const getUserBookRating = api.getApiV1RatingsTargetTypeTargetIdUserRating.bind(null, 'book')
 
 /**
  * 导出原始getApi函数（高级用法）

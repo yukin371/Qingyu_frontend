@@ -601,12 +601,12 @@ export const getProjectPublicationStatus = api.getApiV1WriterProjectsIdPublicati
 /**
  * 批量发布项目文档
  */
-export const batchPublishDocuments = api.postApiV1WriterProjectsProjectIdDocumentsBatchPublish
+export const batchPublishDocuments = api.postApiV1WriterProjectsIdDocumentsBatchPublish
 
 /**
  * 获取项目发布列表
  */
-export const getProjectPublications = api.getApiV1WriterProjectsProjectIdPublications
+export const getProjectPublications = api.getApiV1WriterProjectsIdPublications
 
 /**
  * 获取发布详情
@@ -682,12 +682,12 @@ export const getDocumentAuditResult = api.getApiV1DocumentsIdAuditResult
 /**
  * 更新快捷方式
  */
-export const updateShortcuts = api.putApiV1UserShortcuts
+export const updateShortcuts = api.putApiV1WriterUserShortcuts
 
 /**
  * 更新字数统计
  */
-export const updateWordCount = api.postApiV1DocumentsIdWordCount
+export const updateWordCount = api.postApiV1WriterDocumentsIdWordCount
 
 /**
  * 获取项目角色关系

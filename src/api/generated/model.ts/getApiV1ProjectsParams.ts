@@ -20,7 +20,11 @@ export type GetApiV1ProjectsParams = {
    */
   status?: string
   /**
-   * 项目分类
+   * 排序字段
    */
-  category?: string
+  sort?: string
+  /**
+   * 排序方向
+   */
+  order?: string
 }

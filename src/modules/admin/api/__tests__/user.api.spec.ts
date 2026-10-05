@@ -13,10 +13,10 @@ const mockPutApiV1AdminUsersIdRole = vi.fn()
 const mockDeleteApiV1AdminUsersId = vi.fn()
 const mockPostApiV1AdminUsersBatchDelete = vi.fn()
 const mockPostApiV1AdminUsersBatchUpdateStatus = vi.fn()
-const mockGetApiV1AdminQuotaUserId = vi.fn()
-const mockPutApiV1AdminQuotaUserId = vi.fn()
-const mockPostApiV1AdminQuotaUserIdSuspend = vi.fn()
-const mockPostApiV1AdminQuotaUserIdActivate = vi.fn()
+const mockGetApiV1AdminQuotaUsersUserId = vi.fn()
+const mockPutApiV1AdminQuotaUsersUserId = vi.fn()
+const mockPostApiV1AdminQuotaUsersUserIdSuspend = vi.fn()
+const mockPostApiV1AdminQuotaUsersUserIdActivate = vi.fn()
 
 vi.mock('../generated/admin', () => ({
   getApi: vi.fn(() => ({
@@ -27,10 +27,10 @@ vi.mock('../generated/admin', () => ({
     deleteApiV1AdminUsersId: mockDeleteApiV1AdminUsersId,
     postApiV1AdminUsersBatchDelete: mockPostApiV1AdminUsersBatchDelete,
     postApiV1AdminUsersBatchUpdateStatus: mockPostApiV1AdminUsersBatchUpdateStatus,
-    getApiV1AdminQuotaUserId: mockGetApiV1AdminQuotaUserId,
-    putApiV1AdminQuotaUserId: mockPutApiV1AdminQuotaUserId,
-    postApiV1AdminQuotaUserIdSuspend: mockPostApiV1AdminQuotaUserIdSuspend,
-    postApiV1AdminQuotaUserIdActivate: mockPostApiV1AdminQuotaUserIdActivate,
+    getApiV1AdminQuotaUsersUserId: mockGetApiV1AdminQuotaUsersUserId,
+    putApiV1AdminQuotaUsersUserId: mockPutApiV1AdminQuotaUsersUserId,
+    postApiV1AdminQuotaUsersUserIdSuspend: mockPostApiV1AdminQuotaUsersUserIdSuspend,
+    postApiV1AdminQuotaUsersUserIdActivate: mockPostApiV1AdminQuotaUsersUserIdActivate,
   })),
 }))
 
@@ -248,40 +248,40 @@ describe('User API', () => {
   describe('配额管理', () => {
     it('应该成功获取用户配额详情', async () => {
       const mockQuota = { free: 100, paid: 500, trial: 50 }
-      mockGetApiV1AdminQuotaUserId.mockResolvedValueOnce(mockQuota)
+      mockGetApiV1AdminQuotaUsersUserId.mockResolvedValueOnce(mockQuota)
 
       const { getUserQuotaDetails } = await import('../user.api')
       const result = await getUserQuotaDetails('user-123')
 
-      expect(mockGetApiV1AdminQuotaUserId).toHaveBeenCalledWith('user-123')
+      expect(mockGetApiV1AdminQuotaUsersUserId).toHaveBeenCalledWith('user-123')
       expect(result).toEqual(mockQuota)
     })
 
     it('应该成功更新用户配额', async () => {
-      mockPutApiV1AdminQuotaUserId.mockResolvedValueOnce({})
+      mockPutApiV1AdminQuotaUsersUserId.mockResolvedValueOnce({})
 
       const { updateUserQuota } = await import('../user.api')
       await updateUserQuota('user-123', { totalQuota: 1000 })
 
-      expect(mockPutApiV1AdminQuotaUserId).toHaveBeenCalledWith('user-123', { totalQuota: 1000 })
+      expect(mockPutApiV1AdminQuotaUsersUserId).toHaveBeenCalledWith('user-123', { totalQuota: 1000 })
     })
 
     it('应该成功暂停用户配额', async () => {
-      mockPostApiV1AdminQuotaUserIdSuspend.mockResolvedValueOnce({})
+      mockPostApiV1AdminQuotaUsersUserIdSuspend.mockResolvedValueOnce({})
 
       const { suspendUserQuota } = await import('../user.api')
       await suspendUserQuota('user-123')
 
-      expect(mockPostApiV1AdminQuotaUserIdSuspend).toHaveBeenCalledWith('user-123')
+      expect(mockPostApiV1AdminQuotaUsersUserIdSuspend).toHaveBeenCalledWith('user-123')
     })
 
     it('应该成功激活用户配额', async () => {
-      mockPostApiV1AdminQuotaUserIdActivate.mockResolvedValueOnce({})
+      mockPostApiV1AdminQuotaUsersUserIdActivate.mockResolvedValueOnce({})
 
       const { activateUserQuota } = await import('../user.api')
       await activateUserQuota('user-123')
 
-      expect(mockPostApiV1AdminQuotaUserIdActivate).toHaveBeenCalledWith('user-123')
+      expect(mockPostApiV1AdminQuotaUsersUserIdActivate).toHaveBeenCalledWith('user-123')
     })
   })
 

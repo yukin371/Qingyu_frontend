@@ -8,15 +8,35 @@
 
 export type GetApiV1NotificationsParams = {
   /**
-   * 页码（默认1）
+   * 通知类型 (system, social, content, reward, message, update, membership)
    */
-  page?: number
+  type?: string
   /**
-   * 每页大小（默认20）
+   * 是否已读
    */
-  page_size?: number
+  read?: boolean
   /**
-   * 是否已读过滤
+   * 优先级 (low, normal, high, urgent)
    */
-  is_read?: boolean
+  priority?: string
+  /**
+   * 关键词搜索
+   */
+  keyword?: string
+  /**
+   * 每页数量 (default: 20, max: 100)
+   */
+  limit?: number
+  /**
+   * 偏移量 (default: 0)
+   */
+  offset?: number
+  /**
+   * 排序字段 (created_at, priority, read_at)
+   */
+  sortBy?: string
+  /**
+   * 是否降序 (default: true)
+   */
+  sortDesc?: boolean
 }

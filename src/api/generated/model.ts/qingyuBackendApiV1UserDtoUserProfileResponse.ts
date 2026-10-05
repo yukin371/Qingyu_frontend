@@ -9,11 +9,14 @@
 export interface QingyuBackendApiV1UserDtoUserProfileResponse {
   avatar?: string
   bio?: string
+  birthday?: string
   created_at?: string
   email?: string
   email_verified?: boolean
+  gender?: string
   last_login_at?: string
   last_login_ip?: string
+  location?: string
   nickname?: string
   phone?: string
   phone_verified?: boolean
@@ -22,4 +25,5 @@ export interface QingyuBackendApiV1UserDtoUserProfileResponse {
   updated_at?: string
   user_id?: string
   username?: string
+  website?: string
 }

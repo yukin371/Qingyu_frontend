@@ -8,7 +8,15 @@
 
 export type GetApiV1AdminAuditPendingParams = {
   /**
-   * 数量限制
+   * 目标类型(document/chapter/comment)
+   */
+  targetType?: string
+  /**
+   * 页码
+   */
+  page?: number
+  /**
+   * 每页数量
    */
   limit?: number
 }

@@ -6,8 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 import type { ApiV1AdminSystemStatsResponse } from './apiV1AdminSystemStatsResponse'
-import type { QingyuBackendApiV1SharedAPIResponse } from './qingyuBackendApiV1SharedAPIResponse'
+import type { QingyuBackendPkgResponseAPIResponse } from './qingyuBackendPkgResponseAPIResponse'
 
-export type GetApiV1AdminStats200 = QingyuBackendApiV1SharedAPIResponse & {
+export type GetApiV1AdminStats200 = QingyuBackendPkgResponseAPIResponse & {
   data?: ApiV1AdminSystemStatsResponse
 }

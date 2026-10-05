@@ -18,4 +18,5 @@ export const QingyuBackendModelsBookstoreBookStatus = {
   BookStatusCompleted: 'completed',
   /** 暂停更新 */
   BookStatusPaused: 'paused',
+  legacyBookStatusPublished: 'published',
 } as const

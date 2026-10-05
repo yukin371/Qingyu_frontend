@@ -8,11 +8,31 @@
 
 export type GetApiV1AdminAnnouncementsParams = {
   /**
-   * 页码
+   * 是否激活
    */
-  page?: number
+  isActive?: boolean
+  /**
+   * 类型(info/warning/notice)
+   */
+  type?: string
+  /**
+   * 目标用户(all/reader/writer/admin)
+   */
+  targetUsers?: string
   /**
    * 每页数量
    */
-  page_size?: number
+  limit?: number
+  /**
+   * 偏移量
+   */
+  offset?: number
+  /**
+   * 排序字段(priority/created_at/view_count)
+   */
+  sortBy?: string
+  /**
+   * 排序方向(asc/desc)
+   */
+  sortOrder?: string
 }

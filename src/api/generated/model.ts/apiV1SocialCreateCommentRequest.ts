@@ -10,7 +10,7 @@ export interface ApiV1SocialCreateCommentRequest {
   book_id: string
   chapter_id?: string
   /**
-   * @minLength 10
+   * @minLength 1
    * @maxLength 500
    */
   content: string
