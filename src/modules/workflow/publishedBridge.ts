@@ -1,6 +1,5 @@
-// TODO(F-004-WF-001): Replace demo/mock inputs with approved public ports; see MODULE.md.
-import { yunlanBookMeta } from '@/modules/bookstore/public'
-import { getWorkspaceMockProject, type PublishRecord } from '@/modules/writer'
+import { createDemoPublishedBridgeSource } from './demoSource'
+import type { PublishedBridgeSource } from './ports'
 
 const STORAGE_KEY = 'qingyu:workflow:published-books:v1'
 
@@ -39,6 +38,26 @@ export interface PublishedBridgeBookDetail {
 
 type PublishedBridgeStorage = Record<string, PublishedBridgeBookDetail>
 
+export interface PublishedBridgePublishRecord {
+  chapter_id: string
+  status: string
+  published_at?: string
+}
+
+const defaultSource = createDemoPublishedBridgeSource()
+
+const getStorage = (): Storage | null => {
+  if (typeof globalThis === 'undefined' || !('localStorage' in globalThis)) {
+    return null
+  }
+
+  try {
+    return globalThis.localStorage
+  } catch {
+    return null
+  }
+}
+
 const safeParse = (raw: string | null): PublishedBridgeStorage => {
   if (!raw) return {}
   try {
@@ -50,13 +69,15 @@ const safeParse = (raw: string | null): PublishedBridgeStorage => {
 }
 
 const readStorage = (): PublishedBridgeStorage => {
-  if (typeof window === 'undefined') return {}
-  return safeParse(window.localStorage.getItem(STORAGE_KEY))
+  const storage = getStorage()
+  if (!storage) return {}
+  return safeParse(storage.getItem(STORAGE_KEY))
 }
 
 const writeStorage = (data: PublishedBridgeStorage) => {
-  if (typeof window === 'undefined') return
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+  const storage = getStorage()
+  if (!storage) return
+  storage.setItem(STORAGE_KEY, JSON.stringify(data))
 }
 
 const normalizeContent = (raw: string) => raw.replace(/^#\s+.+?\n+/m, '').trim()
@@ -64,9 +85,11 @@ const normalizeContent = (raw: string) => raw.replace(/^#\s+.+?\n+/m, '').trim()
 const buildBaseFromWriterProject = (
   projectId: string,
   fallbackTitle?: string,
+  source: PublishedBridgeSource = defaultSource,
 ): PublishedBridgeBookDetail | null => {
-  const mockProject = getWorkspaceMockProject(projectId)
+  const mockProject = source.getProject(projectId)
   if (!mockProject) return null
+  const bookSeed = source.getBookSeed()
 
   const chapters = mockProject.chapters
     .slice()
@@ -88,9 +111,9 @@ const buildBaseFromWriterProject = (
       id: projectId,
       title: mockProject.project.title || fallbackTitle || projectId,
       author: '青羽书院',
-      cover: yunlanBookMeta.cover || '/images/covers/yunlan-cover.png',
-      description: yunlanBookMeta.introduction || '来自创作端发布的内容。',
-      tags: Array.isArray(yunlanBookMeta.tags) ? [...yunlanBookMeta.tags] : ['创作发布'],
+      cover: bookSeed.cover || '/images/covers/yunlan-cover.png',
+      description: bookSeed.introduction || '来自创作端发布的内容。',
+      tags: bookSeed.tags.length > 0 ? [...bookSeed.tags] : ['创作发布'],
       category: '虚构文学',
       categoryName: '虚构文学',
       status: 'serializing',
@@ -105,15 +128,15 @@ const buildBaseFromWriterProject = (
   }
 }
 
-const toSet = (records: PublishRecord[]) =>
+const toSet = (records: PublishedBridgePublishRecord[]) =>
   new Set(records.filter((item) => item.status === 'published').map((item) => item.chapter_id))
 
 export const syncPublishedBookFromRecords = (
   projectId: string,
-  records: PublishRecord[],
-  options?: { title?: string },
+  records: PublishedBridgePublishRecord[],
+  options?: { title?: string; source?: PublishedBridgeSource },
 ): PublishedBridgeBookDetail | null => {
-  const base = buildBaseFromWriterProject(projectId, options?.title)
+  const base = buildBaseFromWriterProject(projectId, options?.title, options?.source)
   if (!base) return null
 
   const publishedSet = toSet(records)
