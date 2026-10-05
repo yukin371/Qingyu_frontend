@@ -15,6 +15,7 @@ export default defineConfig({
       client: 'axios',
       target: 'src/modules/reader/api/generated/reader.ts',
       schemas: 'src/api/generated/model.ts',
+      prettier: true,
       override: {
         mutator: {
           path: 'src/core/config/orval-mutator.ts',
@@ -23,8 +24,7 @@ export default defineConfig({
       },
     },
     hooks: {
-      afterAllFilesWrite:
-        'node scripts/normalize-orval-output.mjs && prettier --config .prettierrc.json --write "src/modules/**/api/generated/**/*.{ts,tsx}" "src/api/generated/index.ts" "src/api/generated/model.ts/**/*.{ts,tsx}"',
+      afterAllFilesWrite: 'node scripts/normalize-orval-output.mjs',
     },
   },
 
@@ -40,6 +40,7 @@ export default defineConfig({
       client: 'axios',
       target: 'src/modules/bookstore/api/generated/bookstore.ts',
       schemas: 'src/api/generated/model.ts',
+      prettier: true,
       override: {
         mutator: {
           path: 'src/core/config/orval-mutator.ts',
@@ -48,8 +49,7 @@ export default defineConfig({
       },
     },
     hooks: {
-      afterAllFilesWrite:
-        'node scripts/normalize-orval-output.mjs && prettier --config .prettierrc.json --write "src/modules/**/api/generated/**/*.{ts,tsx}" "src/api/generated/index.ts" "src/api/generated/model.ts/**/*.{ts,tsx}"',
+      afterAllFilesWrite: 'node scripts/normalize-orval-output.mjs',
     },
   },
 
@@ -65,6 +65,7 @@ export default defineConfig({
       client: 'axios',
       target: 'src/modules/admin/api/generated/admin.ts',
       schemas: 'src/api/generated/model.ts',
+      prettier: true,
       override: {
         mutator: {
           path: 'src/core/config/orval-mutator.ts',
@@ -73,8 +74,7 @@ export default defineConfig({
       },
     },
     hooks: {
-      afterAllFilesWrite:
-        'node scripts/normalize-orval-output.mjs && prettier --config .prettierrc.json --write "src/modules/**/api/generated/**/*.{ts,tsx}" "src/api/generated/index.ts" "src/api/generated/model.ts/**/*.{ts,tsx}"',
+      afterAllFilesWrite: 'node scripts/normalize-orval-output.mjs',
     },
   },
 
@@ -95,6 +95,7 @@ export default defineConfig({
       client: 'axios',
       target: 'src/modules/writer/api/generated/writer.ts',
       schemas: 'src/api/generated/model.ts',
+      prettier: true,
       override: {
         mutator: {
           path: 'src/core/config/orval-mutator.ts',
@@ -103,8 +104,7 @@ export default defineConfig({
       },
     },
     hooks: {
-      afterAllFilesWrite:
-        'node scripts/normalize-orval-output.mjs && prettier --config .prettierrc.json --write "src/modules/**/api/generated/**/*.{ts,tsx}" "src/api/generated/index.ts" "src/api/generated/model.ts/**/*.{ts,tsx}"',
+      afterAllFilesWrite: 'node scripts/normalize-orval-output.mjs',
     },
   },
 
@@ -120,6 +120,7 @@ export default defineConfig({
       client: 'axios',
       target: 'src/modules/social/api/generated/social.ts',
       schemas: 'src/api/generated/model.ts',
+      prettier: true,
       override: {
         mutator: {
           path: 'src/core/config/orval-mutator.ts',
@@ -128,8 +129,7 @@ export default defineConfig({
       },
     },
     hooks: {
-      afterAllFilesWrite:
-        'node scripts/normalize-orval-output.mjs && prettier --config .prettierrc.json --write "src/modules/**/api/generated/**/*.{ts,tsx}" "src/api/generated/index.ts" "src/api/generated/model.ts/**/*.{ts,tsx}"',
+      afterAllFilesWrite: 'node scripts/normalize-orval-output.mjs',
     },
   },
 
@@ -145,6 +145,7 @@ export default defineConfig({
       client: 'axios',
       target: 'src/modules/ai/api/generated/ai.ts',
       schemas: 'src/api/generated/model.ts',
+      prettier: true,
       override: {
         mutator: {
           path: 'src/core/config/orval-mutator.ts',
@@ -153,8 +154,7 @@ export default defineConfig({
       },
     },
     hooks: {
-      afterAllFilesWrite:
-        'node scripts/normalize-orval-output.mjs && prettier --config .prettierrc.json --write "src/modules/**/api/generated/**/*.{ts,tsx}" "src/api/generated/index.ts" "src/api/generated/model.ts/**/*.{ts,tsx}"',
+      afterAllFilesWrite: 'node scripts/normalize-orval-output.mjs',
     },
   },
 
@@ -170,6 +170,7 @@ export default defineConfig({
       client: 'axios',
       target: 'src/modules/finance/api/generated/finance.ts',
       schemas: 'src/api/generated/model.ts',
+      prettier: true,
       override: {
         mutator: {
           path: 'src/core/config/orval-mutator.ts',
@@ -178,8 +179,7 @@ export default defineConfig({
       },
     },
     hooks: {
-      afterAllFilesWrite:
-        'node scripts/normalize-orval-output.mjs && prettier --config .prettierrc.json --write "src/modules/**/api/generated/**/*.{ts,tsx}" "src/api/generated/index.ts" "src/api/generated/model.ts/**/*.{ts,tsx}"',
+      afterAllFilesWrite: 'node scripts/normalize-orval-output.mjs',
     },
   },
 
@@ -195,6 +195,7 @@ export default defineConfig({
       client: 'axios',
       target: 'src/modules/notification/api/generated/notification.ts',
       schemas: 'src/api/generated/model.ts',
+      prettier: true,
       override: {
         mutator: {
           path: 'src/core/config/orval-mutator.ts',
@@ -203,8 +204,7 @@ export default defineConfig({
       },
     },
     hooks: {
-      afterAllFilesWrite:
-        'node scripts/normalize-orval-output.mjs && prettier --config .prettierrc.json --write "src/modules/**/api/generated/**/*.{ts,tsx}" "src/api/generated/index.ts" "src/api/generated/model.ts/**/*.{ts,tsx}"',
+      afterAllFilesWrite: 'node scripts/normalize-orval-output.mjs',
     },
   },
 })
