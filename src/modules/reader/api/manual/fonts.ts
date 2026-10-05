@@ -3,6 +3,10 @@
  */
 import { request } from '@/utils/request-adapter'
 
+// TODO(T3-018-contract): ThemeSettingsView 仍消费这组手写字体 API，但
+// /fonts/settings、/fonts/active、/fonts/custom 等路径尚未纳入后端生产契约。
+// 退出条件：ADR-0007 明确字体 owner、字段映射和持久化/上传语义后，改用生成客户端或完成同一契约的实现。
+
 // 字体类型
 export type FontType = 'serif' | 'sans-serif' | 'monospace' | 'custom'
 
@@ -34,7 +38,7 @@ export interface FontSettings {
 export function getFonts() {
   return request<Font[]>({
     url: '/api/v1/reader/fonts',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -44,7 +48,7 @@ export function getFonts() {
 export function getBuiltinFonts() {
   return request<Font[]>({
     url: '/api/v1/reader/fonts/builtin',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -54,7 +58,7 @@ export function getBuiltinFonts() {
 export function getCustomFonts() {
   return request<Font[]>({
     url: '/api/v1/reader/fonts/custom',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -64,7 +68,7 @@ export function getCustomFonts() {
 export function getFontSettings() {
   return request<FontSettings>({
     url: '/api/v1/reader/fonts/settings',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -75,7 +79,7 @@ export function updateFontSettings(settings: Partial<FontSettings>) {
   return request<FontSettings>({
     url: '/api/v1/reader/fonts/settings',
     method: 'put',
-    data: settings
+    data: settings,
   })
 }
 
@@ -90,22 +94,18 @@ export function uploadCustomFont(file: File) {
     url: '/api/v1/reader/fonts/custom',
     method: 'post',
     data: formData,
-    headers: { 'Content-Type': 'multipart/form-data' }
+    headers: { 'Content-Type': 'multipart/form-data' },
   })
 }
 
 /**
  * 添加自定义字体
  */
-export function addCustomFont(data: {
-  name: string
-  family: string
-  url: string
-}) {
+export function addCustomFont(data: { name: string; family: string; url: string }) {
   return request<Font>({
     url: '/api/v1/reader/fonts/custom',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -115,7 +115,7 @@ export function addCustomFont(data: {
 export function deleteCustomFont(fontId: string) {
   return request<{ success: boolean }>({
     url: `/api/v1/reader/fonts/custom/${fontId}`,
-    method: 'delete'
+    method: 'delete',
   })
 }
 
@@ -126,7 +126,7 @@ export function setFont(fontId: string) {
   return request<{ success: boolean }>({
     url: '/api/v1/reader/fonts/active',
     method: 'post',
-    data: { font_id: fontId }
+    data: { font_id: fontId },
   })
 }
 
@@ -135,10 +135,11 @@ export const builtinFonts: Font[] = [
   {
     id: 'system',
     name: '系统默认',
-    family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    family:
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
     type: 'sans-serif',
     is_builtin: true,
-    is_active: true
+    is_active: true,
   },
   {
     id: 'songti',
@@ -146,7 +147,7 @@ export const builtinFonts: Font[] = [
     family: '"SimSun", "STSong", serif',
     type: 'serif',
     is_builtin: true,
-    is_active: false
+    is_active: false,
   },
   {
     id: 'heiti',
@@ -154,7 +155,7 @@ export const builtinFonts: Font[] = [
     family: '"SimHei", "STHeiti", sans-serif',
     type: 'sans-serif',
     is_builtin: true,
-    is_active: false
+    is_active: false,
   },
   {
     id: 'kaiti',
@@ -162,7 +163,7 @@ export const builtinFonts: Font[] = [
     family: '"KaiTi", "STKaiti", serif',
     type: 'serif',
     is_builtin: true,
-    is_active: false
+    is_active: false,
   },
   {
     id: 'yahei',
@@ -170,7 +171,7 @@ export const builtinFonts: Font[] = [
     family: '"Microsoft YaHei", "PingFang SC", sans-serif',
     type: 'sans-serif',
     is_builtin: true,
-    is_active: false
+    is_active: false,
   },
   {
     id: 'lishu',
@@ -178,7 +179,7 @@ export const builtinFonts: Font[] = [
     family: '"LiSu", "STLiti", serif',
     type: 'serif',
     is_builtin: true,
-    is_active: false
+    is_active: false,
   },
   {
     id: 'fangsong',
@@ -186,7 +187,7 @@ export const builtinFonts: Font[] = [
     family: '"FangSong", "STFangsong", serif',
     type: 'serif',
     is_builtin: true,
-    is_active: false
+    is_active: false,
   },
   {
     id: 'source-han',
@@ -194,7 +195,7 @@ export const builtinFonts: Font[] = [
     family: '"Source Han Sans CN", "Noto Sans CJK SC", sans-serif',
     type: 'sans-serif',
     is_builtin: true,
-    is_active: false
+    is_active: false,
   },
   {
     id: 'source-serif',
@@ -202,7 +203,7 @@ export const builtinFonts: Font[] = [
     family: '"Source Han Serif CN", "Noto Serif CJK SC", serif',
     type: 'serif',
     is_builtin: true,
-    is_active: false
+    is_active: false,
   },
   {
     id: 'code',
@@ -210,8 +211,8 @@ export const builtinFonts: Font[] = [
     family: '"Consolas", "Monaco", "Courier New", monospace',
     type: 'monospace',
     is_builtin: true,
-    is_active: false
-  }
+    is_active: false,
+  },
 ]
 
 // 字体大小选项
@@ -223,7 +224,7 @@ export const fontSizeOptions = [
   { label: '中', value: 20 },
   { label: '大', value: 22 },
   { label: '很大', value: 24 },
-  { label: '极大', value: 28 }
+  { label: '极大', value: 28 },
 ]
 
 // 行高选项
@@ -232,5 +233,5 @@ export const lineHeightOptions = [
   { label: '标准', value: 1.5 },
   { label: '舒适', value: 1.8 },
   { label: '宽松', value: 2.0 },
-  { label: '很宽', value: 2.2 }
+  { label: '很宽', value: 2.2 },
 ]
