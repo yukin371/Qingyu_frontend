@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const root = path.resolve(__dirname, '..')
 
-const sourcePath = path.resolve(root, '../Qingyu_backend/docs/api/swagger.yaml')
+const sourcePath = path.resolve(root, '../Qingyu_backend/docs/swagger.yaml')
 const outputDir = path.resolve(root, '.orval')
 const outputPath = path.join(outputDir, 'swagger.yaml')
 

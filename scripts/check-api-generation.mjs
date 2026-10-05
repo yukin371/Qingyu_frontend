@@ -42,7 +42,7 @@ function checkSwaggerNoColonParams() {
 
   const swaggerPath = path.resolve(
     root,
-    '../Qingyu_backend/docs/api/swagger.yaml'
+    '../Qingyu_backend/docs/swagger.yaml'
   )
 
   if (!fs.existsSync(swaggerPath)) {
