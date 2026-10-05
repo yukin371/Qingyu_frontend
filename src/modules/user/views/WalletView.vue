@@ -175,7 +175,7 @@
       width="520px"
       :mask-closable="false"
     >
-      <QyForm v-model="withdrawForm" :rules="withdrawRules" ref="withdrawFormRef">
+      <QyForm :model-value="withdrawForm" :rules="withdrawRules" ref="withdrawFormRef">
         <FormSection label="可提现余额">
           <div class="available-balance">¥{{ formatAmount(walletInfo.availableAmount) }}</div>
         </FormSection>

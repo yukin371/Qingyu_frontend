@@ -247,7 +247,7 @@
       >
         <QyForm
           ref="withdrawFormRef"
-          v-model="withdrawForm"
+          :model-value="withdrawForm"
           :rules="withdrawRules"
           label-width="100px"
         >

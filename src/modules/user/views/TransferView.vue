@@ -14,7 +14,7 @@
 
         <QyForm
           ref="transferFormRef"
-          v-model="transferForm"
+          :model-value="transferForm"
           :rules="transferRules"
           label-width="120px"
           @submit.prevent="handleTransfer"
