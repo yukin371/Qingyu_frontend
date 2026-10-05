@@ -39,8 +39,6 @@ const refreshPublishedProjectionFromApi = async (projectId: string, records: Pub
       published_at: record.published_at,
     }))
 
-  if (publishedRecords.length === 0) return
-
   try {
     await syncPublishedBookFromRecordsAsync(projectId, publishedRecords, {
       source: publishedApiSource,
