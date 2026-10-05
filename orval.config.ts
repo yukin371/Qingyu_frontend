@@ -24,7 +24,7 @@ export default defineConfig({
     },
     hooks: {
       afterAllFilesWrite:
-        'prettier --write "src/**/api/generated/**/*.{ts,tsx}" "src/api/generated/**/*.{ts,tsx}"',
+        'node scripts/normalize-orval-output.mjs && prettier --config .prettierrc.json --write "src/modules/**/api/generated/**/*.{ts,tsx}" "src/api/generated/index.ts" "src/api/generated/model.ts/**/*.{ts,tsx}"',
     },
   },
 
@@ -49,7 +49,7 @@ export default defineConfig({
     },
     hooks: {
       afterAllFilesWrite:
-        'prettier --write "src/**/api/generated/**/*.{ts,tsx}" "src/api/generated/**/*.{ts,tsx}"',
+        'node scripts/normalize-orval-output.mjs && prettier --config .prettierrc.json --write "src/modules/**/api/generated/**/*.{ts,tsx}" "src/api/generated/index.ts" "src/api/generated/model.ts/**/*.{ts,tsx}"',
     },
   },
 
@@ -74,7 +74,7 @@ export default defineConfig({
     },
     hooks: {
       afterAllFilesWrite:
-        'prettier --write "src/**/api/generated/**/*.{ts,tsx}" "src/api/generated/**/*.{ts,tsx}"',
+        'node scripts/normalize-orval-output.mjs && prettier --config .prettierrc.json --write "src/modules/**/api/generated/**/*.{ts,tsx}" "src/api/generated/index.ts" "src/api/generated/model.ts/**/*.{ts,tsx}"',
     },
   },
 
@@ -82,7 +82,12 @@ export default defineConfig({
     input: {
       target: orvalInput,
       filters: {
-        paths: ['^/api/v1/writer/', '^/api/v1/projects', '^/api/v1/documents', '^/api/v1/user/shortcuts'],
+        paths: [
+          '^/api/v1/writer/',
+          '^/api/v1/projects',
+          '^/api/v1/documents',
+          '^/api/v1/user/shortcuts',
+        ],
       },
     },
     output: {
@@ -99,7 +104,7 @@ export default defineConfig({
     },
     hooks: {
       afterAllFilesWrite:
-        'prettier --write "src/**/api/generated/**/*.{ts,tsx}" "src/api/generated/**/*.{ts,tsx}"',
+        'node scripts/normalize-orval-output.mjs && prettier --config .prettierrc.json --write "src/modules/**/api/generated/**/*.{ts,tsx}" "src/api/generated/index.ts" "src/api/generated/model.ts/**/*.{ts,tsx}"',
     },
   },
 
@@ -124,7 +129,7 @@ export default defineConfig({
     },
     hooks: {
       afterAllFilesWrite:
-        'prettier --write "src/**/api/generated/**/*.{ts,tsx}" "src/api/generated/**/*.{ts,tsx}"',
+        'node scripts/normalize-orval-output.mjs && prettier --config .prettierrc.json --write "src/modules/**/api/generated/**/*.{ts,tsx}" "src/api/generated/index.ts" "src/api/generated/model.ts/**/*.{ts,tsx}"',
     },
   },
 
@@ -149,7 +154,7 @@ export default defineConfig({
     },
     hooks: {
       afterAllFilesWrite:
-        'prettier --write "src/**/api/generated/**/*.{ts,tsx}" "src/api/generated/**/*.{ts,tsx}"',
+        'node scripts/normalize-orval-output.mjs && prettier --config .prettierrc.json --write "src/modules/**/api/generated/**/*.{ts,tsx}" "src/api/generated/index.ts" "src/api/generated/model.ts/**/*.{ts,tsx}"',
     },
   },
 
@@ -174,7 +179,7 @@ export default defineConfig({
     },
     hooks: {
       afterAllFilesWrite:
-        'prettier --write "src/**/api/generated/**/*.{ts,tsx}" "src/api/generated/**/*.{ts,tsx}"',
+        'node scripts/normalize-orval-output.mjs && prettier --config .prettierrc.json --write "src/modules/**/api/generated/**/*.{ts,tsx}" "src/api/generated/index.ts" "src/api/generated/model.ts/**/*.{ts,tsx}"',
     },
   },
 
@@ -199,7 +204,7 @@ export default defineConfig({
     },
     hooks: {
       afterAllFilesWrite:
-        'prettier --write "src/**/api/generated/**/*.{ts,tsx}" "src/api/generated/**/*.{ts,tsx}"',
+        'node scripts/normalize-orval-output.mjs && prettier --config .prettierrc.json --write "src/modules/**/api/generated/**/*.{ts,tsx}" "src/api/generated/index.ts" "src/api/generated/model.ts/**/*.{ts,tsx}"',
     },
   },
 })

@@ -107,6 +107,7 @@
     "min-indent": "^1.0.1",
     "postcss": "^8.4.32",
     "postcss-html": "^1.8.0",
+    "orval": "8.1.0",
     "prettier": "^3.8.1",
     "sass-embedded": "^1.93.2",
     "storybook": "^8.6.15",
