@@ -115,10 +115,11 @@ function mapBackendPublicationStatus(item: any): PublishStatus {
   return 'draft'
 }
 
-function mapPublicationRecord(item: any, bookId: string): PublishRecord {
+function mapPublicationRecord(item: any, projectId: string): PublishRecord {
   return {
     id: item?.id || '',
-    book_id: bookId,
+    // `book_id` is a legacy frontend DTO field; the writer route value is projectId.
+    book_id: projectId,
     chapter_id: item?.resourceId || '',
     chapter_title: item?.metadata?.chapterTitle || item?.resourceTitle || '未命名',
     chapter_number: item?.metadata?.chapterNumber || 0,
@@ -336,11 +337,11 @@ export function scheduleChapter(
 
 /**
  * 获取发布记录
- * @description 获取指定书籍的发布记录列表，支持分页和状态筛选
- * @endpoint GET /api/v1/writer/publish/books/:bookId/records
+ * @description 获取指定项目的发布记录列表，支持分页和状态筛选
+ * @endpoint GET /api/v1/writer/projects/:projectId/publications
  * @category writer
  * @tags 发布管理
- * @param {string} bookId - 书籍ID
+ * @param {string} projectId - 写作项目 ID
  * @param {Object} params - 查询参数
  * @param {number} [params.page] - 页码
  * @param {number} [params.page_size] - 每页数量
@@ -349,7 +350,7 @@ export function scheduleChapter(
  * @security BearerAuth
  */
 export function getPublishRecords(
-  bookId: string,
+  projectId: string,
   params?: {
     page?: number
     page_size?: number
@@ -357,7 +358,7 @@ export function getPublishRecords(
   },
 ) {
   return httpService
-    .get<any>(`/api/v1/writer/projects/${bookId}/publications`, {
+    .get<any>(`/api/v1/writer/projects/${projectId}/publications`, {
       params: {
         page: params?.page || 1,
         pageSize: params?.page_size || 20,
@@ -366,7 +367,7 @@ export function getPublishRecords(
     .then((res: any) => {
       const rawItems = Array.isArray(res?.data) ? res.data : []
       const mappedItems: PublishRecord[] = rawItems.map((item: any) =>
-        mapPublicationRecord(item, bookId),
+        mapPublicationRecord(item, projectId),
       )
 
       const filtered =
@@ -395,21 +396,21 @@ export function getPublicationDetail(recordId: string): Promise<PublicationRevie
 
 /**
  * 获取发布统计
- * @description 获取指定书籍的发布统计数据
- * @endpoint GET /api/v1/writer/publish/books/:bookId/stats
+ * @description 获取指定项目的发布统计数据
+ * @endpoint GET /api/v1/writer/projects/:projectId/publication-status
  * @category writer
  * @tags 发布管理
- * @param {string} bookId - 书籍ID
+ * @param {string} projectId - 写作项目 ID
  * @response {PublishStats} 200 - 成功返回发布统计
  * @security BearerAuth
  */
-export function getPublishStats(bookId: string) {
+export function getPublishStats(projectId: string) {
   return Promise.all([
     request<any>({
-      url: `/api/v1/writer/projects/${bookId}/publication-status`,
+      url: `/api/v1/writer/projects/${projectId}/publication-status`,
       method: 'get',
     }),
-    getPublishRecords(bookId, { page: 1, page_size: 1000 }),
+    getPublishRecords(projectId, { page: 1, page_size: 1000 }),
   ]).then(([status, records]) => {
     const scheduledChapters = records.items.filter((item) => item.status === 'scheduled').length
     const pendingReviewChapters = records.items.filter(

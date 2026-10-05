@@ -28,7 +28,7 @@ import {
   type PublishStatus,
   type PublishType,
   type PublishPlatform,
-  type ChapterPublishConfig
+  type ChapterPublishConfig,
 } from '@/modules/writer/api/publish'
 import httpService from '@/core/services/http.service'
 import { request } from '@/utils/request-adapter'
@@ -56,7 +56,7 @@ describe('publishApi', () => {
     pricing: { is_free: true },
     created_at: '2024-01-01T00:00:00Z',
     updated_at: '2024-01-01T00:00:00Z',
-    ...overrides
+    ...overrides,
   })
 
   // 模拟发布记录数据
@@ -69,7 +69,7 @@ describe('publishApi', () => {
     status: 'published' as PublishStatus,
     published_at: '2024-01-01T00:00:00Z',
     created_at: '2024-01-01T00:00:00Z',
-    ...overrides
+    ...overrides,
   })
 
   // 模拟发布统计数据
@@ -81,7 +81,7 @@ describe('publishApi', () => {
     scheduled_chapters: 10,
     total_words: 200000,
     published_words: 100000,
-    ...overrides
+    ...overrides,
   })
 
   describe('getPublishPlan (P-001)', () => {
@@ -90,14 +90,16 @@ describe('publishApi', () => {
         projectId: 'book-456',
         projectTitle: '测试项目',
         isPublished: true,
-        publishedAt: '2024-01-01T00:00:00Z'
+        publishedAt: '2024-01-01T00:00:00Z',
       }
       vi.mocked(httpService.get).mockResolvedValue(mockStatusResponse)
 
       const bookId = 'book-456'
       const result = await getPublishPlan(bookId)
 
-      expect(httpService.get).toHaveBeenCalledWith(`/api/v1/writer/projects/${bookId}/publication-status`)
+      expect(httpService.get).toHaveBeenCalledWith(
+        `/api/v1/writer/projects/${bookId}/publication-status`,
+      )
       expect(result.book_id).toBe('book-456')
       expect(result.status).toBe('active')
     })
@@ -106,7 +108,7 @@ describe('publishApi', () => {
       const mockStatusResponse = {
         projectId: 'book-456',
         projectTitle: '测试项目',
-        isPublished: false
+        isPublished: false,
       }
       vi.mocked(httpService.get).mockResolvedValue(mockStatusResponse)
 
@@ -131,7 +133,7 @@ describe('publishApi', () => {
       const mockStatusResponse = {
         projectId: 'book-456',
         projectTitle: '测试项目',
-        isPublished: true
+        isPublished: true,
       }
       vi.mocked(httpService.get).mockResolvedValue(mockStatusResponse)
 
@@ -142,7 +144,7 @@ describe('publishApi', () => {
         type: 'free' as PublishType,
         platforms: ['all' as PublishPlatform],
         schedule: { type: 'manual' as const },
-        pricing: { is_free: true }
+        pricing: { is_free: true },
       }
       const result = await createPublishPlan(bookId, data)
 
@@ -154,8 +156,8 @@ describe('publishApi', () => {
           description: data.description,
           publishType: 'serial',
           enableComment: true,
-          enableShare: true
-        })
+          enableShare: true,
+        }),
       )
       expect(result.book_id).toBe('book-456')
     })
@@ -170,15 +172,15 @@ describe('publishApi', () => {
         type: 'paid' as PublishType,
         platforms: ['web' as PublishPlatform],
         schedule: { type: 'immediate' as const },
-        pricing: { is_free: false, price: 100, vip_discount: 0.8 }
+        pricing: { is_free: false, price: 100, vip_discount: 0.8 },
       }
       await createPublishPlan('book-456', data)
 
       expect(httpService.post).toHaveBeenCalledWith(
         expect.any(String),
         expect.objectContaining({
-          freeChapters: 0
-        })
+          freeChapters: 0,
+        }),
       )
     })
 
@@ -192,8 +194,8 @@ describe('publishApi', () => {
           type: 'free',
           platforms: ['all'],
           schedule: { type: 'manual' },
-          pricing: { is_free: true }
-        })
+          pricing: { is_free: true },
+        }),
       ).rejects.toThrow('创建失败')
     })
   })
@@ -226,7 +228,7 @@ describe('publishApi', () => {
       const config: ChapterPublishConfig = {
         chapter_id: chapterId,
         is_free: true,
-        project_id: 'proj-456'
+        project_id: 'proj-456',
       }
       const result = await publishChapter(chapterId, config)
 
@@ -235,8 +237,8 @@ describe('publishApi', () => {
         method: 'post',
         params: { projectId: 'proj-456' },
         data: expect.objectContaining({
-          isFree: true
-        })
+          isFree: true,
+        }),
       })
       expect(result).toEqual(mockRecord)
     })
@@ -251,7 +253,7 @@ describe('publishApi', () => {
         is_free: false,
         price: 100,
         vip_only: true,
-        projectId: 'proj-456'
+        projectId: 'proj-456',
       }
       await publishChapter(chapterId, config)
 
@@ -260,8 +262,8 @@ describe('publishApi', () => {
         method: 'post',
         params: { projectId: 'proj-456' },
         data: expect.objectContaining({
-          isFree: false
-        })
+          isFree: false,
+        }),
       })
     })
 
@@ -270,7 +272,7 @@ describe('publishApi', () => {
       vi.mocked(request).mockRejectedValue(mockError)
 
       await expect(
-        publishChapter('chapter-789', { chapter_id: 'chapter-789', is_free: true })
+        publishChapter('chapter-789', { chapter_id: 'chapter-789', is_free: true }),
       ).rejects.toThrow('发布失败')
     })
   })
@@ -286,34 +288,34 @@ describe('publishApi', () => {
             status: 'published',
             publishTime: '2024-01-01T00:00:00Z',
             createdAt: '2024-01-01T00:00:00Z',
-            metadata: { chapterTitle: '第一章', chapterNumber: 1 }
-          }
+            metadata: { chapterTitle: '第一章', chapterNumber: 1 },
+          },
         ],
-        pagination: { total: 1 }
+        pagination: { total: 1 },
       }
       vi.mocked(httpService.get).mockResolvedValue(mockResponse)
 
-      const bookId = 'book-456'
-      const result = await getPublishRecords(bookId)
+      const projectId = 'project-456'
+      const result = await getPublishRecords(projectId)
 
       expect(httpService.get).toHaveBeenCalledWith(
-        `/api/v1/writer/projects/${bookId}/publications`,
-        { params: { page: 1, pageSize: 20 } }
+        `/api/v1/writer/projects/${projectId}/publications`,
+        { params: { page: 1, pageSize: 20 } },
       )
       expect(result.items).toHaveLength(1)
       expect(result.total).toBe(1)
+      expect(result.items[0].book_id).toBe(projectId)
     })
 
     it('应该正确传递分页参数', async () => {
       const mockResponse = { data: [], pagination: { total: 0 } }
       vi.mocked(httpService.get).mockResolvedValue(mockResponse)
 
-      await getPublishRecords('book-456', { page: 2, page_size: 10 })
+      await getPublishRecords('project-456', { page: 2, page_size: 10 })
 
-      expect(httpService.get).toHaveBeenCalledWith(
-        expect.any(String),
-        { params: { page: 2, pageSize: 10 } }
-      )
+      expect(httpService.get).toHaveBeenCalledWith(expect.any(String), {
+        params: { page: 2, pageSize: 10 },
+      })
     })
 
     it('应该正确映射后端状态到前端状态', async () => {
@@ -322,13 +324,13 @@ describe('publishApi', () => {
           { id: '1', resourceId: 'c1', status: 'published', resourceTitle: 'T1' },
           { id: '2', resourceId: 'c2', status: 'pending', resourceTitle: 'T2' },
           { id: '3', resourceId: 'c3', status: 'failed', resourceTitle: 'T3' },
-          { id: '4', resourceId: 'c4', status: 'unpublished', resourceTitle: 'T4' }
+          { id: '4', resourceId: 'c4', status: 'unpublished', resourceTitle: 'T4' },
         ],
-        pagination: { total: 4 }
+        pagination: { total: 4 },
       }
       vi.mocked(httpService.get).mockResolvedValue(mockResponse)
 
-      const result = await getPublishRecords('book-456')
+      const result = await getPublishRecords('project-456')
 
       expect(result.items[0].status).toBe('published')
       expect(result.items[1].status).toBe('pending_review')
@@ -340,13 +342,13 @@ describe('publishApi', () => {
       const mockResponse = {
         data: [
           { id: '1', resourceId: 'c1', status: 'published', resourceTitle: 'T1' },
-          { id: '2', resourceId: 'c2', status: 'pending', resourceTitle: 'T2' }
+          { id: '2', resourceId: 'c2', status: 'pending', resourceTitle: 'T2' },
         ],
-        pagination: { total: 2 }
+        pagination: { total: 2 },
       }
       vi.mocked(httpService.get).mockResolvedValue(mockResponse)
 
-      const result = await getPublishRecords('book-456', { status: 'published' })
+      const result = await getPublishRecords('project-456', { status: 'published' })
 
       expect(result.items).toHaveLength(1)
       expect(result.items[0].status).toBe('published')
@@ -355,7 +357,7 @@ describe('publishApi', () => {
     it('应该正确处理空记录列表', async () => {
       vi.mocked(httpService.get).mockResolvedValue({ data: [], pagination: { total: 0 } })
 
-      const result = await getPublishRecords('book-456')
+      const result = await getPublishRecords('project-456')
 
       expect(result.items).toHaveLength(0)
       expect(result.total).toBe(0)
@@ -367,7 +369,7 @@ describe('publishApi', () => {
       const mockStatusResponse = {
         totalChapters: 100,
         publishedChapters: 50,
-        pendingChapters: 10
+        pendingChapters: 10,
       }
       const mockPublicationsResponse = {
         data: [
@@ -375,7 +377,7 @@ describe('publishApi', () => {
           { id: '2', resourceId: 'c2', status: 'pending', resourceTitle: 'T2' }, // backend status
           { id: '3', resourceId: 'c3', status: 'published', resourceTitle: 'T3' },
         ],
-        pagination: { total: 3 }
+        pagination: { total: 3 },
       }
       // Mock request for publication-status
       vi.mocked(request).mockImplementation((options) => {
@@ -387,22 +389,26 @@ describe('publishApi', () => {
       // Mock httpService.get for getPublishRecords
       vi.mocked(httpService.get).mockResolvedValue(mockPublicationsResponse as any)
 
-      const bookId = 'book-456'
-      const result = await getPublishStats(bookId)
+      const projectId = 'project-456'
+      const result = await getPublishStats(projectId)
 
       expect(result.total_chapters).toBe(100)
       expect(result.published_chapters).toBe(50)
       expect(result.pending_review_chapters).toBe(1) // backend 'pending' maps to 'pending_review'
       expect(result.draft_chapters).toBe(49) // 100 - 50 - 1 - 0 (total - published - pending_review - scheduled)
+      expect(vi.mocked(request).mock.calls[0]?.[0]).toEqual({
+        url: `/api/v1/writer/projects/${projectId}/publication-status`,
+        method: 'get',
+      })
     })
 
     it('应该正确处理空统计数据', async () => {
       vi.mocked(request).mockResolvedValue({
-        data: null
+        data: null,
       } as any)
       vi.mocked(httpService.get).mockResolvedValue({
         data: [],
-        pagination: { total: 0 }
+        pagination: { total: 0 },
       } as any)
 
       const result = await getPublishStats('book-456')
@@ -415,23 +421,21 @@ describe('publishApi', () => {
 
   describe('后端不支持的功能', () => {
     it('unpublishChapter 应该返回错误：后端暂未提供章节下架接口', async () => {
-      vi.mocked(request).mockRejectedValue(new Error('后端暂未提供章节下架接口，请使用项目下架或管理端操作'))
+      vi.mocked(request).mockRejectedValue(
+        new Error('后端暂未提供章节下架接口，请使用项目下架或管理端操作'),
+      )
       await expect(unpublishChapter('chapter-123')).rejects.toThrow(
-        '后端暂未提供章节下架接口，请使用项目下架或管理端操作'
+        '后端暂未提供章节下架接口，请使用项目下架或管理端操作',
       )
     })
 
     it('scheduleChapter 应该返回错误：后端暂未提供独立定时发布接口', async () => {
       vi.mocked(request).mockRejectedValue(new Error('后端暂未提供独立定时发布接口'))
-      await expect(scheduleChapter('chapter-123')).rejects.toThrow(
-        '后端暂未提供独立定时发布接口'
-      )
+      await expect(scheduleChapter('chapter-123')).rejects.toThrow('后端暂未提供独立定时发布接口')
     })
 
     it('submitForReview 应该返回错误：后端暂未提供提交审核接口', async () => {
-      await expect(submitForReview('book-456')).rejects.toThrow(
-        '后端暂未提供提交审核接口'
-      )
+      await expect(submitForReview('book-456')).rejects.toThrow('后端暂未提供提交审核接口')
     })
   })
 
@@ -445,7 +449,7 @@ describe('publishApi', () => {
       const data = {
         name: '更新后的计划',
         type: 'paid' as PublishType,
-        platforms: ['web' as PublishPlatform]
+        platforms: ['web' as PublishPlatform],
       }
       await updatePublishPlan(planId, data)
 
@@ -460,14 +464,14 @@ describe('publishApi', () => {
 
       const data = {
         chapter_ids: ['chapter-1', 'chapter-2'],
-        config: { chapter_id: '', is_free: true }
+        config: { chapter_id: '', is_free: true },
       }
       const result = await batchPublishChapters(data)
 
       expect(request).toHaveBeenCalledWith({
         url: '/api/v1/writer/publish/chapters/batch',
         method: 'post',
-        data
+        data,
       })
       expect(result).toHaveLength(2)
     })
@@ -477,7 +481,10 @@ describe('publishApi', () => {
       vi.mocked(request).mockRejectedValue(mockError)
 
       await expect(
-        batchPublishChapters({ chapter_ids: ['1', '2'], config: { chapter_id: '', is_free: true } })
+        batchPublishChapters({
+          chapter_ids: ['1', '2'],
+          config: { chapter_id: '', is_free: true },
+        }),
       ).rejects.toThrow('批量发布失败')
     })
   })
@@ -488,7 +495,7 @@ describe('publishApi', () => {
         status: 'pending_review' as PublishStatus,
         reviewer: '审核员A',
         review_comment: '等待审核',
-        reviewed_at: '2024-01-01T00:00:00Z'
+        reviewed_at: '2024-01-01T00:00:00Z',
       }
       vi.mocked(request).mockResolvedValue(mockResponse)
 
@@ -497,7 +504,7 @@ describe('publishApi', () => {
 
       expect(request).toHaveBeenCalledWith({
         url: `/api/v1/writer/publish/books/${bookId}/review/status`,
-        method: 'get'
+        method: 'get',
       })
       expect(result.status).toBe('pending_review')
     })
@@ -511,14 +518,14 @@ describe('publishApi', () => {
       const data = {
         is_free: false,
         price: 100,
-        vip_only: true
+        vip_only: true,
       }
       const result = await setChapterPricing(chapterId, data)
 
       expect(request).toHaveBeenCalledWith({
         url: `/api/v1/writer/publish/chapters/${chapterId}/pricing`,
         method: 'put',
-        data
+        data,
       })
       expect(result.success).toBe(true)
     })
@@ -530,7 +537,7 @@ describe('publishApi', () => {
         status: 'published' as PublishStatus,
         published_at: '2024-01-01T00:00:00Z',
         is_free: true,
-        vip_only: false
+        vip_only: false,
       }
       vi.mocked(request).mockResolvedValue(mockResponse)
 
@@ -539,7 +546,7 @@ describe('publishApi', () => {
 
       expect(request).toHaveBeenCalledWith({
         url: `/api/v1/writer/publish/chapters/${chapterId}/status`,
-        method: 'get'
+        method: 'get',
       })
       expect(result.status).toBe('published')
       expect(result.is_free).toBe(true)
@@ -557,7 +564,7 @@ describe('publishApi', () => {
       expect(request).toHaveBeenCalledWith({
         url: `/api/v1/writer/publish/plans/${planId}/platforms`,
         method: 'put',
-        data: { platforms }
+        data: { platforms },
       })
       expect(result.success).toBe(true)
     })
@@ -587,8 +594,8 @@ describe('publishApi', () => {
         expect.objectContaining({
           publishType: 'serial',
           enableComment: true,
-          enableShare: true
-        })
+          enableShare: true,
+        }),
       )
       expect(result).toEqual({ success: true })
     })
@@ -626,8 +633,8 @@ describe('publishApi', () => {
           type: 'free',
           platforms: ['all'],
           schedule: { type: 'manual' },
-          pricing: { is_free: true }
-        })
+          pricing: { is_free: true },
+        }),
       ).rejects.toThrow('服务器内部错误')
     })
 
