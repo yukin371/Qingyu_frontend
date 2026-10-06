@@ -307,6 +307,14 @@ describe('Bookstore API Wrapper', () => {
   })
 
   describe('其他便捷方法测试', () => {
+    it('应该明确拒绝旧的书城章节ID路径 facade', async () => {
+      const wrapper = await import('../wrapper')
+
+      await expect(wrapper.getBookChapterById()).rejects.toThrow(
+        '书城章节 ID 读取已迁移到 getChapterDetail(chapterId)',
+      )
+    })
+
     it('应该能调用getBookChapters', async () => {
       const wrapper = await import('../wrapper')
 

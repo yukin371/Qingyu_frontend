@@ -514,8 +514,14 @@ export const getBookChapterByNumber = api.getApiV1BookstoreBooksIdChaptersChapte
 
 /**
  * 获取指定书籍的指定章节（通过ID）
+ *
+ * 书城不再提供 `/books/{id}/chapters/{chapterId}` 这条同形路径；章节 ID
+ * 读取请使用 `getChapterDetail(chapterId)`。保留 facade 仅用于给旧导入明确
+ * 的迁移提示。
  */
-export const getBookChapterById = api.getApiV1BookstoreBooksIdChaptersChapterId
+export async function getBookChapterById(): Promise<never> {
+  throw new Error('书城章节 ID 读取已迁移到 getChapterDetail(chapterId)')
+}
 
 /**
  * 获取用户对指定书籍的评分
