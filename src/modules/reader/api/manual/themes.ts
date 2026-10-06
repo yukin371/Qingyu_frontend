@@ -34,7 +34,7 @@ export interface CreateThemeParams {
   colors: ThemeColors
 }
 
-interface ReaderThemeResponse {
+export interface ReaderThemeResponse {
   id: string
   name: string
   displayName: string
@@ -103,18 +103,18 @@ export function getCustomThemes() {
  * 获取当前激活主题
  */
 export function getActiveTheme() {
-  return request<Theme>({
+  return request<ReaderThemeResponse>({
     url: '/api/v1/reader/themes/active',
     method: 'get',
-  })
+  }).then(toTheme)
 }
 
 /**
  * 设置激活主题
  */
-export function setActiveTheme(themeId: string) {
+export function setActiveTheme(themeNameOrId: string) {
   return request<{ success: boolean }>({
-    url: `/api/v1/reader/themes/${themeId}/activate`,
+    url: `/api/v1/reader/themes/${themeNameOrId}/activate`,
     method: 'post',
   })
 }
