@@ -134,8 +134,8 @@
 <script setup lang="ts">
 import { computed, reactive, watch, ref, onUnmounted } from 'vue'
 import type { Editor } from '@tiptap/core'
-import { QyTipTapEditor } from '@/design-system/components/editor'
-import type { KeywordInfo } from '@/design-system/components/editor'
+import QyTipTapEditor from './QyTipTapEditor.vue'
+import type { KeywordInfo } from '@editor-shared/extensions/SmartKeyword'
 import { QyEntityScanPanel } from '@/design-system/components/editor'
 import type { ScannedEntity } from '@/modules/writer/composables/useEntityScanner'
 import { useEntityScanner } from '@/modules/writer/composables/useEntityScanner'
