@@ -151,27 +151,6 @@ export function deleteCustomTheme(themeId: string) {
   })
 }
 
-/**
- * 导出主题
- */
-export function exportTheme(themeId: string) {
-  return request<{ theme: Theme; data: string }>({
-    url: `/api/v1/reader/themes/${themeId}/export`,
-    method: 'get',
-  })
-}
-
-/**
- * 导入主题
- */
-export function importTheme(data: { name: string; theme_data: string }) {
-  return request<Theme>({
-    url: '/api/v1/reader/themes/import',
-    method: 'post',
-    data,
-  })
-}
-
 // 预定义主题配色
 export const builtinThemes: Theme[] = [
   {
