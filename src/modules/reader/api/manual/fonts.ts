@@ -3,9 +3,8 @@
  */
 import { request } from '@/utils/request-adapter'
 
-// TODO(T3-018-contract): ThemeSettingsView 仍消费这组手写字体 API，但
-// /fonts/settings、/fonts/active、/fonts/custom 等路径尚未纳入后端生产契约。
-// 退出条件：ADR-0007 明确字体 owner、字段映射和持久化/上传语义后，改用生成客户端或完成同一契约的实现。
+// TODO(T3-018-contract): 自定义字体上传、删除和完整字体偏好仍未纳入后端生产契约。
+// 当前 facade 只消费后端已注册的 /fonts 与 /settings 路径；扩展能力需先修订 ADR-0007。
 
 // 字体类型
 export type FontType = 'serif' | 'sans-serif' | 'monospace' | 'custom'
@@ -32,101 +31,107 @@ export interface FontSettings {
   weight: 'normal' | 'bold' | '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900'
 }
 
+interface ReaderFontResponse {
+  id?: string
+  name: string
+  displayName: string
+  fontFamily: string
+  category: 'serif' | 'sans-serif' | 'monospace'
+  fontUrl?: string
+  isBuiltIn: boolean
+  isActive: boolean
+  createdAt?: string
+}
+
+interface ReaderFontListResponse {
+  fonts: ReaderFontResponse[]
+  total: number
+}
+
+interface ReaderSettingsResponse {
+  fontFamily?: string
+  fontSize?: number
+  lineHeight?: number
+}
+
+function toFont(font: ReaderFontResponse): Font {
+  return {
+    id: font.id || font.name,
+    name: font.displayName || font.name,
+    family: font.fontFamily,
+    type: font.category,
+    url: font.fontUrl,
+    is_builtin: font.isBuiltIn,
+    is_active: font.isActive,
+    created_at: font.createdAt,
+  }
+}
+
 /**
  * 获取所有可用字体
  */
 export function getFonts() {
-  return request<Font[]>({
+  return request<ReaderFontListResponse>({
     url: '/api/v1/reader/fonts',
     method: 'get',
-  })
+  }).then((response) => response.fonts.map(toFont))
 }
 
 /**
  * 获取内置字体
  */
 export function getBuiltinFonts() {
-  return request<Font[]>({
-    url: '/api/v1/reader/fonts/builtin',
+  return request<ReaderFontListResponse>({
+    url: '/api/v1/reader/fonts',
     method: 'get',
-  })
-}
-
-/**
- * 获取用户自定义字体
- */
-export function getCustomFonts() {
-  return request<Font[]>({
-    url: '/api/v1/reader/fonts/custom',
-    method: 'get',
-  })
+    params: { builtin: true },
+  }).then((response) => response.fonts.map(toFont))
 }
 
 /**
  * 获取字体设置
  */
 export function getFontSettings() {
-  return request<FontSettings>({
-    url: '/api/v1/reader/fonts/settings',
+  return request<ReaderSettingsResponse>({
+    url: '/api/v1/reader/settings',
     method: 'get',
-  })
+  }).then((settings) => ({
+    family: settings.fontFamily || builtinFonts[0].family,
+    size: settings.fontSize || 18,
+    line_height: settings.lineHeight || 1.5,
+    letter_spacing: 0,
+    weight: 'normal' as const,
+  }))
 }
 
 /**
  * 更新字体设置
  */
 export function updateFontSettings(settings: Partial<FontSettings>) {
-  return request<FontSettings>({
-    url: '/api/v1/reader/fonts/settings',
+  return request<void>({
+    url: '/api/v1/reader/settings',
     method: 'put',
-    data: settings,
-  })
-}
-
-/**
- * 上传自定义字体
- */
-export function uploadCustomFont(file: File) {
-  const formData = new FormData()
-  formData.append('file', file)
-
-  return request<Font>({
-    url: '/api/v1/reader/fonts/custom',
-    method: 'post',
-    data: formData,
-    headers: { 'Content-Type': 'multipart/form-data' },
-  })
-}
-
-/**
- * 添加自定义字体
- */
-export function addCustomFont(data: { name: string; family: string; url: string }) {
-  return request<Font>({
-    url: '/api/v1/reader/fonts/custom',
-    method: 'post',
-    data,
-  })
-}
-
-/**
- * 删除自定义字体
- */
-export function deleteCustomFont(fontId: string) {
-  return request<{ success: boolean }>({
-    url: `/api/v1/reader/fonts/custom/${fontId}`,
-    method: 'delete',
-  })
+    data: {
+      ...(settings.family === undefined ? {} : { fontFamily: settings.family }),
+      ...(settings.size === undefined ? {} : { fontSize: settings.size }),
+      ...(settings.line_height === undefined ? {} : { lineHeight: settings.line_height }),
+    },
+  }).then(() => settings)
 }
 
 /**
  * 设置字体
  */
 export function setFont(fontId: string) {
-  return request<{ success: boolean }>({
-    url: '/api/v1/reader/fonts/active',
-    method: 'post',
-    data: { font_id: fontId },
+  const font = builtinFonts.find((item) => item.id === fontId)
+  if (!font) {
+    return Promise.reject(new Error('自定义字体尚未纳入当前后端契约'))
+  }
+
+  return request<void>({
+    url: '/api/v1/reader/settings',
+    method: 'put',
+    data: { fontFamily: font.family },
   })
 }
 

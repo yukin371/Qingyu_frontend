@@ -71,11 +71,8 @@ export {
   // manual exports from wrapper
   getFonts,
   getBuiltinFonts,
-  getCustomFonts,
   getFontSettings,
   updateFontSettings,
-  uploadCustomFont,
-  addCustomFont,
 } from './api/wrapper'
 // 类型从 wrapper 导出（避免与 types/reader.types 冲突，使用显式 type 导出）
 export type {
@@ -103,4 +100,3 @@ export type * from './types/reader.types'
 
 // Routes
 export { default as readerRoutes } from './routes'
-
