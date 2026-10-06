@@ -34,34 +34,69 @@ export interface CreateThemeParams {
   colors: ThemeColors
 }
 
+interface ReaderThemeResponse {
+  id: string
+  name: string
+  displayName: string
+  description?: string
+  isBuiltIn: boolean
+  isPublic: boolean
+  colors: {
+    background: string
+    textPrimary: string
+    textSecondary: string
+    accentColor: string
+    borderColor: string
+    shadowColor: string
+  }
+  createdAt?: string
+}
+
+interface ReaderThemeListResponse {
+  themes: ReaderThemeResponse[]
+  total: number
+}
+
+function toTheme(theme: ReaderThemeResponse): Theme {
+  return {
+    id: theme.isBuiltIn ? theme.name : theme.id,
+    name: theme.displayName || theme.name,
+    type: theme.isBuiltIn ? (theme.name as ThemeType) : 'custom',
+    colors: {
+      background: theme.colors.background,
+      foreground: theme.colors.textPrimary,
+      accent: theme.colors.accentColor,
+      secondary: theme.colors.textSecondary,
+      border: theme.colors.borderColor,
+      shadow: theme.colors.shadowColor,
+    },
+    is_builtin: theme.isBuiltIn,
+    created_at: theme.createdAt,
+  }
+}
+
 /**
  * 获取所有可用主题
  */
 export function getThemes() {
-  return request<Theme[]>({
+  return request<ReaderThemeListResponse>({
     url: '/api/v1/reader/themes',
-    method: 'get'
-  })
+    method: 'get',
+  }).then((response) => response.themes.map(toTheme))
 }
 
 /**
  * 获取内置主题
  */
 export function getBuiltinThemes() {
-  return request<Theme[]>({
-    url: '/api/v1/reader/themes/builtin',
-    method: 'get'
-  })
+  return getThemes().then((themes) => themes.filter((theme) => theme.is_builtin))
 }
 
 /**
  * 获取用户自定义主题
  */
 export function getCustomThemes() {
-  return request<Theme[]>({
-    url: '/api/v1/reader/themes/custom',
-    method: 'get'
-  })
+  return getThemes().then((themes) => themes.filter((theme) => !theme.is_builtin))
 }
 
 /**
@@ -70,7 +105,7 @@ export function getCustomThemes() {
 export function getActiveTheme() {
   return request<Theme>({
     url: '/api/v1/reader/themes/active',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -79,9 +114,8 @@ export function getActiveTheme() {
  */
 export function setActiveTheme(themeId: string) {
   return request<{ success: boolean }>({
-    url: '/api/v1/reader/themes/active',
+    url: `/api/v1/reader/themes/${themeId}/activate`,
     method: 'post',
-    data: { theme_id: themeId }
   })
 }
 
@@ -90,9 +124,9 @@ export function setActiveTheme(themeId: string) {
  */
 export function createCustomTheme(data: CreateThemeParams) {
   return request<Theme>({
-    url: '/api/v1/reader/themes/custom',
+    url: '/api/v1/reader/themes',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -101,9 +135,9 @@ export function createCustomTheme(data: CreateThemeParams) {
  */
 export function updateCustomTheme(themeId: string, data: Partial<CreateThemeParams>) {
   return request<Theme>({
-    url: `/api/v1/reader/themes/custom/${themeId}`,
+    url: `/api/v1/reader/themes/${themeId}`,
     method: 'put',
-    data
+    data,
   })
 }
 
@@ -112,8 +146,8 @@ export function updateCustomTheme(themeId: string, data: Partial<CreateThemePara
  */
 export function deleteCustomTheme(themeId: string) {
   return request<{ success: boolean }>({
-    url: `/api/v1/reader/themes/custom/${themeId}`,
-    method: 'delete'
+    url: `/api/v1/reader/themes/${themeId}`,
+    method: 'delete',
   })
 }
 
@@ -123,21 +157,18 @@ export function deleteCustomTheme(themeId: string) {
 export function exportTheme(themeId: string) {
   return request<{ theme: Theme; data: string }>({
     url: `/api/v1/reader/themes/${themeId}/export`,
-    method: 'get'
+    method: 'get',
   })
 }
 
 /**
  * 导入主题
  */
-export function importTheme(data: {
-  name: string
-  theme_data: string
-}) {
+export function importTheme(data: { name: string; theme_data: string }) {
   return request<Theme>({
     url: '/api/v1/reader/themes/import',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -153,9 +184,9 @@ export const builtinThemes: Theme[] = [
       accent: '#409EFF',
       secondary: '#909399',
       border: '#DCDFE6',
-      shadow: 'rgba(0, 0, 0, 0.1)'
+      shadow: 'rgba(0, 0, 0, 0.1)',
     },
-    is_builtin: true
+    is_builtin: true,
   },
   {
     id: 'dark',
@@ -167,9 +198,9 @@ export const builtinThemes: Theme[] = [
       accent: '#409EFF',
       secondary: '#909399',
       border: '#4c4d4f',
-      shadow: 'rgba(0, 0, 0, 0.3)'
+      shadow: 'rgba(0, 0, 0, 0.3)',
     },
-    is_builtin: true
+    is_builtin: true,
   },
   {
     id: 'sepia',
@@ -181,9 +212,9 @@ export const builtinThemes: Theme[] = [
       accent: '#d4a058',
       secondary: '#8b7355',
       border: '#e3d5b8',
-      shadow: 'rgba(92, 75, 55, 0.1)'
+      shadow: 'rgba(92, 75, 55, 0.1)',
     },
-    is_builtin: true
+    is_builtin: true,
   },
   {
     id: 'eye-care',
@@ -195,9 +226,9 @@ export const builtinThemes: Theme[] = [
       accent: '#52c41a',
       secondary: '#5a8d5f',
       border: '#a8d5ae',
-      shadow: 'rgba(45, 90, 48, 0.1)'
+      shadow: 'rgba(45, 90, 48, 0.1)',
     },
-    is_builtin: true
+    is_builtin: true,
   },
   {
     id: 'night',
@@ -209,8 +240,8 @@ export const builtinThemes: Theme[] = [
       accent: '#5D5D5D',
       secondary: '#707070',
       border: '#2a2a2a',
-      shadow: 'rgba(0, 0, 0, 0.5)'
+      shadow: 'rgba(0, 0, 0, 0.5)',
     },
-    is_builtin: true
-  }
+    is_builtin: true,
+  },
 ]
