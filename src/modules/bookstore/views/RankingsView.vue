@@ -21,12 +21,6 @@
               :max-items="50"
               @item-click="handleItemClick"
             />
-
-            <div v-if="hasMore.weekly" class="load-more">
-              <QyButton @click="loadMore('weekly')" :loading="loadingMore.weekly" size="lg">
-                加载更多
-              </QyButton>
-            </div>
           </div>
         </el-tab-pane>
 
@@ -39,12 +33,6 @@
               :max-items="50"
               @item-click="handleItemClick"
             />
-
-            <div v-if="hasMore.monthly" class="load-more">
-              <QyButton @click="loadMore('monthly')" :loading="loadingMore.monthly" size="lg">
-                加载更多
-              </QyButton>
-            </div>
           </div>
         </el-tab-pane>
 
@@ -57,12 +45,6 @@
               :max-items="50"
               @item-click="handleItemClick"
             />
-
-            <div v-if="hasMore.newbie" class="load-more">
-              <QyButton @click="loadMore('newbie')" :loading="loadingMore.newbie" size="lg">
-                加载更多
-              </QyButton>
-            </div>
           </div>
         </el-tab-pane>
 
@@ -75,13 +57,6 @@
               :max-items="50"
               @item-click="handleItemClick"
             />
-
-            <!-- 加载更多 -->
-            <div v-if="hasMore.realtime" class="load-more">
-              <QyButton @click="loadMore('realtime')" :loading="loadingMore.realtime" size="lg">
-                加载更多
-              </QyButton>
-            </div>
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -99,7 +74,7 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useBookstoreStore } from '../stores/bookstore.store'
 import RankingList from '../components/RankingList.vue'
-import { QyIcon, QyButton, QyAlert } from '@/design-system/components'
+import { QyIcon, QyAlert } from '@/design-system/components'
 import { message } from '@/design-system/services'
 const router = useRouter()
 const bookstoreStore = useBookstoreStore()
@@ -109,20 +84,6 @@ type RankingTab = 'realtime' | 'weekly' | 'monthly' | 'newbie'
 const activeTab = ref<RankingTab>('weekly')
 
 const loading = reactive<Record<RankingTab, boolean>>({
-  realtime: false,
-  weekly: false,
-  monthly: false,
-  newbie: false,
-})
-
-const loadingMore = reactive<Record<RankingTab, boolean>>({
-  realtime: false,
-  weekly: false,
-  monthly: false,
-  newbie: false,
-})
-
-const hasMore = reactive<Record<RankingTab, boolean>>({
   realtime: false,
   weekly: false,
   monthly: false,
@@ -147,8 +108,6 @@ const loadRankingData = async (type: RankingTab) => {
   loading[type] = true
   try {
     await bookstoreStore.fetchRankings(type)
-    // 检查是否还有更多数据（这里简化处理，实际应从API返回判断）
-    hasMore[type] = ((rankings.value as Record<string, any[]>)?.[type]?.length || 0) >= 50
   } catch (error: unknown) {
     const err = error as Error
     message.error(`加载${type}榜单失败: ${err.message}`)
@@ -166,20 +125,6 @@ const handleTabChange = (tab: { props: { name: RankingTab } }) => {
     (rankings.value as Record<string, any[]>)[tabName].length === 0
   ) {
     loadRankingData(tabName)
-  }
-}
-
-// 加载更多
-const loadMore = async (type: RankingTab) => {
-  loadingMore[type] = true
-  try {
-    // 由于当前API不支持分页，这里只是重新加载
-    await bookstoreStore.fetchRankings(type)
-  } catch (error: unknown) {
-    const err = error as Error
-    message.error(`加载更多失败: ${err.message}`)
-  } finally {
-    loadingMore[type] = false
   }
 }
 
@@ -298,12 +243,6 @@ onMounted(() => {
 
 .ranking-content {
   min-height: 400px;
-}
-
-.load-more {
-  text-align: center;
-  margin-top: 24px;
-  padding: 20px 0;
 }
 
 .ranking-info {
