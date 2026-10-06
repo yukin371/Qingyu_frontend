@@ -188,7 +188,7 @@ import type {
   GetApiV1ReaderProgressHistoryParams,
   GetApiV1ReaderProgressRecentParams,
   GetApiV1ReaderProgressStatsParams,
-  GetApiV1ReaderPurchasesBookIdParams,
+  GetApiV1ReaderPurchasesIdParams,
   GetApiV1ReaderPurchasesParams,
   GetApiV1ReaderReadingHistoryParams,
   GetApiV1ReaderReadingHistoryStatsParams,
@@ -4787,7 +4787,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    */
   const getApiV1ReaderPurchasesBookId = (
     bookId: string,
-    params?: GetApiV1ReaderPurchasesBookIdParams,
+    params?: GetApiV1ReaderPurchasesIdParams,
   ) => {
     return orvalMutator<ApiV1BookstoreAPIResponse>({
       url: `/api/v1/reader/purchases/${bookId}`,
