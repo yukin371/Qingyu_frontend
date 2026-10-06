@@ -8,12 +8,14 @@
 
 export interface ReaderUpdateSettingsRequest {
   autoSave?: boolean
+  autoScroll?: boolean
   backgroundColor?: string
   fontFamily?: string
   fontSize?: number
   lineHeight?: number
   /** scroll, paginate */
   pageMode?: string
+  scrollSpeed?: number
   showProgress?: boolean
   textColor?: string
 }

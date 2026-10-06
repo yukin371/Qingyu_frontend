@@ -85,6 +85,8 @@ export interface ReadingSettings {
   fontFamily: string
   autoScroll?: boolean
   scrollSpeed?: number
+  pageMode?: 'scroll' | 'paginate'
+  backgroundColor?: string
 }
 
 /**
@@ -389,7 +391,19 @@ export async function getFirstChapter(bookId: string): Promise<any> {
  * 兼容旧API: getSettings()
  */
 export async function getSettings(): Promise<APIResponse<ReadingSettings>> {
-  return api.getApiV1ReaderSettings() as any
+  const response = (await api.getApiV1ReaderSettings()) as any
+  if (response?.data) {
+    const backendSettings = response.data
+    response.data = {
+      ...backendSettings,
+      pageMode:
+        backendSettings.pageMode === 2 || backendSettings.pageMode === 'paginate'
+          ? 'paginate'
+          : 'scroll',
+      backgroundColor: backendSettings.background ?? backendSettings.backgroundColor,
+    }
+  }
+  return response as APIResponse<ReadingSettings>
 }
 
 /**
@@ -409,7 +423,19 @@ export async function saveSettings(
 export async function updateSettings(
   settings: Partial<ReadingSettings>
 ): Promise<APIResponse<ReadingSettings>> {
-  return api.putApiV1ReaderSettings(settings as any) as any
+  const payload: Record<string, unknown> = {}
+  if (settings.fontSize !== undefined) payload.fontSize = settings.fontSize
+  if (settings.fontFamily !== undefined) payload.fontFamily = settings.fontFamily
+  if (settings.lineHeight !== undefined) payload.lineHeight = settings.lineHeight
+  if (settings.theme !== undefined) payload.theme = settings.theme
+  if (settings.pageMode !== undefined) payload.pageMode = settings.pageMode
+  if (settings.backgroundColor !== undefined) {
+    payload.backgroundColor = settings.backgroundColor
+  }
+  if (settings.autoScroll !== undefined) payload.autoScroll = settings.autoScroll
+  if (settings.scrollSpeed !== undefined) payload.scrollSpeed = settings.scrollSpeed
+
+  return api.putApiV1ReaderSettings(payload as any) as any
 }
 
 /**
