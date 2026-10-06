@@ -144,12 +144,11 @@ describe('Bookstore API Wrapper', () => {
       expect(wrapper.incrementBookView).toBeDefined()
     })
 
-    it('应该能调用getBookStatistics', async () => {
+    it('应该明确拒绝未装配的getBookStatistics', async () => {
       const wrapper = await import('../wrapper')
 
-      await wrapper.getBookStatistics('book-123')
-
       expect(wrapper.getBookStatistics).toBeDefined()
+      await expect(wrapper.getBookStatistics()).rejects.toThrow('书籍统计不属于当前书城 API')
     })
 
     it('应该能调用likeBook', async () => {

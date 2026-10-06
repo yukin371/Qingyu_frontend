@@ -212,9 +212,15 @@ export async function getSimilarBooks(bookId: string, limit: number = 10) {
 export const incrementBookView = api.postApiV1BookstoreBooksIdView
 
 /**
- * 获取书籍统计信息
+ * 书城当前没有独立的书籍统计 API owner。
+ *
+ * 保留 facade 名称是为了让旧导入得到明确迁移提示，避免继续请求未注册
+ * 的 `/api/v1/reading/books/{book_id}/statistics` 路径。正式统计能力应由
+ * writer 或后端确认 owner 后再接入 canonical operation。
  */
-export const getBookStatistics = api.getApiV1ReadingBooksBookIdStatistics
+export async function getBookStatistics(): Promise<never> {
+  throw new Error('书籍统计不属于当前书城 API，请使用已确认 owner 的统计接口')
+}
 
 /**
  * 点赞书籍
