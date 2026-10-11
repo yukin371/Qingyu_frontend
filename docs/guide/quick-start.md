@@ -13,6 +13,7 @@
 ## 1. 安装 Node.js
 
 ### Windows
+
 ```bash
 # 访问 https://nodejs.org/ 下载 LTS 版本
 # 或使用 nvm-windows
@@ -21,6 +22,7 @@ nvm use 18
 ```
 
 ### macOS
+
 ```bash
 # 使用 Homebrew
 brew install node@18
@@ -31,6 +33,7 @@ nvm install 18
 ```
 
 ### Linux
+
 ```bash
 # Ubuntu/Debian
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
@@ -38,12 +41,17 @@ sudo apt-get install -y nodejs
 ```
 
 **验证安装**：
+
 ```bash
 node -v  # 应显示 v18.x.x
 npm -v   # 应显示 9.x.x
 ```
 
-## 2. 安装 pnpm（推荐）
+## 2. 包管理器说明
+
+当前仓库以 `npm` 脚本作为 canonical 开发入口，同时保留 `pnpm-lock.yaml` 兼容工作流。新环境优先使用 npm；使用 pnpm 时不要混用两套 lockfile。
+
+### 可选：安装 pnpm（兼容工作流）
 
 ```bash
 npm install -g pnpm
@@ -51,6 +59,7 @@ pnpm -v
 ```
 
 ### 配置镜像源
+
 ```bash
 # 使用淘宝镜像（国内用户）
 pnpm config set registry https://registry.npmmirror.com
@@ -79,18 +88,18 @@ git clone git@github.com:your-org/qingyu-frontend.git
 cd qingyu-frontend
 
 # 或使用 HTTPS
-git clone https://github.com/your-org/qingyu-frontend.git
-cd qingyu-frontend
+git clone https://github.com/yukin371/Qingyu_frontend.git Qingyu_frontend
+cd Qingyu_frontend
 ```
 
 ## 5. 安装依赖
 
 ```bash
-# 使用 pnpm（推荐）
-pnpm install
-
-# 或使用 npm
+# 当前 canonical 入口
 npm install
+
+# 兼容工作流（已明确使用 pnpm 时）
+pnpm install
 ```
 
 ## 6. 配置环境变量
@@ -113,16 +122,18 @@ VITE_API_BASE_URL=http://192.168.1.100:8080/api/v1
 ## 7. 启动开发服务器
 
 ```bash
-pnpm dev
+npm run dev
 ```
 
 启动成功后，浏览器访问：
+
 - **本地**：http://localhost:5173
 - **局域网**：http://192.168.1.100:5173
 
 ## 8. VS Code 配置
 
 ### 推荐插件
+
 ```
 必装：
 - Volar (Vue 3 官方插件)
@@ -135,9 +146,11 @@ pnpm dev
 ```
 
 ### 安装方式
+
 在 VS Code 中按 `Ctrl+Shift+X`，搜索并安装上述插件。
 
 或使用命令行：
+
 ```bash
 code --install-extension Vue.volar
 code --install-extension dbaeumer.vscode-eslint
@@ -148,22 +161,20 @@ code --install-extension esbenp.prettier-vscode
 
 ```bash
 # 启动开发服务器
-pnpm dev
+npm run dev
 
 # 构建生产版本
-pnpm build
+npm run build
 
 # 预览生产构建
-pnpm preview
+npm run preview
 
-# 代码检查
-pnpm lint
-
-# 代码格式化
-pnpm format
+# 类型与模块边界检查
+npm run type-check
+npm run check:boundaries:strict
 
 # 运行测试
-pnpm test
+npm run test:vitest:run
 ```
 
 ## 10. 验证安装
@@ -171,6 +182,7 @@ pnpm test
 启动开发服务器后，打开浏览器访问 http://localhost:5173，应该能看到青羽书城首页。
 
 **打开浏览器开发者工具**（F12）：
+
 - 安装 [Vue DevTools](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
 - 在 Console 中应该没有错误
 - 在 Network 中可以看到 API 请求
@@ -178,20 +190,25 @@ pnpm test
 ## 常见问题
 
 ### 端口被占用
+
 ```bash
 # 指定其他端口
-pnpm dev -- --port 3000
+npm run dev -- --port 3000
 ```
 
 ### 依赖安装失败
+
 ```bash
-# 清除缓存
-pnpm store prune
-rm -rf node_modules pnpm-lock.yaml
-pnpm install
+# 清除 npm 缓存并重装依赖
+npm cache verify
+rm -rf node_modules
+npm install
+
+# 如果你明确使用 pnpm，再执行 pnpm store prune 与 pnpm install；不要删除另一套 lockfile。
 ```
 
 ### 模块找不到
+
 确保路径别名配置正确，重启开发服务器。
 
 ## 下一步
