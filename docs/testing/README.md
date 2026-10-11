@@ -24,38 +24,35 @@
 
 ## 测试文档
 
-### [单元测试](./unit-test.md)
+### [集成测试结果](./integration-test-results.md)
 
-- Vitest基础
-- 工具函数测试
-- Store测试
+- 当前已执行的集成测试结果
+- 失败项与环境限制记录
 
-### [组件测试](./component-test.md)
+### [API测试系统实施报告](./API测试系统实施报告.md)
 
-- Vue Test Utils
-- 组件渲染测试
-- 事件测试
-- Props测试
+- API测试工具与运行方式
+- 测试系统实施记录
 
 ## 快速开始
 
 ### 安装依赖
 
 ```bash
-pnpm add -D vitest @vue/test-utils happy-dom
+npm install
 ```
 
 ### 运行测试
 
 ```bash
 # 运行所有测试
-pnpm test
+npm run test:vitest
 
 # 监听模式
-pnpm test:watch
+npm run test
 
 # 生成覆盖率报告
-pnpm test:coverage
+npm run test:vitest:coverage
 ```
 
 ## 测试示例

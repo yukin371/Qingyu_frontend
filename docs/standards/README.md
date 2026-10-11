@@ -222,9 +222,10 @@ docs(readme): 更新安装说明
 ### 自动检查
 
 ```bash
-# 运行所有检查
-npm run lint              # ESLint检查
-npm run type-check        # TypeScript类型检查
+# 运行当前可用的核心检查
+npm run type-check               # TypeScript类型检查
+npm run check:boundaries:strict  # 模块边界严格检查
+npm run test:vitest:run          # Vitest测试
 
 # Git提交时自动检查（已配置Husky）
 git commit -m "..."       # 会自动运行lint-staged

@@ -4,7 +4,7 @@
 
 ## API模块
 
-### [书城API](./bookstore.md)
+### [书城API](./quick-reference/bookstore.md)
 
 书城相关接口，包括：
 
@@ -14,7 +14,7 @@
 - 书籍列表和详情
 - 分类管理
 
-### [用户API](./user.md)
+### [用户API](./quick-reference/user.md)
 
 用户相关接口：
 
@@ -23,7 +23,7 @@
 - 密码修改
 - 退出登录
 
-### [阅读器API](./reader.md)
+### [阅读器API](./quick-reference/reader.md)
 
 阅读功能接口：
 
@@ -32,7 +32,7 @@
 - 书签管理
 - 阅读历史
 
-### [共享API](./shared.md)
+### [共享API](./frontend/shared/共享服务API参考.md)
 
 通用功能接口：
 
@@ -40,7 +40,7 @@
 - 搜索功能
 - 图片处理
 
-## [集成说明](./integration.md)
+## [集成说明](./frontend/前端集成指南.md)
 
 - 认证机制
 - 错误处理

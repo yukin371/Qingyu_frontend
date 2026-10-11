@@ -4,25 +4,11 @@
 
 ## 部署文档
 
-### [构建配置](./build.md)
+### [部署指南](./deployment-guide.md)
 
-- Vite构建配置
-- 环境变量配置
-- 代码分割
-- 资源优化
-
-### [部署指南](./deploy.md)
-
-- 部署流程
-- Nginx配置
-- Docker部署
-- CI/CD配置
-
-### [环境配置](./env-config.md)
-
-- 开发环境
-- 测试环境
-- 生产环境
+- Vite构建与环境配置
+- 部署流程与Nginx配置
+- Docker与CI/CD说明
 
 ## 快速部署
 
@@ -30,7 +16,7 @@
 
 ```bash
 # 构建
-pnpm build
+npm run build
 
 # 输出目录：dist/
 ```
@@ -39,7 +25,7 @@ pnpm build
 
 ```bash
 # 预览构建结果
-pnpm preview
+npm run preview
 ```
 
 ### 环境变量

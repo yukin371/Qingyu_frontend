@@ -14,14 +14,14 @@
 
 ```bash
 # 1. 克隆项目
-git clone https://github.com/yukin371/Qingyu_fronted.git
-cd qingyu-frontend
+git clone https://github.com/yukin371/Qingyu_frontend.git Qingyu_frontend
+cd Qingyu_frontend
 
 # 2. 安装依赖
 npm install
 
 # 3. 启动开发服务器
-npm dev
+npm run dev
 
 # 4. 浏览器访问
 http://localhost:5173
@@ -50,19 +50,19 @@ http://localhost:5173
 项目整体架构和技术决策：
 
 - **[架构总览](./architecture/overview.md)** - 整体架构和技术选型
-- **[组件架构](./architecture/component-design.md)** - 组件设计原则
-- **[状态管理架构](./architecture/state-management.md)** - Pinia架构设计
-- **[性能优化](./architecture/performance.md)** - 性能优化策略
+- **[组件架构](./architecture/组件架构设计.md)** - 组件设计原则
+- **[状态管理架构](./architecture/状态管理架构.md)** - Pinia架构设计
+- **[性能优化](./architecture/性能优化架构.md)** - 性能优化策略
 
 ### 🔌 [API文档](./api/README.md)
 
 后端接口文档和集成说明：
 
-- **[书城API](./api/bookstore.md)** - 首页、榜单、书籍接口
-- **[用户API](./api/user.md)** - 认证、个人信息接口
-- **[阅读器API](./api/reader.md)** - 章节、书签接口
-- **[共享API](./api/shared.md)** - 文件上传、搜索接口
-- **[集成说明](./api/integration.md)** - 认证和错误处理
+- **[书城API](./api/quick-reference/bookstore.md)** - 首页、榜单、书籍接口
+- **[用户API](./api/quick-reference/user.md)** - 认证、个人信息接口
+- **[阅读器API](./api/quick-reference/reader.md)** - 章节、书签接口
+- **[共享API](./api/frontend/shared/共享服务API参考.md)** - 文件上传、搜索接口
+- **[集成说明](./api/frontend/前端集成指南.md)** - 认证和错误处理
 
 ### 🧩 [组件文档](./components/README.md)
 
@@ -76,26 +76,24 @@ http://localhost:5173
 
 代码规范和最佳实践：
 
-- **[代码规范](./standards/code-style.md)** - Vue/JS/CSS代码风格
-- **[命名规范](./standards/naming.md)** - 文件和变量命名
-- **[Git工作流](./standards/git-workflow.md)** - 分支管理和提交规范
-- **[最佳实践](./standards/best-practices.md)** - 开发最佳实践
+- **[代码规范](./standards/组件开发规范.md)** - Vue组件开发规范
+- **[样式规范](./standards/样式规范指南.md)** - CSS、主题与响应式规范
+- **[工具与Git工作流](./standards/工具使用指南.md)** - 工具链、分支和提交规范
+- **[快速参考](./standards/快速参考.md)** - 常用命令和开发速查
 
 ### 🧪 [测试文档](./testing/README.md)
 
 测试策略和方法：
 
 - **[测试总览](./testing/README.md)** - 测试策略
-- **[单元测试](./testing/unit-test.md)** - Vitest单元测试
-- **[组件测试](./testing/component-test.md)** - Vue组件测试
+- **[集成测试结果](./testing/integration-test-results.md)** - 已执行的集成验证
+- **[API测试系统报告](./testing/API测试系统实施报告.md)** - API测试工具与实施记录
 
 ### 🚀 [部署运维](./deployment/README.md)
 
 构建、部署和运维：
 
-- **[构建配置](./deployment/build.md)** - Vite构建配置
-- **[部署指南](./deployment/deploy.md)** - 部署流程
-- **[环境配置](./deployment/env-config.md)** - 环境变量配置
+- **[部署指南](./deployment/deployment-guide.md)** - 构建、部署与环境配置
 
 ### 📚 [参考资料](./reference/)
 
@@ -153,7 +151,7 @@ Day 11-14: 实践项目
 7. 合并主分支
 ```
 
-👉 参考 **[Git工作流](./standards/git-workflow.md)**
+👉 参考 **[工具与Git工作流](./standards/工具使用指南.md)**
 
 ### 修复Bug
 
@@ -177,7 +175,7 @@ Day 11-14: 实践项目
 5. 上线监控
 ```
 
-👉 参考 **[性能优化](./architecture/performance.md)**
+👉 参考 **[性能优化](./architecture/性能优化架构.md)**
 
 ## 📊 项目状态
 
@@ -192,7 +190,7 @@ Day 11-14: 实践项目
 ## 🔗 相关链接
 
 - **后端项目**：[Qingyu Backend](../../Qingyu_backend/)
-- **写作端**：[Light Feather Studio](../../Light-Feather-Studio/)
+- **写作端**：[Qingyu Editor](../../Qingyu-Editor/)
 - **在线演示**：[Demo Site](https://demo.qingyu.com)（待上线）
 
 ## 💡 开发建议
