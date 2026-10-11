@@ -100,6 +100,22 @@ http://localhost:5173
 - **[常见问题FAQ](./reference/faq.md)** - 常见问题解答
 - **[学习资源](./reference/resources.md)** - 推荐学习资料
 
+## 🗂️ 文档目录 owner
+
+以下目录按用途分工，新增文档前先确认是否已有对应 owner：
+
+| 目录                | 状态                       | 维护边界                                                                   |
+| ------------------- | -------------------------- | -------------------------------------------------------------------------- |
+| `guide/`            | `legacy-onboarding`        | 保留基础入门和兼容入口；新专题优先进入 `guides/`                           |
+| `guides/`           | `current-guides`           | 当前精选、仍在维护的前端专题指南                                           |
+| `migration/`        | `legacy-index`             | 仅保留历史迁移索引；跨仓迁移计划进入父仓 `docs/plans/submodules/frontend/` |
+| `migration-guides/` | `current-migration-guides` | 仍需持续维护的迁移操作指南                                                 |
+| `reports/`          | `delivery-reports`         | 前端本地交付、阶段总结和验收复盘                                           |
+| `test-reports/`     | `test-facts`               | Vitest、Playwright、API smoke 等测试执行事实                               |
+| `backup/`           | `short-lived-backup`       | 仅保留短期快照和备份台账，不承载长期正文                                   |
+
+跨仓路线图、PRD、架构、规范和长期计划统一维护在父仓库 `docs/`；子仓仅保留本地运行、API、组件、测试和操作说明。
+
 ## 🎓 学习路径
 
 ### 路径 1：新手入门（1-2周）
