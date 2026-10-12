@@ -1,3 +1,8 @@
+> 文档类型：历史迁移实施记录
+> 状态：legacy-readonly
+> 当前入口：跨仓 Writer 规划以父仓 docs/plans/submodules/editor/writer/ 为准；本地实现以 Qingyu_frontend/src/modules/writer/ 和对应 MODULE.md 为准。
+> 说明：本文保留 Light-Feather-Studio 迁移阶段的方案与假设，不代表当前技术栈、路由或依赖状态。
+
 # Light-Feather-Studio → Qingyu 前端 迁移实施文档
 
 > 路径建议：`Qingyu/doc/engineering/Light-Feather-Studio-迁移实施.md`
@@ -14,6 +19,7 @@
   - 移除 Electron 相关内容，作为 Web 端能力集成。
 
 不在本次范围：
+
 - 桌面端（Electron）构建与发布流程；
 - 重写现有青羽公共组件与导航框架。
 
@@ -108,15 +114,18 @@
 ## 8. 实施步骤（Checklist）
 
 准备：
+
 - [ ] 创建目录：`src/modules/writer/{views,components,stores,api}`；
 - [ ] 安装按需依赖：`marked`（或 tiptap 套件）。
 
 阶段1（POC）：
+
 - [ ] 迁入核心文件：`EditorView.vue`、`MarkdownEditor.vue`、`EditorToolbar.vue`；
 - [ ] 新增 `/writer` 路由并可访问；
 - [ ] 用本地假数据渲染编辑器与文件树。
 
 阶段2（融合）：
+
 - [ ] 迁入 `project/*`、`document/*`、`settings/*` 视图与组件；
 - [ ] 将 LFS `stores/*` 升级为 Pinia v3 并落位；
 - [ ] 将 LFS `services/*` 对接到青羽后端 API（或新增 `api/writer/*`）；
@@ -124,10 +133,12 @@
 - [ ] 统一样式与主题变量（Element Plus 可选覆盖）。
 
 编辑器增强（可选）：
+
 - [ ] 若采用 tiptap：补齐 core/StarterKit 与常用扩展；
 - [ ] 若继续 Markdown：保留 `marked`，增强工具栏、草稿自动保存。
 
 测试与验收：
+
 - [ ] 路由/导航/返回行为；
 - [ ] 文档创建/编辑/保存/切换；
 - [ ] 项目新建、文件树操作（重命名、删除）；
@@ -135,6 +146,7 @@
 - [ ] 鉴权与权限验证。
 
 文档与清理：
+
 - [ ] 本实施文档完善；
 - [ ] 移除未使用的 Electron 相关残留。
 
