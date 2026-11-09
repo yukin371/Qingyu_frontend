@@ -1,5 +1,5 @@
 <template>
-  <Container maxWidth="lg" padding>
+  <Container size="lg" padding>
     <Section title="我的钱包" spacing="lg">
       <template #extra>
         <div class="header-actions">
@@ -235,14 +235,8 @@ import {
   QyRadio,
 } from '@/design-system/components'
 import { Tag, Input } from '@/design-system/base'
-import {
-  Container,
-  Section,
-  Grid,
-  FormSection,
-  LoadingOverlay,
-} from '@/shared/components/design-system'
-import { walletAPI } from '@/modules/finance/api/wallet'
+import { Container, Section, Grid, FormSection, LoadingOverlay } from '@/design-system'
+import { walletAPI } from '@/modules/finance/api'
 import type {
   WalletInfo,
   WalletPaymentMethod,

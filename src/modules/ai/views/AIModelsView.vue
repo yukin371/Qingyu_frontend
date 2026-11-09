@@ -1,14 +1,31 @@
 <template>
-  <Container maxWidth="xl" padding>
+  <Container size="xl" padding>
     <Section title="AI模型管理" spacing="lg">
       <!-- 工具栏 -->
       <div class="toolbar">
         <div class="toolbar-filters">
-          <el-select v-model="providerFilter" placeholder="提供商筛选" clearable @change="handleFilterChange" style="width: 150px">
+          <el-select
+            v-model="providerFilter"
+            placeholder="提供商筛选"
+            clearable
+            @change="handleFilterChange"
+            style="width: 150px"
+          >
             <el-option label="全部" value="" />
-            <el-option v-for="provider in providers" :key="provider.id" :label="provider.displayName" :value="provider.name" />
+            <el-option
+              v-for="provider in providers"
+              :key="provider.id"
+              :label="provider.displayName"
+              :value="provider.name"
+            />
           </el-select>
-          <el-select v-model="statusFilter" placeholder="状态筛选" clearable @change="handleFilterChange" style="width: 120px">
+          <el-select
+            v-model="statusFilter"
+            placeholder="状态筛选"
+            clearable
+            @change="handleFilterChange"
+            style="width: 120px"
+          >
             <el-option label="全部" value="" />
             <el-option label="活跃" value="active" />
             <el-option label="未启用" value="inactive" />
@@ -21,12 +38,7 @@
 
       <!-- 模型列表 -->
       <el-card shadow="hover">
-        <el-table
-          :data="filteredModels"
-          v-loading="modelsLoading"
-          stripe
-          empty-text="暂无模型"
-        >
+        <el-table :data="filteredModels" v-loading="modelsLoading" stripe empty-text="暂无模型">
           <el-table-column prop="displayName" label="模型名称" min-width="200">
             <template #default="{ row }">
               <div class="model-name-cell">
@@ -102,7 +114,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { message } from '@/design-system/services'
 import { useAIAdminStore } from '../stores/aiAdmin'
-import { Container, Section, LoadingOverlay } from '@/shared/components/design-system'
+import { Container, Section, LoadingOverlay } from '@/design-system'
 import type { AIModel } from '../types/ai-admin.types'
 import { Refresh } from '@element-plus/icons-vue'
 
@@ -124,11 +136,11 @@ const filteredModels = computed(() => {
   let result = models.value
 
   if (providerFilter.value) {
-    result = result.filter(m => m.provider === providerFilter.value)
+    result = result.filter((m) => m.provider === providerFilter.value)
   }
 
   if (statusFilter.value) {
-    result = result.filter(m => m.status === statusFilter.value)
+    result = result.filter((m) => m.status === statusFilter.value)
   }
 
   return result
@@ -136,7 +148,7 @@ const filteredModels = computed(() => {
 
 // 格式化函数
 function getProviderDisplayName(providerName: string): string {
-  const provider = providers.value.find(p => p.name === providerName)
+  const provider = providers.value.find((p) => p.name === providerName)
   return provider?.displayName || providerName
 }
 
@@ -145,7 +157,7 @@ function getModelTypeColor(type: string): string {
     chat: 'primary',
     completion: 'success',
     embedding: 'warning',
-    image: 'danger'
+    image: 'danger',
   }
   return colorMap[type] || 'info'
 }
@@ -155,7 +167,7 @@ function getModelTypeText(type: string): string {
     chat: '对话',
     completion: '补全',
     embedding: '嵌入',
-    image: '图像'
+    image: '图像',
   }
   return textMap[type] || type
 }
@@ -164,7 +176,7 @@ function getStatusType(status: string): string {
   const typeMap: Record<string, string> = {
     active: 'success',
     inactive: 'info',
-    error: 'danger'
+    error: 'danger',
   }
   return typeMap[status] || 'info'
 }
@@ -173,7 +185,7 @@ function getStatusText(status: string): string {
   const textMap: Record<string, string> = {
     active: '活跃',
     inactive: '未启用',
-    error: '错误'
+    error: '错误',
   }
   return textMap[status] || status
 }
@@ -208,10 +220,7 @@ async function toggleModelStatus(model: AIModel) {
 onMounted(async () => {
   pageLoading.value = true
   try {
-    await Promise.all([
-      aiStore.loadProviders(),
-      loadModels()
-    ])
+    await Promise.all([aiStore.loadProviders(), loadModels()])
   } finally {
     pageLoading.value = false
   }

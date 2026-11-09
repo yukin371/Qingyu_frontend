@@ -1,10 +1,16 @@
 <template>
-  <Container maxWidth="xl" padding>
+  <Container size="xl" padding>
     <Section title="AI提供商管理" spacing="lg">
       <!-- 工具栏 -->
       <div class="toolbar">
         <div class="toolbar-filters">
-          <el-select v-model="statusFilter" placeholder="状态筛选" clearable @change="handleFilterChange" style="width: 120px">
+          <el-select
+            v-model="statusFilter"
+            placeholder="状态筛选"
+            clearable
+            @change="handleFilterChange"
+            style="width: 120px"
+          >
             <el-option label="全部" value="" />
             <el-option label="活跃" value="active" />
             <el-option label="未启用" value="inactive" />
@@ -72,15 +78,17 @@
 
           <el-table-column label="操作" width="260" fixed="right">
             <template #default="{ row }">
-              <el-button size="small" @click="testConnection(row)" :loading="testingProviders[row.id]">
+              <el-button
+                size="small"
+                @click="testConnection(row)"
+                :loading="testingProviders[row.id]"
+              >
                 测试连接
               </el-button>
-              <el-button size="small" type="primary" @click="editProvider(row)">
-                编辑
-              </el-button>
+              <el-button size="small" type="primary" @click="editProvider(row)"> 编辑 </el-button>
               <el-dropdown @command="(cmd: string) => handleAction(cmd, row)">
                 <el-button size="small" text>
-                  <QyIcon name="MoreFilled"  />
+                  <QyIcon name="MoreFilled" />
                 </el-button>
                 <template #dropdown>
                   <el-dropdown-menu>
@@ -104,9 +112,18 @@
       width="600px"
       :close-on-click-modal="false"
     >
-      <el-form :model="providerForm" :rules="providerRules" ref="providerFormRef" label-width="120px">
+      <el-form
+        :model="providerForm"
+        :rules="providerRules"
+        ref="providerFormRef"
+        label-width="120px"
+      >
         <el-form-item label="提供商名称" prop="name">
-          <el-input v-model="providerForm.name" placeholder="例如: openai" :disabled="!!editingProvider" />
+          <el-input
+            v-model="providerForm.name"
+            placeholder="例如: openai"
+            :disabled="!!editingProvider"
+          />
         </el-form-item>
 
         <el-form-item label="显示名称" prop="displayName">
@@ -114,7 +131,12 @@
         </el-form-item>
 
         <el-form-item label="API密钥" prop="apiKey">
-          <el-input v-model="providerForm.apiKey" type="password" placeholder="sk-..." show-password />
+          <el-input
+            v-model="providerForm.apiKey"
+            type="password"
+            placeholder="sk-..."
+            show-password
+          />
         </el-form-item>
 
         <el-form-item label="API端点" prop="endpoint">
@@ -132,11 +154,7 @@
     </el-dialog>
 
     <!-- 测试连接结果对话框 -->
-    <el-dialog
-      v-model="showTestResultDialog"
-      title="测试连接结果"
-      width="500px"
-    >
+    <el-dialog v-model="showTestResultDialog" title="测试连接结果" width="500px">
       <div class="test-result">
         <el-result
           :icon="testResult.success ? 'success' : 'error'"
@@ -166,7 +184,7 @@ import { useRouter } from 'vue-router'
 import { messageBox } from '@/design-system/services'
 import type { FormInstance, FormRules } from '@/design-system/form/Form/types'
 import { useAIAdminStore } from '../stores/aiAdmin'
-import { Container, Section, LoadingOverlay } from '@/shared/components/design-system'
+import { Container, Section, LoadingOverlay } from '@/design-system'
 import { QyIcon } from '@/design-system/components'
 import { formatApiKeyDisplay } from '../utils/apikey'
 import type { AIProvider } from '../types/ai-admin.types'
@@ -195,20 +213,20 @@ const providerForm = reactive({
   name: '',
   displayName: '',
   apiKey: '',
-  endpoint: ''
+  endpoint: '',
 })
 
 const providerRules: FormRules = {
   name: [
     { required: true, message: '请输入提供商名称', trigger: 'blur' },
-    { pattern: /^[a-z0-9_-]+$/, message: '只能包含小写字母、数字、下划线和连字符', trigger: 'blur' }
+    {
+      pattern: /^[a-z0-9_-]+$/,
+      message: '只能包含小写字母、数字、下划线和连字符',
+      trigger: 'blur',
+    },
   ],
-  displayName: [
-    { required: true, message: '请输入显示名称', trigger: 'blur' }
-  ],
-  apiKey: [
-    { required: true, message: '请输入API密钥', trigger: 'blur' }
-  ]
+  displayName: [{ required: true, message: '请输入显示名称', trigger: 'blur' }],
+  apiKey: [{ required: true, message: '请输入API密钥', trigger: 'blur' }],
 }
 
 // 测试结果
@@ -218,7 +236,7 @@ const testResult = ref<{
   responseTime?: number
 }>({
   success: false,
-  message: ''
+  message: '',
 })
 
 // 计算属性
@@ -226,7 +244,7 @@ const providers = computed(() => aiStore.providers)
 
 const filteredProviders = computed(() => {
   if (!statusFilter.value) return providers.value
-  return providers.value.filter(p => p.status === statusFilter.value)
+  return providers.value.filter((p) => p.status === statusFilter.value)
 })
 
 // 格式化函数
@@ -234,7 +252,7 @@ function getStatusType(status: string): string {
   const typeMap: Record<string, string> = {
     active: 'success',
     inactive: 'info',
-    error: 'danger'
+    error: 'danger',
   }
   return typeMap[status] || 'info'
 }
@@ -243,7 +261,7 @@ function getStatusText(status: string): string {
   const textMap: Record<string, string> = {
     active: '活跃',
     inactive: '未启用',
-    error: '错误'
+    error: '错误',
   }
   return textMap[status] || status
 }
@@ -266,7 +284,7 @@ function handleFilterChange() {
 function viewModels(provider: AIProvider) {
   router.push({
     path: '/admin/ai/models',
-    query: { provider: provider.name }
+    query: { provider: provider.name },
   })
 }
 
@@ -296,14 +314,14 @@ async function submitProvider() {
       await aiStore.updateProvider(editingProvider.value.id, {
         displayName: providerForm.displayName,
         apiKey: providerForm.apiKey || undefined,
-        endpoint: providerForm.endpoint || undefined
+        endpoint: providerForm.endpoint || undefined,
       })
     } else {
       await aiStore.createProvider({
         name: providerForm.name,
         displayName: providerForm.displayName,
         apiKey: providerForm.apiKey,
-        endpoint: providerForm.endpoint || undefined
+        endpoint: providerForm.endpoint || undefined,
       })
     }
 
@@ -347,8 +365,8 @@ async function handleAction(command: string, provider: AIProvider) {
         `确定要${actionText}提供商 "${provider.displayName}" 吗？`,
         '确认操作',
         {
-          type: 'warning'
-        }
+          type: 'warning',
+        },
       )
 
       await aiStore.toggleProviderStatus(provider.id, newStatus)
@@ -362,8 +380,8 @@ async function handleAction(command: string, provider: AIProvider) {
         '确认删除',
         {
           type: 'warning',
-          confirmButtonText: '删除'
-        }
+          confirmButtonText: '删除',
+        },
       )
 
       await aiStore.deleteProvider(provider.id)

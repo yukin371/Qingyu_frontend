@@ -1,5 +1,5 @@
 <template>
-  <Container maxWidth="md" padding>
+  <Container size="md" padding>
     <Section title="转账" spacing="lg">
       <!-- 转账表单 -->
       <Card shadow="hover" class="transfer-card">
@@ -228,8 +228,8 @@ import {
   QyFormItem,
 } from '@/design-system/components'
 import { Tag, Textarea, Card, Input } from '@/design-system/base'
-import { Container, Section, LoadingOverlay } from '@/shared/components/design-system'
-import { walletAPI } from '@/modules/finance/api/wallet'
+import { Container, Section, LoadingOverlay } from '@/design-system'
+import { walletAPI } from '@/modules/finance/api'
 import type { WalletInfo, WalletTransaction as Transaction } from '@/modules/finance/api'
 
 // 加载状态
