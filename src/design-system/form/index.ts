@@ -44,6 +44,8 @@ export * from './DatePicker'
 
 // Form 组件
 export * from './Form'
+export { default as FormCard } from './FormCard.vue'
+export { default as FormSection } from './FormSection.vue'
 
 // 其他表单组件
 export { Input } from './Input'

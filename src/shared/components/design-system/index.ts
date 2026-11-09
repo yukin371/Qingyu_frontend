@@ -1,17 +1,5 @@
 /**
- * 设计系统统一导出
- * 提供Token、布局、表单和反馈组件
+ * @deprecated 兼容出口。设计系统唯一 owner 是 `@/design-system`。
+ * 新代码禁止从本路径导入；迁移完成后由 Phase 5 清理旧目录。
  */
-
-// Tokens
-export * from './tokens'
-
-// Layouts
-export * from './layouts'
-
-// Forms
-export * from './forms'
-
-// Feedback
-export * from './feedback'
-
+export * from '@/design-system'
