@@ -36,6 +36,13 @@ describe('useDiscoveryStore', () => {
       expect(store.topics).toEqual([])
       expect(store.loading).toBe(false)
       expect(store.error).toBeNull()
+      expect(store.homepageLoading).toBe(false)
+      expect(store.homepageError).toBeNull()
+      expect(store.banners).toEqual([])
+      expect(store.forYouBooks).toEqual([])
+      expect(store.booklists).toEqual([])
+      expect(store.editorsPick).toEqual([])
+      expect(store.trendingList).toEqual([])
     })
 
     it('should return false for hasRecommendations when no recommendations', () => {
@@ -138,6 +145,109 @@ describe('useDiscoveryStore', () => {
       expect(store.recommendations).toEqual([])
       expect(store.loading).toBe(false)
       expect(store.error).toEqual(mockError)
+    })
+  })
+
+  describe('fetchHomepageData', () => {
+    it('loads banner and personalized sections from their existing APIs', async () => {
+      const banner = {
+        id: 'banner-1',
+        type: 'book' as const,
+        slot: 'banner' as const,
+        title: '本周推荐',
+        description: '精选内容',
+        cover: '/banner.jpg',
+        link: '/book/1',
+        priority: 1,
+        startTime: '',
+        endTime: '',
+      }
+      const book = {
+        id: 'book-1',
+        title: '推荐书',
+        cover: '/book.jpg',
+        author: '作者',
+        rating: 4.8,
+        description: '',
+        tags: [],
+      }
+      const booklist = {
+        id: 'list-1',
+        title: '精选书单',
+        cover: '/list.jpg',
+        bookCount: 3,
+        likeCount: 5,
+        creator: { id: 'user-1', nickname: '读者' },
+      }
+      vi.mocked(discoveryApi.getRecommendations).mockResolvedValue([banner])
+      vi.mocked(discoveryApi.getPersonalizedRecommendations).mockResolvedValue({
+        books: { forYou: [book], similar: [], trending: [] },
+        booklists: { recommended: [booklist], popular: [] },
+        authors: { suggested: [] },
+      })
+      const store = useDiscoveryStore()
+
+      await store.fetchHomepageData()
+
+      expect(discoveryApi.getRecommendations).toHaveBeenCalledWith('banner')
+      expect(discoveryApi.getPersonalizedRecommendations).toHaveBeenCalledOnce()
+      expect(store.banners).toEqual([banner])
+      expect(store.forYouBooks).toEqual([book])
+      expect(store.booklists).toEqual([booklist])
+      expect(store.homepageLoading).toBe(false)
+      expect(store.homepageError).toBeNull()
+      expect(discoveryApi.getEditorsPick).not.toHaveBeenCalled()
+    })
+
+    it('keeps successful section data when another homepage request fails', async () => {
+      const banner = {
+        id: 'banner-1',
+        type: 'book' as const,
+        slot: 'banner' as const,
+        title: '本周推荐',
+        description: '',
+        cover: '',
+        link: '',
+        priority: 1,
+        startTime: '',
+        endTime: '',
+      }
+      vi.mocked(discoveryApi.getRecommendations).mockResolvedValue([banner])
+      vi.mocked(discoveryApi.getPersonalizedRecommendations).mockRejectedValue(
+        new Error('推荐服务不可用'),
+      )
+      vi.mocked(discoveryApi.getEditorsPick).mockResolvedValue({
+        list: [{ id: 'book-2', title: '编辑推荐书', author: '作者' }],
+        total: 1,
+      })
+      const store = useDiscoveryStore()
+
+      await store.fetchHomepageData()
+
+      expect(store.banners).toEqual([banner])
+      expect(store.editorsPick).toEqual([{ id: 'book-2', title: '编辑推荐书', author: '作者' }])
+      expect(store.homepageError).toBeInstanceOf(Error)
+      expect(store.homepageLoading).toBe(false)
+    })
+
+    it('loads editor picks when the personalized response has no booklists', async () => {
+      const fallbackBooks = [{ id: 'book-2', title: '编辑推荐书', author: '作者' }]
+      vi.mocked(discoveryApi.getRecommendations).mockResolvedValue([])
+      vi.mocked(discoveryApi.getPersonalizedRecommendations).mockResolvedValue({
+        books: { forYou: [], similar: [], trending: [] },
+        booklists: { recommended: [], popular: [] },
+        authors: { suggested: [] },
+      })
+      vi.mocked(discoveryApi.getEditorsPick).mockResolvedValue({
+        list: fallbackBooks,
+        total: fallbackBooks.length,
+      })
+      const store = useDiscoveryStore()
+
+      await store.fetchHomepageData()
+
+      expect(discoveryApi.getEditorsPick).toHaveBeenCalledWith({ page: 1, size: 6 })
+      expect(store.editorsPick).toEqual(fallbackBooks)
     })
   })
 
@@ -317,9 +427,10 @@ describe('useDiscoveryStore', () => {
       const store = useDiscoveryStore()
 
       // Act
-      await store.fetchTopics()
+      const loaded = await store.fetchTopics()
 
       // Assert
+      expect(loaded).toBe(true)
       expect(store.topics).toEqual(mockData)
       expect(discoveryApi.getTopics).toHaveBeenCalledTimes(1)
     })
@@ -331,9 +442,10 @@ describe('useDiscoveryStore', () => {
       const store = useDiscoveryStore()
 
       // Act
-      await store.fetchTopics()
+      const loaded = await store.fetchTopics()
 
       // Assert
+      expect(loaded).toBe(false)
       expect(store.topics).toEqual([])
     })
   })

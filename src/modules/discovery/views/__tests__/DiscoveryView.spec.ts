@@ -1,15 +1,26 @@
-import { describe, expect, it } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { createPinia, setActivePinia } from 'pinia'
+import { flushPromises, mount } from '@vue/test-utils'
+import { createMemoryHistory, createRouter } from 'vue-router'
+import * as discoveryApi from '../../api'
 import DiscoveryView from '../DiscoveryView.vue'
+
+const router = createRouter({
+  history: createMemoryHistory(),
+  routes: [],
+})
 
 const createWrapper = () =>
   mount(DiscoveryView, {
     global: {
+      plugins: [createPinia(), router],
       stubs: {
         ElTabs: {
           name: 'ElTabs',
           props: ['modelValue'],
-          template: '<div class="el-tabs-stub" :data-active-tab="modelValue"><slot /></div>',
+          emits: ['tab-change'],
+          template:
+            '<div class="el-tabs-stub" :data-active-tab="modelValue"><button data-topic-tab @click="$emit(\'tab-change\', \'topic\')">话题</button><slot /></div>',
         },
         ElTabPane: {
           name: 'ElTabPane',
@@ -17,47 +28,63 @@ const createWrapper = () =>
           template:
             '<section class="el-tab-pane-stub" :data-name="name"><span class="tab-label">{{ label }}</span><slot /></section>',
         },
-        DiscussionFeed: {
-          name: 'DiscussionFeed',
-          template: '<div class="discussion-feed-stub" />',
-        },
-        BooklistFeed: {
-          name: 'BooklistFeed',
-          template: '<div class="booklist-feed-stub" />',
-        },
-        DiscoveryFeed: {
-          name: 'DiscoveryFeed',
-          template: '<div class="discovery-feed-stub" />',
-        },
+        ElAlert: true,
+        RouterLink: true,
+        DiscussionFeed: true,
+        BooklistFeed: true,
       },
     },
   })
 
 describe('DiscoveryView', () => {
-  it('renders the current page shell', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks()
+    setActivePinia(createPinia())
+    vi.spyOn(discoveryApi, 'getRecommendations').mockResolvedValue([])
+    vi.spyOn(discoveryApi, 'getPersonalizedRecommendations').mockResolvedValue({
+      books: { forYou: [], similar: [], trending: [] },
+      booklists: { recommended: [], popular: [] },
+      authors: { suggested: [] },
+    })
+    vi.spyOn(discoveryApi, 'getTrending').mockResolvedValue([])
+    vi.spyOn(discoveryApi, 'getTopics').mockResolvedValue({ list: [], total: 0 })
+  })
+
+  it('renders the current page shell and starts homepage loading', () => {
     const wrapper = createWrapper()
 
     expect(wrapper.exists()).toBe(true)
     expect(wrapper.classes()).toContain('discovery-view')
     expect(wrapper.find('.container').exists()).toBe(true)
     expect(wrapper.find('.tabs-section').exists()).toBe(true)
+    expect(wrapper.find('.el-tabs-stub').attributes('data-active-tab')).toBe('recommend')
+    expect(discoveryApi.getRecommendations).toHaveBeenCalledWith('banner')
+    expect(discoveryApi.getPersonalizedRecommendations).toHaveBeenCalledOnce()
+    expect(discoveryApi.getTrending).toHaveBeenCalledWith({ type: 'daily' })
   })
 
-  it('uses discussion as the default active tab', () => {
+  it('renders recommendation and topic tabs', () => {
     const wrapper = createWrapper()
 
-    expect(wrapper.find('.el-tabs-stub').attributes('data-active-tab')).toBe('discussion')
+    const labels = wrapper.findAll('.tab-label').map((label) => label.text())
+    expect(labels).toEqual(['推荐', '话题'])
+    expect(wrapper.text()).toContain('精选推荐')
+    expect(wrapper.text()).toContain('热门讨论')
+    expect(wrapper.text()).toContain('热门趋势')
   })
 
-  it('renders the three discovery tabs and their feeds', () => {
+  it('retries loading topics after the first request fails', async () => {
+    vi.mocked(discoveryApi.getTopics)
+      .mockRejectedValueOnce(new Error('网络错误'))
+      .mockResolvedValueOnce({ list: [{ id: 'topic-1', title: '话题' }], total: 1 })
     const wrapper = createWrapper()
+    const topicTab = wrapper.get('[data-topic-tab]')
 
-    const panes = wrapper.findAll('.el-tab-pane-stub')
-    const labels = panes.map((pane) => pane.find('.tab-label').text())
+    await topicTab.trigger('click')
+    await flushPromises()
+    await topicTab.trigger('click')
+    await flushPromises()
 
-    expect(labels).toEqual(['讨论', '书单', '发现'])
-    expect(wrapper.find('.discussion-feed-stub').exists()).toBe(true)
-    expect(wrapper.find('.booklist-feed-stub').exists()).toBe(true)
-    expect(wrapper.find('.discovery-feed-stub').exists()).toBe(true)
+    expect(discoveryApi.getTopics).toHaveBeenCalledTimes(2)
   })
 })

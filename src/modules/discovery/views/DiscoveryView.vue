@@ -10,6 +10,13 @@
               <el-skeleton :rows="8" animated />
             </div>
             <template v-else>
+              <el-alert
+                v-if="store.homepageError"
+                title="部分推荐内容暂时无法加载"
+                type="warning"
+                :closable="false"
+                show-icon
+              />
               <!-- Banner 轮播 -->
               <section class="section-card">
                 <div class="section-header">
@@ -98,6 +105,24 @@
                   </router-link>
                 </div>
                 <BooklistFeed v-if="store.booklists.length > 0" :booklists="store.booklists" />
+                <div v-else-if="store.editorsPick.length > 0" class="book-scroll">
+                  <div
+                    v-for="book in store.editorsPick"
+                    :key="book.id"
+                    class="book-card-mini"
+                    @click="router.push('/book/' + book.id)"
+                  >
+                    <div class="book-cover-mini">
+                      <img
+                        :src="resolveBookCover(book)"
+                        :alt="book.title"
+                        @error="handleCoverError($event, book)"
+                      />
+                    </div>
+                    <span class="book-title-mini">{{ book.title }}</span>
+                    <span class="book-author-mini">{{ book.author }}</span>
+                  </div>
+                </div>
                 <div v-else class="section-empty">
                   <span class="section-empty-icon">📚</span>
                   <p class="section-empty-text">暂无精选书单</p>
@@ -143,11 +168,28 @@
 
           <!-- 话题 Tab -->
           <el-tab-pane label="话题" name="topic">
-            <TopicGrid
-              :topics="store.topics"
-              :loading="topicLoading"
-              @topic-click="handleTopicClick"
-            />
+            <div v-if="topicLoading" class="loading-wrapper">
+              <el-skeleton :rows="4" animated />
+            </div>
+            <div v-else-if="store.topics.length" class="topic-grid">
+              <button
+                v-for="topic in store.topics"
+                :key="topic.id"
+                type="button"
+                class="topic-card"
+                @click="handleTopicClick(topic)"
+              >
+                <h3 class="topic-title">{{ topic.title }}</h3>
+                <p v-if="topic.description" class="topic-description">
+                  {{ topic.description }}
+                </p>
+                <span class="topic-book-count">{{ topic.books?.length ?? 0 }} 本关联书籍</span>
+              </button>
+            </div>
+            <div v-else class="section-empty">
+              <span class="section-empty-icon">#</span>
+              <p class="section-empty-text">暂无热门话题</p>
+            </div>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -160,10 +202,9 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ArrowRight, StarFilled } from '@element-plus/icons-vue'
 import { useDiscoveryStore } from '../stores/discovery.store'
-import { resolveBookCover, getFallbackBookCover } from '@/modules/bookstore/utils/cover-resolver'
+import { resolveBookCover, getFallbackBookCover } from '@/modules/bookstore/public'
 import DiscussionFeed from '../components/DiscussionFeed.vue'
 import BooklistFeed from '../components/BooklistFeed.vue'
-import TopicGrid from '../components/TopicGrid.vue'
 
 const router = useRouter()
 
@@ -195,9 +236,14 @@ function handleTabChange(tab: string | number) {
     topicLoaded = true
     topicLoading.value = true
     if (store.topics.length === 0) {
-      store.fetchHomepageData().finally(() => {
-        topicLoading.value = false
-      })
+      store
+        .fetchTopics()
+        .then((loaded) => {
+          if (!loaded) topicLoaded = false
+        })
+        .finally(() => {
+          topicLoading.value = false
+        })
     } else {
       topicLoading.value = false
     }
@@ -205,11 +251,10 @@ function handleTabChange(tab: string | number) {
 }
 
 function handleBannerClick(banner: any) {
-  if (banner.type === 'book' && banner.id) {
-    const bookId = banner.id.replace(/^discovery-banner-/, '')
-    router.push({ name: 'book-detail', params: { id: bookId } })
-  } else if (banner.link) {
+  if (banner.link) {
     router.push(banner.link)
+  } else if (banner.type === 'book' && banner.id) {
+    router.push({ name: 'book-detail', params: { id: banner.id } })
   }
 }
 
@@ -297,6 +342,49 @@ function handleTopicClick(topic: any) {
 
 .loading-wrapper {
   padding: 40px 20px;
+}
+
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.topic-card {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid #e4e7ed;
+  border-radius: 8px;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+
+  &:hover {
+    border-color: #409eff;
+    background: #f8fbff;
+  }
+}
+
+.topic-title {
+  margin: 0;
+  color: #303133;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.topic-description {
+  margin: 10px 0;
+  color: #606266;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.topic-book-count {
+  color: #909399;
+  font-size: 12px;
 }
 
 /* Section cards */

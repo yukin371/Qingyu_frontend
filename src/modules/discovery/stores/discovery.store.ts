@@ -4,7 +4,11 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import * as discoveryApi from '../api'
-import type { RecommendationItem, PersonalizedRecommendations } from '@/types/discovery'
+import type {
+  PersonalizedRecommendations,
+  RecommendationItem,
+  RecommendationSlot,
+} from '@/types/discovery'
 
 export const useDiscoveryStore = defineStore('discovery', () => {
   // State
@@ -16,25 +20,79 @@ export const useDiscoveryStore = defineStore('discovery', () => {
   const topics = ref<any[]>([])
   const loading = ref(false)
   const error = ref<Error | null>(null)
+  const homepageLoading = ref(false)
+  const homepageError = ref<Error | null>(null)
 
   // Getters
   const hasRecommendations = computed(() => recommendations.value.length > 0)
+  const banners = computed(() => recommendations.value.filter((item) => item.slot === 'banner'))
+  const forYouBooks = computed(() => personalized.value?.books.forYou ?? [])
+  const booklists = computed(() => {
+    const recommendations = personalized.value?.booklists
+    if (!recommendations) return []
+    return recommendations.recommended.length > 0
+      ? recommendations.recommended
+      : recommendations.popular
+  })
+  const trendingList = computed(() => trending.value)
 
   // Actions
   /**
    * 获取推荐内容
    */
-  async function fetchRecommendations() {
+  async function fetchRecommendations(slot?: RecommendationSlot) {
     loading.value = true
     error.value = null
     try {
-      const data = await discoveryApi.getRecommendations()
+      const data = await discoveryApi.getRecommendations(slot)
       recommendations.value = data
     } catch (err) {
       error.value = err as Error
       console.error('获取推荐失败:', err)
     } finally {
       loading.value = false
+    }
+  }
+
+  /**
+   * 加载发现首页数据，单个接口失败时保留其他区块的结果。
+   */
+  async function fetchHomepageData() {
+    homepageLoading.value = true
+    homepageError.value = null
+    try {
+      const [recommendationsResult, personalizedResult] = await Promise.allSettled([
+        discoveryApi.getRecommendations('banner'),
+        discoveryApi.getPersonalizedRecommendations(),
+      ])
+
+      if (recommendationsResult.status === 'fulfilled') {
+        recommendations.value = recommendationsResult.value
+      }
+      if (personalizedResult.status === 'fulfilled') {
+        personalized.value = personalizedResult.value
+      }
+
+      const failedResult = [recommendationsResult, personalizedResult].find(
+        (result) => result.status === 'rejected',
+      )
+      const hasBooklists =
+        personalizedResult.status === 'fulfilled' &&
+        (personalizedResult.value.booklists.recommended.length > 0 ||
+          personalizedResult.value.booklists.popular.length > 0)
+      if (!hasBooklists) {
+        try {
+          const fallback = await discoveryApi.getEditorsPick({ page: 1, size: 6 })
+          editorsPick.value = fallback.list
+        } catch (err) {
+          homepageError.value = err as Error
+        }
+      }
+      if (!homepageError.value && failedResult?.status === 'rejected') {
+        homepageError.value = failedResult.reason as Error
+      }
+    } finally {
+      homepageLoading.value = false
     }
   }
 
@@ -98,12 +156,14 @@ export const useDiscoveryStore = defineStore('discovery', () => {
   /**
    * 获取话题列表
    */
-  async function fetchTopics() {
+  async function fetchTopics(): Promise<boolean> {
     try {
       const response = await discoveryApi.getTopics()
       topics.value = response.list
+      return true
     } catch (err) {
       console.error('获取话题列表失败:', err)
+      return false
     }
   }
 
@@ -117,14 +177,21 @@ export const useDiscoveryStore = defineStore('discovery', () => {
     topics,
     loading,
     error,
+    homepageLoading,
+    homepageError,
+    banners,
+    forYouBooks,
+    booklists,
+    trendingList,
     // Getters
     hasRecommendations,
     // Actions
     fetchRecommendations,
+    fetchHomepageData,
     fetchPersonalized,
     fetchNewReleases,
     fetchEditorsPick,
     fetchTrending,
-    fetchTopics
+    fetchTopics,
   }
 })
