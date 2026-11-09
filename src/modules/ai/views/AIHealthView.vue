@@ -1,10 +1,13 @@
 <template>
-  <Container maxWidth="xl" padding>
+  <Container size="xl" padding>
     <Section title="AI系统健康检查" spacing="lg">
       <!-- 工具栏 -->
       <div class="toolbar">
         <div class="toolbar-info">
-          <span class="last-check">最后检查: {{ healthStatus?.lastCheck ? formatDate(healthStatus.lastCheck) : '未检查' }}</span>
+          <span class="last-check"
+            >最后检查:
+            {{ healthStatus?.lastCheck ? formatDate(healthStatus.lastCheck) : '未检查' }}</span
+          >
         </div>
         <div class="toolbar-actions">
           <el-button :icon="Refresh" @click="loadHealthStatus" :loading="healthLoading">
@@ -21,9 +24,9 @@
         <div class="overall-status">
           <div class="status-icon" :class="`status-${overallStatus}`">
             <el-icon :size="64">
-              <QyIcon name="CircleCheckFilled" v-if="overallStatus === 'healthy'"  />
-              <QyIcon name="WarningFilled" v-else-if="overallStatus === 'degraded'"  />
-              <QyIcon name="CircleCloseFilled" v-else  />
+              <QyIcon name="CircleCheckFilled" v-if="overallStatus === 'healthy'" />
+              <QyIcon name="WarningFilled" v-else-if="overallStatus === 'degraded'" />
+              <QyIcon name="CircleCloseFilled" v-else />
             </el-icon>
           </div>
           <div class="status-info">
@@ -53,7 +56,10 @@
           <div class="provider-metrics">
             <div class="metric">
               <div class="metric-label">响应时间</div>
-              <div class="metric-value" :class="getMetricClass('responseTime', provider.responseTime)">
+              <div
+                class="metric-value"
+                :class="getMetricClass('responseTime', provider.responseTime)"
+              >
                 {{ provider.responseTime }}ms
               </div>
             </div>
@@ -89,7 +95,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { message } from '@/design-system/services'
 import { useAIAdminStore } from '../stores/aiAdmin'
-import { Container, Section, Grid, LoadingOverlay } from '@/shared/components/design-system'
+import { Container, Section, Grid, LoadingOverlay } from '@/design-system'
 import { QyIcon } from '@/design-system/components'
 import { Refresh, Monitor } from '@element-plus/icons-vue'
 
@@ -116,13 +122,13 @@ function getStatusText(status: string): string {
     healthy: '系统正常',
     degraded: '性能降级',
     down: '系统异常',
-    unknown: '未知状态'
+    unknown: '未知状态',
   }
   return textMap[status] || status
 }
 
 function getProviderDisplayName(providerName: string): string {
-  const provider = providers.value.find(p => p.name === providerName)
+  const provider = providers.value.find((p) => p.name === providerName)
   return provider?.displayName || providerName
 }
 
@@ -130,7 +136,7 @@ function getHealthStatusType(status: string): string {
   const typeMap: Record<string, string> = {
     healthy: 'success',
     degraded: 'warning',
-    down: 'danger'
+    down: 'danger',
   }
   return typeMap[status] || 'info'
 }
@@ -139,7 +145,7 @@ function getHealthStatusText(status: string): string {
   const textMap: Record<string, string> = {
     healthy: '正常',
     degraded: '降级',
-    down: '异常'
+    down: '异常',
   }
   return textMap[status] || status
 }
@@ -179,10 +185,7 @@ async function triggerCheck() {
 onMounted(async () => {
   pageLoading.value = true
   try {
-    await Promise.all([
-      aiStore.loadProviders(),
-      loadHealthStatus()
-    ])
+    await Promise.all([aiStore.loadProviders(), loadHealthStatus()])
   } finally {
     pageLoading.value = false
   }
