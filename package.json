@@ -35,7 +35,9 @@
     "test:e2e:headed": "playwright test --headed",
     "test:all": "npm run test:vitest:run && npm run test:e2e",
     "lint:styles": "stylelint \"src/**/*.{css,scss,vue}\"",
-    "lint:styles:fix": "stylelint \"src/**/*.{css,scss,vue}\" --fix"
+    "lint:styles:fix": "stylelint \"src/**/*.{css,scss,vue}\" --fix",
+    "check:boundaries": "node scripts/check-module-boundaries.mjs",
+    "check:boundaries:strict": "node scripts/check-module-boundaries.mjs --strict"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
