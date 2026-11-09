@@ -17,8 +17,29 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+
+      # tsconfig 里 @editor-shared/* 指向 ../packages/editor-shared/src，那个包住在父仓
+      # QingYu 里（前端与 Qingyu-Editor 共用）。单独检出本仓时它不存在，editor 相关的
+      # 八个模块一律 TS2307。父仓是私有的，只能用 MAIN_REPO_TOKEN 单独把这一个目录拉过来。
+      - name: Checkout shared editor package
+        uses: actions/checkout@v5
+        continue-on-error: true
         with:
-          submodules: recursive
+          repository: yukin371/QingYu
+          token: ${{ secrets.MAIN_REPO_TOKEN }}
+          path: .shared-editor
+          sparse-checkout: packages/editor-shared
+          sparse-checkout-cone-mode: true
+
+      - name: Link shared editor package
+        run: |
+          if [ -d .shared-editor/packages/editor-shared ]; then
+            mkdir -p ../packages
+            ln -sfn "$GITHUB_WORKSPACE/.shared-editor/packages/editor-shared" ../packages/editor-shared
+            echo "已链接 packages/editor-shared"
+          else
+            echo "::warning::没能取到 packages/editor-shared（MAIN_REPO_TOKEN 缺失或无权限），@editor-shared 的引用会报 TS2307"
+          fi
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v5

@@ -10,7 +10,9 @@ on:
 jobs:
   e2e-test:
     name: E2E Tests
-    runs-on: ubuntu-latest
+    # 钉住镜像：ubuntu-latest 已滚到 26.04，Playwright 1.58 在那边装不了浏览器
+    #（"Playwright does not support chromium on ubuntu26.04-x64"），整个 job 还没跑测试就退出
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
