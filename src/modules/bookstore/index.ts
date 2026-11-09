@@ -17,4 +17,3 @@ export * from './types/bookstore.types'
 
 // Routes
 export { default as bookstoreRoutes } from './routes'
-
