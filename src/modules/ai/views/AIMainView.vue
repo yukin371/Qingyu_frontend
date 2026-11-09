@@ -1,5 +1,5 @@
 <template>
-  <Container maxWidth="xl" padding>
+  <Container size="xl" padding>
     <Section title="AI系统管理" spacing="lg">
       <!-- 页面头部操作 -->
       <template #extra>
@@ -7,9 +7,7 @@
           <el-button :icon="Refresh" @click="refreshData" :loading="refreshing">
             刷新数据
           </el-button>
-          <el-button type="primary" :icon="Plus" @click="goToProviders">
-            添加提供商
-          </el-button>
+          <el-button type="primary" :icon="Plus" @click="goToProviders"> 添加提供商 </el-button>
         </div>
       </template>
 
@@ -23,9 +21,7 @@
             <div class="stat-info">
               <div class="stat-label">AI提供商</div>
               <div class="stat-value">{{ systemStats?.totalProviders || 0 }}</div>
-              <div class="stat-sub">
-                活跃: {{ systemStats?.activeProviders || 0 }}
-              </div>
+              <div class="stat-sub">活跃: {{ systemStats?.activeProviders || 0 }}</div>
             </div>
           </div>
         </el-card>
@@ -38,9 +34,7 @@
             <div class="stat-info">
               <div class="stat-label">AI模型</div>
               <div class="stat-value">{{ systemStats?.totalModels || 0 }}</div>
-              <div class="stat-sub">
-                活跃: {{ systemStats?.activeModels || 0 }}
-              </div>
+              <div class="stat-sub">活跃: {{ systemStats?.activeModels || 0 }}</div>
             </div>
           </div>
         </el-card>
@@ -53,9 +47,7 @@
             <div class="stat-info">
               <div class="stat-label">今日请求</div>
               <div class="stat-value">{{ formatNumber(systemStats?.todayRequests || 0) }}</div>
-              <div class="stat-sub">
-                费用: ¥{{ formatMoney(systemStats?.todayCost || 0) }}
-              </div>
+              <div class="stat-sub">费用: ¥{{ formatMoney(systemStats?.todayCost || 0) }}</div>
             </div>
           </div>
         </el-card>
@@ -63,16 +55,18 @@
         <el-card shadow="hover" class="stat-card">
           <div class="stat-content">
             <div class="stat-icon" :class="healthIconClass">
-              <el-icon :size="32"><QyIcon name="CircleCheckFilled" v-if="overallHealthStatus === 'healthy'"  /><QyIcon name="WarningFilled" v-else  /></el-icon>
+              <el-icon :size="32"
+                ><QyIcon name="CircleCheckFilled" v-if="overallHealthStatus === 'healthy'" /><QyIcon
+                  name="WarningFilled"
+                  v-else
+              /></el-icon>
             </div>
             <div class="stat-info">
               <div class="stat-label">系统状态</div>
               <div class="stat-value" :class="healthTextClass">
                 {{ healthText }}
               </div>
-              <div class="stat-sub">
-                响应: {{ systemStats?.avgResponseTime || 0 }}ms
-              </div>
+              <div class="stat-sub">响应: {{ systemStats?.avgResponseTime || 0 }}ms</div>
             </div>
           </div>
         </el-card>
@@ -84,7 +78,7 @@
           <div class="card-header">
             <span class="card-title">提供商状态</span>
             <el-button text type="primary" @click="goToProviders">
-              查看全部 <QyIcon name="ArrowRight"  />
+              查看全部 <QyIcon name="ArrowRight" />
             </el-button>
           </div>
         </template>
@@ -107,7 +101,7 @@
                 <span class="provider-models">{{ provider.modelCount }} 个模型</span>
               </div>
             </div>
-            <el-icon class="provider-arrow"><QyIcon name="ArrowRight"  /></el-icon>
+            <el-icon class="provider-arrow"><QyIcon name="ArrowRight" /></el-icon>
           </div>
         </div>
       </el-card>
@@ -117,32 +111,31 @@
         <template #header>
           <div class="card-header">
             <span class="card-title">最近活动</span>
-            <el-button text type="primary" @click="refreshActivities">
-              刷新
-            </el-button>
+            <el-button text type="primary" @click="refreshActivities"> 刷新 </el-button>
           </div>
         </template>
 
         <div v-loading="activitiesLoading" class="activities-list">
-          <el-empty v-if="activities.length === 0 && !activitiesLoading" description="暂无活动记录" />
+          <el-empty
+            v-if="activities.length === 0 && !activitiesLoading"
+            description="暂无活动记录"
+          />
 
-          <div
-            v-for="activity in activities"
-            :key="activity.id"
-            class="activity-item"
-          >
+          <div v-for="activity in activities" :key="activity.id" class="activity-item">
             <div class="activity-icon" :class="`activity-${activity.type}`">
               <el-icon>
-                <QyIcon name="SuccessFilled" v-if="activity.type === 'request'"  />
-                <QyIcon name="CircleCloseFilled" v-else-if="activity.type === 'error'"  />
-                <QyIcon name="Setting" v-else-if="activity.type === 'config_change'"  />
+                <QyIcon name="SuccessFilled" v-if="activity.type === 'request'" />
+                <QyIcon name="CircleCloseFilled" v-else-if="activity.type === 'error'" />
+                <QyIcon name="Setting" v-else-if="activity.type === 'config_change'" />
                 <Monitor v-else />
               </el-icon>
             </div>
             <div class="activity-content">
               <div class="activity-message">{{ activity.message }}</div>
               <div class="activity-meta">
-                <span v-if="activity.provider" class="activity-provider">{{ activity.provider }}</span>
+                <span v-if="activity.provider" class="activity-provider">{{
+                  activity.provider
+                }}</span>
                 <span class="activity-time">{{ formatTime(activity.timestamp) }}</span>
               </div>
             </div>
@@ -159,7 +152,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAIAdminStore } from '../stores/aiAdmin'
-import { Container, Section, Grid, LoadingOverlay } from '@/shared/components/design-system'
+import { Container, Section, Grid, LoadingOverlay } from '@/design-system'
 import { QyIcon } from '@/design-system/components'
 import { Refresh, Plus, OfficeBuilding, Cpu } from '@element-plus/icons-vue'
 
@@ -234,7 +227,7 @@ function getProviderStatusType(status: string): string {
   const typeMap: Record<string, string> = {
     active: 'success',
     inactive: 'info',
-    error: 'danger'
+    error: 'danger',
   }
   return typeMap[status] || 'info'
 }
@@ -243,7 +236,7 @@ function getProviderStatusText(status: string): string {
   const textMap: Record<string, string> = {
     active: '活跃',
     inactive: '未启用',
-    error: '错误'
+    error: '错误',
   }
   return textMap[status] || status
 }
@@ -293,7 +286,9 @@ onMounted(async () => {
 }
 
 .stat-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 
   &:hover {
     transform: translateY(-4px);

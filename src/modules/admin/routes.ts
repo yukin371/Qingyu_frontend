@@ -3,7 +3,7 @@
  */
 
 import type { RouteRecordRaw } from 'vue-router'
-import AdminLayout from '@/shared/components/layout/AdminLayout.vue'
+import AdminLayout from './layouts/AdminLayout.vue'
 
 const adminRoutes: RouteRecordRaw[] = [
   {
