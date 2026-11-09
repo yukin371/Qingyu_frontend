@@ -9,28 +9,47 @@ import axios from 'axios'
 import type { AxiosInstance } from 'axios'
 
 import type {
+  ApiV1AdminAdminRechargeRequest,
+  ApiV1AdminAlertActionRequest,
   ApiV1AdminAssignRoleRequest,
+  ApiV1AdminBatchCreateUserRequest,
   ApiV1AdminBatchDeleteRequest,
   ApiV1AdminBatchDeleteUsersRequest,
+  ApiV1AdminBatchQuotaRequest,
+  ApiV1AdminBatchReviewAuditRequest,
+  ApiV1AdminBatchRoleOperationRequest,
   ApiV1AdminBatchUpdateConfigRequest,
   ApiV1AdminBatchUpdateStatusRequest,
+  ApiV1AdminCreateCategoryRequest,
+  ApiV1AdminCreateUserRequest,
+  ApiV1AdminCustomAnalyticsQuery,
+  ApiV1AdminMoveCategoryRequest,
+  ApiV1AdminPermissionRequest,
+  ApiV1AdminPolicyRequest,
+  ApiV1AdminReplayEventsRequest,
+  ApiV1AdminReviewAppealRequest,
+  ApiV1AdminReviewAuditRequest,
   ApiV1AdminReviewWithdrawRequest,
-  ApiV1AdminSystemConfigRequest,
+  ApiV1AdminUpdateCategoryRequest,
+  ApiV1AdminUpdateConfigRequest,
   ApiV1AdminUpdateQuotaRequest,
   ApiV1AdminUpdateUserRoleRequest,
   ApiV1AdminUpdateUserStatusRequest,
   ApiV1AdminValidateConfigRequest,
-  ApiV1AiChatRequest,
-  ApiV1AiContinueWritingRequest,
+  ApiV1AiChatRequestDoc,
+  ApiV1AiContinueWritingRequestDoc,
   ApiV1AiExecuteCreativeWorkflowRequest,
   ApiV1AiGenerateCharactersRequest,
   ApiV1AiGenerateOutlineRequest,
   ApiV1AiGeneratePlotRequest,
   ApiV1AiRechargeRequest,
-  ApiV1AiRewriteTextRequest,
-  ApiV1BookstoreAPIResponse,
-  ApiV1BookstorePaginatedResponse,
-  ApiV1FinanceAPIResponse,
+  ApiV1AiRetrieveAndGenerateRequest,
+  ApiV1AiRewriteTextRequestDoc,
+  ApiV1AiStoryGenerateRequest,
+  ApiV1AiUpdateSceneStateRequest,
+  ApiV1BookstoreChapterRequestDoc,
+  ApiV1CommunityCreatePostRequest,
+  ApiV1CommunityUpdatePostRequest,
   ApiV1FinanceActivateCardRequest,
   ApiV1FinanceConsumeRequest,
   ApiV1FinanceRechargeRequest,
@@ -38,6 +57,9 @@ import type {
   ApiV1FinanceTransferRequest,
   ApiV1FinanceUpdateTaxInfoRequest,
   ApiV1FinanceWithdrawRequest,
+  ApiV1InternalapiAiCreateConceptRequest,
+  ApiV1InternalapiAiCreateOrUpdateDocumentRequest,
+  ApiV1InternalapiAiUpdateConceptRequest,
   ApiV1MessagesCreateMentionRequest,
   ApiV1MessagesSendMessageRequest,
   ApiV1ReaderBatchCreateAnnotationsRequest,
@@ -58,16 +80,18 @@ import type {
   ApiV1SearchBatchSearchRequest,
   ApiV1SearchSearchRequest,
   ApiV1SearchUpdateGrayscaleConfigRequest,
-  ApiV1SharedAPIResponse,
   ApiV1SharedConsumeRequest,
-  ApiV1SharedCreateNotificationRequest,
+  ApiV1SharedLoginRequest,
   ApiV1SharedOAuthAuthorizeRequest,
   ApiV1SharedOAuthCallbackRequest,
-  ApiV1SharedPaginatedResponse,
   ApiV1SharedRechargeRequest,
+  ApiV1SharedRegisterRequest,
+  ApiV1SharedSendVerificationCodeRequest,
   ApiV1SharedTransferRequest,
   ApiV1SharedWithdrawRequest,
   ApiV1SocialAddCollectionRequest,
+  ApiV1SocialBatchAddCollectionsRequest,
+  ApiV1SocialBatchLikeBooksRequest,
   ApiV1SocialCreateBookListRequest,
   ApiV1SocialCreateCommentRequest,
   ApiV1SocialCreateFolderRequest,
@@ -79,6 +103,8 @@ import type {
   ApiV1SocialUpdateCommentRequest,
   ApiV1SocialUpdateFolderRequest,
   ApiV1SocialUpdateReviewRequest,
+  ApiV1SystemClientErrorReportBatchRequest,
+  ApiV1UserHandlerDowngradeRoleRequest,
   ApiV1WriterApplyTemplateRequest,
   ApiV1WriterBatchDeleteRequest,
   ApiV1WriterCreateCommentRequest,
@@ -87,7 +113,6 @@ import type {
   ApiV1WriterLockDocumentRequest,
   ApiV1WriterReplyCommentRequest,
   ApiV1WriterSubmitBatchOperationRequest,
-  ApiV1WriterSubmitBatchOperationResponse,
   ApiV1WriterUpdateCommentRequest,
   ApiV1WriterUpdateShortcutsRequest,
   ApiV1WriterUpdateTemplateRequest,
@@ -95,14 +120,36 @@ import type {
   DeleteApiV1AdminUsersUserIdRolesParams,
   DeleteApiV1CharactersCharacterIdParams,
   DeleteApiV1CharactersRelationsRelationIdParams,
+  DeleteApiV1CharactersRelationsTimelineEventsEventIdParams,
   DeleteApiV1FilesFileIdAccessParams,
-  DeleteApiV1NotificationsBatchDeleteBody,
+  DeleteApiV1InternalAiConceptsIdParams,
+  DeleteApiV1InternalAiDocumentsIdParams,
+  DeleteApiV1WriterOutlinesOutlineIdParams,
+  GetApiV1AdminAnalyticsActiveUsersParams,
+  GetApiV1AdminAnalyticsCompareParams,
+  GetApiV1AdminAnalyticsContentStatisticsParams,
+  GetApiV1AdminAnalyticsExportParams,
+  GetApiV1AdminAnalyticsPredictParams,
+  GetApiV1AdminAnalyticsRevenueReportParams,
+  GetApiV1AdminAnalyticsUserGrowthParams,
   GetApiV1AdminAnnouncementsParams,
   GetApiV1AdminAuditHighRiskParams,
   GetApiV1AdminAuditPendingParams,
+  GetApiV1AdminAuditTrailExportParams,
+  GetApiV1AdminAuditTrailParams,
   GetApiV1AdminBannersParams,
+  GetApiV1AdminCategoriesParams,
+  GetApiV1AdminContentBooksExportParams,
+  GetApiV1AdminContentChaptersExportParams,
   GetApiV1AdminOperationLogsParams,
+  GetApiV1AdminQuotaAlertsParams,
+  GetApiV1AdminQuotaPoliciesParams,
+  GetApiV1AdminQuotaStatisticsReconciliationParams,
+  GetApiV1AdminQuotaStatisticsTrendParams,
+  GetApiV1AdminQuotaUsersParams,
+  GetApiV1AdminQuotaUsersUserIdReconciliationParams,
   GetApiV1AdminStats200,
+  GetApiV1AdminUsersExportParams,
   GetApiV1AdminUsersIdActivitiesParams,
   GetApiV1AdminUsersParams,
   GetApiV1AdminUsersSearchParams,
@@ -110,24 +157,24 @@ import type {
   GetApiV1AiChatSessionsSessionIdParams,
   GetApiV1AiModelsParams,
   GetApiV1AiQuotaTransactionsParams,
+  GetApiV1AiRagSearchParams,
+  GetApiV1AiStoryContextPreviewParams,
   GetApiV1AnnouncementsEffectiveParams,
   GetApiV1BookstoreBannersParams,
-  GetApiV1BookstoreBooksCategoryParams,
   GetApiV1BookstoreBooksFeaturedParams,
   GetApiV1BookstoreBooksIdChaptersFreeParams,
   GetApiV1BookstoreBooksIdChaptersPaidParams,
   GetApiV1BookstoreBooksIdChaptersPublishedParams,
-  GetApiV1BookstoreBooksIdRatingsParams,
   GetApiV1BookstoreBooksIdSimilarParams,
   GetApiV1BookstoreBooksIdTrialChaptersParams,
-  GetApiV1BookstoreBooksLatestParams,
   GetApiV1BookstoreBooksParams,
-  GetApiV1BookstoreBooksPopularParams,
   GetApiV1BookstoreBooksRecommendedParams,
   GetApiV1BookstoreBooksSearchAuthorParams,
   GetApiV1BookstoreBooksSearchParams,
   GetApiV1BookstoreBooksSearchTitleParams,
   GetApiV1BookstoreBooksStatusParams,
+  GetApiV1BookstoreBooksStreamBatchParams,
+  GetApiV1BookstoreBooksStreamParams,
   GetApiV1BookstoreBooksTagsParams,
   GetApiV1BookstoreCategoriesIdBooksParams,
   GetApiV1BookstoreChaptersSearchParams,
@@ -136,8 +183,9 @@ import type {
   GetApiV1BookstoreRankingsRealtimeParams,
   GetApiV1BookstoreRankingsTypeParams,
   GetApiV1BookstoreRankingsWeeklyParams,
-  GetApiV1BookstoreRatingsUserIdParams,
   GetApiV1CharactersCharacterIdParams,
+  GetApiV1CharactersRelationsRelationIdTimelineParams,
+  GetApiV1CommunityPostsParams,
   GetApiV1DocumentsDocumentIdVersionsCompareParams,
   GetApiV1DocumentsDocumentIdVersionsParams,
   GetApiV1DocumentsIdAuditResultParams,
@@ -154,8 +202,17 @@ import type {
   GetApiV1FinanceMembershipCardsParams,
   GetApiV1FinanceWalletTransactionsParams,
   GetApiV1FinanceWalletWithdrawalsParams,
+  GetApiV1InternalAiConceptsIdParams,
+  GetApiV1InternalAiConceptsParams,
+  GetApiV1InternalAiDocumentsIdParams,
+  GetApiV1InternalAiDocumentsParams,
+  GetApiV1InternalDocumentsIdContent200,
+  GetApiV1InternalProjectsIdCharacters200,
+  GetApiV1InternalProjectsIdContext200,
+  GetApiV1InternalProjectsIdOutline200,
+  GetApiV1InternalProjectsIdRelations200,
   GetApiV1NotificationsParams,
-  GetApiV1NotificationsUnreadCount200,
+  GetApiV1NotificationsWsEndpoint200,
   GetApiV1ProjectsParams,
   GetApiV1ProjectsProjectIdCharactersRelationsParams,
   GetApiV1ProjectsProjectIdDocumentsParams,
@@ -188,12 +245,19 @@ import type {
   GetApiV1ReaderProgressHistoryParams,
   GetApiV1ReaderProgressRecentParams,
   GetApiV1ReaderProgressStatsParams,
-  GetApiV1ReaderPurchasesBookIdParams,
+  GetApiV1ReaderPurchasesIdParams,
   GetApiV1ReaderPurchasesParams,
   GetApiV1ReaderReadingHistoryParams,
   GetApiV1ReaderReadingHistoryStatsParams,
+  GetApiV1ReaderStatistics200,
+  GetApiV1ReaderStatisticsHeatmap200,
+  GetApiV1ReaderStatisticsHeatmapParams,
+  GetApiV1ReaderStatisticsOverview200,
+  GetApiV1ReaderStatisticsReadingTime200,
+  GetApiV1ReaderStatisticsReadingTimeParams,
+  GetApiV1ReaderStatisticsTrends200,
+  GetApiV1ReaderStatisticsTrendsParams,
   GetApiV1ReaderThemesParams,
-  GetApiV1ReadingRatingsSearchParams,
   GetApiV1ReadingStatisticsDailyReportParams,
   GetApiV1ReadingStatisticsHottestParams,
   GetApiV1ReadingStatisticsMonthlyReportParams,
@@ -210,22 +274,19 @@ import type {
   GetApiV1ReadingStatsMyReadingTimeParams,
   GetApiV1ReadingStatsRecommendationsParams,
   GetApiV1RecommendationCategoryParams,
+  GetApiV1RecommendationHomepage200,
   GetApiV1RecommendationHomepageParams,
   GetApiV1RecommendationHotParams,
   GetApiV1RecommendationPersonalizedParams,
   GetApiV1RecommendationSimilarParams,
-  GetApiV1SearchGrayscaleMetrics200,
-  GetApiV1SearchGrayscaleStatus200,
-  GetApiV1SearchGrayscaleTraffic200,
-  GetApiV1SearchHealth200,
-  GetApiV1SearchSuggest200,
-  GetApiV1SearchSuggestParams,
   GetApiV1SharedWalletTransactionsParams,
   GetApiV1SharedWalletWithdrawalsParams,
   GetApiV1SocialBooklistsParams,
+  GetApiV1SocialCollectionsCheckParams,
   GetApiV1SocialFollowingAuthorsParams,
   GetApiV1SocialMentionsParams,
   GetApiV1SocialMessagesConversationIdParams,
+  GetApiV1SocialMessagesConversationsConversationIdMessages200,
   GetApiV1SocialMessagesConversationsConversationIdMessagesParams,
   GetApiV1SocialMessagesConversationsParams,
   GetApiV1SocialReviewsParams,
@@ -233,28 +294,48 @@ import type {
   GetApiV1SocialUsersUserIdFollowingParams,
   GetApiV1UserProfile200,
   GetApiV1UserStatsMy200,
-  GetApiV1UserStatsMyActivity200,
   GetApiV1UserStatsMyActivityParams,
   GetApiV1UserStatsMyContent200,
-  GetApiV1UserStatsMyRevenue200,
   GetApiV1UserStatsMyRevenueParams,
+  GetApiV1UserUsersBatch200,
+  GetApiV1UserUsersBatchParams,
   GetApiV1UserUsersId200,
   GetApiV1UserUsersIdBooks200,
   GetApiV1UserUsersIdBooksParams,
   GetApiV1UserUsersIdProfile200,
-  GetApiV1WriterBatchOperationsId200,
   GetApiV1WriterBooksBookIdDailyStatsParams,
   GetApiV1WriterBooksBookIdRetentionParams,
   GetApiV1WriterBooksBookIdRevenueParams,
+  GetApiV1WriterBooksParams,
+  GetApiV1WriterDashboardStats200,
   GetApiV1WriterDocumentsIdCommentsParams,
   GetApiV1WriterDocumentsIdCommentsSearchParams,
+  GetApiV1WriterOutlinesOutlineIdParams,
+  GetApiV1WriterProjectsIdChaptersChapterIdChangeRequestsParams,
+  GetApiV1WriterProjectsIdConcepts200,
+  GetApiV1WriterProjectsIdConceptsConceptId200,
+  GetApiV1WriterProjectsIdConceptsSearch200,
+  GetApiV1WriterProjectsIdConceptsSearchParams,
+  GetApiV1WriterProjectsIdPublications200,
+  GetApiV1WriterProjectsIdPublicationsParams,
+  GetApiV1WriterProjectsProjectIdEntitiesParams,
   GetApiV1WriterProjectsProjectIdExportsParams,
-  GetApiV1WriterProjectsProjectIdPublicationsParams,
+  GetApiV1WriterProjectsProjectIdOutlinesChildrenParams,
+  GetApiV1WriterPublicationsId200,
   GetApiV1WriterSearchDocumentsParams,
+  GetApiV1WriterStatsChapters200,
+  GetApiV1WriterStatsChaptersParams,
+  GetApiV1WriterStatsOverview200,
+  GetApiV1WriterStatsOverviewParams,
+  GetApiV1WriterStatsSubscribers200,
+  GetApiV1WriterStatsSubscribersParams,
+  GetApiV1WriterStatsToday200,
+  GetApiV1WriterStatsTodayParams,
+  GetApiV1WriterStatsViews200,
+  GetApiV1WriterStatsViewsParams,
   GetApiV1WriterTemplatesParams,
+  PatchApiV1NotificationsPreferencesBody,
   PostApiV1AdminAnnouncementsBody,
-  PostApiV1AdminAuditIdAppealReviewBody,
-  PostApiV1AdminAuditIdReviewBody,
   PostApiV1AdminBannersBody,
   PostApiV1AdminRolesBody,
   PostApiV1AiAuditSensitiveWordsBody,
@@ -263,19 +344,23 @@ import type {
   PostApiV1AiWritingSummarizeChapterBody,
   PostApiV1AuditCheckBody,
   PostApiV1AuditIdAppealBody,
-  PostApiV1BookstoreBooksIdRatingBody,
   PostApiV1CharactersRelationsBody,
   PostApiV1CharactersRelationsParams,
+  PostApiV1CharactersRelationsRelationIdTimelineBody,
+  PostApiV1CharactersRelationsRelationIdTimelineParams,
   PostApiV1DocumentsIdAuditBody,
-  PostApiV1DocumentsIdAutosaveBody,
   PostApiV1FilesFileIdAccessBody,
   PostApiV1FilesMultipartAbortParams,
   PostApiV1FilesMultipartUploadBody,
   PostApiV1FilesThumbnailParams,
   PostApiV1FilesUploadBody,
+  PostApiV1InternalAiConceptsBatchBody,
+  PostApiV1InternalAiDocumentsBatchBody,
+  PostApiV1NotificationsBatchDelete200,
+  PostApiV1NotificationsBatchRead200,
+  PostApiV1NotificationsClearRead200,
   PostApiV1NotificationsIdResendBody,
   PostApiV1NotificationsPushRegisterBody,
-  PostApiV1ProjectsBody,
   PostApiV1ProjectsProjectIdCharactersBody,
   PostApiV1ProjectsProjectIdDocumentsBody,
   PostApiV1ReaderAnnotationsSyncBody,
@@ -287,44 +372,49 @@ import type {
   PostApiV1ReaderSettingsFontBody,
   PostApiV1ReaderThemesBody,
   PostApiV1RecommendationBehaviorBody,
-  PostApiV1SearchBatch200,
-  PostApiV1SearchGrayscaleConfig200,
-  PostApiV1SearchSearch200,
-  PostApiV1SocialMessagesConversationsBody,
-  PostApiV1SocialMessagesConversationsConversationIdMessagesBody,
-  PostApiV1SocialMessagesConversationsConversationIdReadBody,
+  PostApiV1SocialMessagesConversations200,
+  PostApiV1SocialMessagesConversationsConversationIdMessages200,
   PostApiV1UserAuthLogin200,
   PostApiV1UserAuthRegister200,
+  PostApiV1UserAvatar200,
+  PostApiV1UserAvatarBody,
   PostApiV1UserEmailSendCodeBody,
   PostApiV1UserEmailVerifyBody,
   PostApiV1UserPasswordResetBody,
   PostApiV1UserPasswordResetRequestBody,
+  PostApiV1UserRoleDowngrade200,
   PostApiV1UsersEmailVerify200,
   PostApiV1UsersPasswordResetSend200,
   PostApiV1UsersPasswordResetVerify200,
   PostApiV1UsersVerifyEmailSend200,
   PostApiV1UsersVerifyPhoneSend200,
+  PostApiV1WriterDocumentsBody,
+  PostApiV1WriterDocumentsIdAutosaveBody,
   PostApiV1WriterDocumentsIdDuplicateBody,
   PostApiV1WriterDocumentsIdExportBody,
   PostApiV1WriterDocumentsIdExportParams,
+  PostApiV1WriterDocumentsIdPublish202,
   PostApiV1WriterDocumentsIdPublishBody,
   PostApiV1WriterDocumentsIdPublishParams,
+  PostApiV1WriterProjectsIdDocumentsBatchPublish202,
+  PostApiV1WriterProjectsIdDocumentsBatchPublishBody,
   PostApiV1WriterProjectsIdExportBody,
+  PostApiV1WriterProjectsIdPublish202,
   PostApiV1WriterProjectsIdPublishBody,
-  PostApiV1WriterProjectsProjectIdDocumentsBatchPublishBody,
+  PostApiV1WriterProjectsImportBody,
   PutApiV1AdminAnnouncementsBatchStatusBody,
   PutApiV1AdminAnnouncementsIdBody,
   PutApiV1AdminBannersBatchSortBody,
   PutApiV1AdminBannersBatchStatusBody,
   PutApiV1AdminBannersIdBody,
+  PutApiV1AdminCategoriesIdSortBody,
   PutApiV1AdminRolesIdBody,
-  PutApiV1BookstoreBooksIdRatingBody,
   PutApiV1CharactersCharacterIdBody,
   PutApiV1CharactersCharacterIdParams,
+  PutApiV1CharactersRelationsTimelineEventsEventIdBody,
+  PutApiV1CharactersRelationsTimelineEventsEventIdParams,
   PutApiV1DocumentsIdBody,
-  PutApiV1DocumentsIdContentBody,
   PutApiV1DocumentsIdMoveBody,
-  PutApiV1NotificationsMarkReadBody,
   PutApiV1NotificationsPreferencesBody,
   PutApiV1ProjectsIdBody,
   PutApiV1ProjectsProjectIdDocumentsReorderBody,
@@ -333,11 +423,17 @@ import type {
   PutApiV1ReaderThemesIdBody,
   PutApiV1UserManagementEmailNotificationsBody,
   PutApiV1UserManagementSmsNotificationsBody,
+  PutApiV1WriterChangeRequestsRequestIdStatusBody,
+  PutApiV1WriterDocumentsIdContentBody,
   PutApiV1WriterDocumentsIdPublishStatusBody,
   PutApiV1WriterDocumentsIdPublishStatusParams,
-  QingyuBackendApiV1SharedAPIResponse,
-  QingyuBackendApiV1SharedPaginatedResponse,
-  QingyuBackendApiV1UserDtoChangePasswordRequest,
+  PutApiV1WriterEntitiesEntityIdStateFieldsBody,
+  PutApiV1WriterOutlinesOutlineIdParams,
+  QingyuBackendApiV1NotificationsDtoBatchDeleteRequest,
+  QingyuBackendApiV1NotificationsDtoBatchMarkReadRequest,
+  QingyuBackendApiV1SocialDtoCreateConversationRequest,
+  QingyuBackendApiV1SocialDtoMarkConversationReadRequest,
+  QingyuBackendApiV1SocialDtoSendMessageRequest,
   QingyuBackendApiV1UserDtoDeleteDeviceRequest,
   QingyuBackendApiV1UserDtoLoginRequest,
   QingyuBackendApiV1UserDtoRegisterRequest,
@@ -350,12 +446,11 @@ import type {
   QingyuBackendApiV1UserDtoUpdatePasswordRequest,
   QingyuBackendApiV1UserDtoUpdateProfileRequest,
   QingyuBackendApiV1UserDtoVerifyEmailRequest,
-  QingyuBackendModelsAuthPermission,
-  QingyuBackendModelsBookstoreBookDetail,
-  QingyuBackendModelsBookstoreChapter,
+  QingyuBackendModelsDtoCreateProjectRequest,
   QingyuBackendPkgResponseAPIResponse,
-  QingyuBackendServiceSharedAuthLoginRequest,
-  QingyuBackendServiceSharedAuthRegisterRequest,
+  QingyuBackendPkgResponsePaginatedResponse,
+  QingyuBackendServiceInterfacesCreateOutlineRequest,
+  QingyuBackendServiceInterfacesUpdateOutlineRequest,
   QingyuBackendServiceSharedStorageCompleteMultipartUploadRequest,
   QingyuBackendServiceSharedStorageInitiateMultipartUploadRequest,
 } from '../../../../api/generated'
@@ -363,11 +458,148 @@ import type {
 import { orvalMutator } from '../../../../core/config/orval-mutator'
 export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   /**
-   * 管理员获取公告列表
+   * 统计活跃用户数据，支持DAU/WAU/MAU
+   * @summary 获取活跃用户报告
+   */
+  const getApiV1AdminAnalyticsActiveUsers = (params: GetApiV1AdminAnalyticsActiveUsersParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/analytics/active-users`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 对比两个时期的统计数据差异
+   * @summary 对比不同时期的统计数据
+   */
+  const getApiV1AdminAnalyticsCompare = (params: GetApiV1AdminAnalyticsCompareParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/analytics/compare`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 统计书籍、章节、评论等数据
+   * @summary 获取内容统计
+   */
+  const getApiV1AdminAnalyticsContentStatistics = (
+    params?: GetApiV1AdminAnalyticsContentStatisticsParams,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/analytics/content-statistics`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 根据自定义条件进行统计分析
+   * @summary 自定义统计分析查询
+   */
+  const postApiV1AdminAnalyticsCustom = (
+    apiV1AdminCustomAnalyticsQuery: ApiV1AdminCustomAnalyticsQuery,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/analytics/custom`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminCustomAnalyticsQuery,
+    })
+  }
+
+  /**
+   * 返回统计分析仪表板的综合数据
+   * @summary 获取统计分析仪表板
+   */
+  const getApiV1AdminAnalyticsDashboard = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/analytics/dashboard`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 导出各种统计报告为CSV或Excel格式
+   * @summary 导出统计分析报告
+   */
+  const getApiV1AdminAnalyticsExport = (params: GetApiV1AdminAnalyticsExportParams) => {
+    return orvalMutator<Blob>({
+      url: `/api/v1/admin/analytics/export`,
+      method: 'GET',
+      params,
+      responseType: 'blob',
+    })
+  }
+
+  /**
+   * 基于历史数据预测未来趋势
+   * @summary 获取统计分析预测
+   */
+  const getApiV1AdminAnalyticsPredict = (params: GetApiV1AdminAnalyticsPredictParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/analytics/predict`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 获取实时的系统统计数据
+   * @summary 获取实时统计数据
+   */
+  const getApiV1AdminAnalyticsRealtime = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/analytics/realtime`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 按日期统计收入数据，支持日/周/月间隔
+   * @summary 获取收入报告
+   */
+  const getApiV1AdminAnalyticsRevenueReport = (
+    params: GetApiV1AdminAnalyticsRevenueReportParams,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/analytics/revenue-report`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 返回系统整体数据概览，包括用户、内容、收入等统计
+   * @summary 获取系统概览
+   */
+  const getApiV1AdminAnalyticsSystemOverview = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/analytics/system-overview`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 按日期统计用户注册数量，支持日/周/月间隔
+   * @summary 获取用户增长趋势
+   */
+  const getApiV1AdminAnalyticsUserGrowth = (params: GetApiV1AdminAnalyticsUserGrowthParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/analytics/user-growth`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 获取公告列表，支持筛选和分页
    * @summary 获取公告列表
    */
   const getApiV1AdminAnnouncements = (params?: GetApiV1AdminAnnouncementsParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedPaginatedResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/announcements`,
       method: 'GET',
       params,
@@ -375,13 +607,13 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
-   * 管理员发布系统公告
-   * @summary 发布公告
+   * 创建新的公告
+   * @summary 创建公告
    */
   const postApiV1AdminAnnouncements = (
     postApiV1AdminAnnouncementsBody: PostApiV1AdminAnnouncementsBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/announcements`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -394,7 +626,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除公告
    */
   const deleteApiV1AdminAnnouncementsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/announcements/${id}`,
       method: 'DELETE',
     })
@@ -405,7 +637,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取公告详情
    */
   const getApiV1AdminAnnouncementsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/announcements/${id}`,
       method: 'GET',
     })
@@ -419,7 +651,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     putApiV1AdminAnnouncementsIdBody: PutApiV1AdminAnnouncementsIdBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/announcements/${id}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -434,7 +666,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const deleteApiV1AdminAnnouncementsBatchDelete = (
     apiV1AdminBatchDeleteRequest: ApiV1AdminBatchDeleteRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/announcements/batch-delete`,
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -449,7 +681,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const putApiV1AdminAnnouncementsBatchStatus = (
     putApiV1AdminAnnouncementsBatchStatusBody: PutApiV1AdminAnnouncementsBatchStatusBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/announcements/batch-status`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -458,43 +690,58 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
-   * 人工复核申诉（管理员接口）
-   * @summary 复核申诉
+   * 管理员审核用户的申诉请求
+   * @summary 审核申诉
    */
   const postApiV1AdminAuditIdAppealReview = (
     id: string,
-    postApiV1AdminAuditIdAppealReviewBody: PostApiV1AdminAuditIdAppealReviewBody,
+    apiV1AdminReviewAppealRequest: ApiV1AdminReviewAppealRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/audit/${id}/appeal/review`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: postApiV1AdminAuditIdAppealReviewBody,
+      data: apiV1AdminReviewAppealRequest,
     })
   }
 
   /**
-   * 人工复核审核结果（管理员接口）
-   * @summary 复核审核结果
+   * 管理员审核内容，通过或拒绝
+   * @summary 审核内容
    */
   const postApiV1AdminAuditIdReview = (
     id: string,
-    postApiV1AdminAuditIdReviewBody: PostApiV1AdminAuditIdReviewBody,
+    apiV1AdminReviewAuditRequest: ApiV1AdminReviewAuditRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/audit/${id}/review`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: postApiV1AdminAuditIdReviewBody,
+      data: apiV1AdminReviewAuditRequest,
     })
   }
 
   /**
-   * 获取高风险审核记录（管理员接口）
+   * 管理员批量审核多个审核记录
+   * @summary 批量审核
+   */
+  const postApiV1AdminAuditBatchReview = (
+    apiV1AdminBatchReviewAuditRequest: ApiV1AdminBatchReviewAuditRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/audit/batch-review`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminBatchReviewAuditRequest,
+    })
+  }
+
+  /**
+   * 获取高风险审核记录列表
    * @summary 获取高风险审核记录
    */
   const getApiV1AdminAuditHighRisk = (params?: GetApiV1AdminAuditHighRiskParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/audit/high-risk`,
       method: 'GET',
       params,
@@ -502,11 +749,11 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
-   * 获取需要人工复核的审核记录（管理员接口）
-   * @summary 获取待复核列表
+   * 获取需要人工审核的内容列表
+   * @summary 获取待审核内容
    */
   const getApiV1AdminAuditPending = (params?: GetApiV1AdminAuditPendingParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/audit/pending`,
       method: 'GET',
       params,
@@ -518,8 +765,44 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取审核统计
    */
   const getApiV1AdminAuditStatistics = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/audit/statistics`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 获取审计日志列表，支持多种过滤条件
+   * @summary 获取审计追踪
+   */
+  const getApiV1AdminAuditTrail = (params?: GetApiV1AdminAuditTrailParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/audit/trail`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 导出审计日志为CSV或Excel格式
+   * @summary 导出审计追踪
+   */
+  const getApiV1AdminAuditTrailExport = (params?: GetApiV1AdminAuditTrailExportParams) => {
+    return orvalMutator<Blob>({
+      url: `/api/v1/admin/audit/trail/export`,
+      method: 'GET',
+      params,
+      responseType: 'blob',
+    })
+  }
+
+  /**
+   * 根据资源类型和资源ID获取相关的审计日志
+   * @summary 获取资源审计追踪
+   */
+  const getApiV1AdminAuditTrailResourceTypeId = (type: string, id: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/audit/trail/resource/${type}/${id}`,
       method: 'GET',
     })
   }
@@ -529,7 +812,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取Banner列表
    */
   const getApiV1AdminBanners = (params?: GetApiV1AdminBannersParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/banners`,
       method: 'GET',
       params,
@@ -541,7 +824,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 创建Banner
    */
   const postApiV1AdminBanners = (postApiV1AdminBannersBody: PostApiV1AdminBannersBody) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/banners`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -554,7 +837,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除Banner
    */
   const deleteApiV1AdminBannersId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/banners/${id}`,
       method: 'DELETE',
     })
@@ -565,7 +848,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取Banner详情
    */
   const getApiV1AdminBannersId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/banners/${id}`,
       method: 'GET',
     })
@@ -579,7 +862,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     putApiV1AdminBannersIdBody: PutApiV1AdminBannersIdBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/banners/${id}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -594,7 +877,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const putApiV1AdminBannersBatchSort = (
     putApiV1AdminBannersBatchSortBody: PutApiV1AdminBannersBatchSortBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/banners/batch-sort`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -609,7 +892,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const putApiV1AdminBannersBatchStatus = (
     putApiV1AdminBannersBatchStatusBody: PutApiV1AdminBannersBatchStatusBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/banners/batch-status`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -618,26 +901,134 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
-   * 管理员获取系统配置信息
-   * @summary 获取系统配置
+   * 获取书籍分类列表（支持筛选）
+   * @summary 获取分类列表
+   */
+  const getApiV1AdminCategories = (params?: GetApiV1AdminCategoriesParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/categories`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 管理员创建新的书籍分类
+   * @summary 创建分类
+   */
+  const postApiV1AdminCategories = (
+    apiV1AdminCreateCategoryRequest: ApiV1AdminCreateCategoryRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/categories`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminCreateCategoryRequest,
+    })
+  }
+
+  /**
+   * 删除分类（安全删除，需无子分类和关联作品）
+   * @summary 删除分类
+   */
+  const deleteApiV1AdminCategoriesId = (id: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/categories/${id}`,
+      method: 'DELETE',
+    })
+  }
+
+  /**
+   * 根据ID获取分类详细信息
+   * @summary 获取分类详情
+   */
+  const getApiV1AdminCategoriesId = (id: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/categories/${id}`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 更新分类信息
+   * @summary 更新分类
+   */
+  const putApiV1AdminCategoriesId = (
+    id: string,
+    apiV1AdminUpdateCategoryRequest: ApiV1AdminUpdateCategoryRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/categories/${id}`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminUpdateCategoryRequest,
+    })
+  }
+
+  /**
+   * 移动分类到新的父分类下
+   * @summary 移动分类
+   */
+  const putApiV1AdminCategoriesIdMove = (
+    id: string,
+    apiV1AdminMoveCategoryRequest: ApiV1AdminMoveCategoryRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/categories/${id}/move`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminMoveCategoryRequest,
+    })
+  }
+
+  /**
+   * 调整分类的排序序号
+   * @summary 调整分类排序
+   */
+  const putApiV1AdminCategoriesIdSort = (
+    id: string,
+    putApiV1AdminCategoriesIdSortBody: PutApiV1AdminCategoriesIdSortBody,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/categories/${id}/sort`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: putApiV1AdminCategoriesIdSortBody,
+    })
+  }
+
+  /**
+   * 获取完整的分类树形结构
+   * @summary 获取分类树
+   */
+  const getApiV1AdminCategoriesTree = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/categories/tree`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 获取系统所有配置项（分组显示）
+   * @summary 获取所有配置
    */
   const getApiV1AdminConfig = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/config`,
       method: 'GET',
     })
   }
 
   /**
-   * 管理员更新系统配置
-   * @summary 更新系统配置
+   * 更新指定的配置项（需要管理员权限）
+   * @summary 更新配置
    */
-  const putApiV1AdminConfig = (apiV1AdminSystemConfigRequest: ApiV1AdminSystemConfigRequest) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+  const putApiV1AdminConfig = (apiV1AdminUpdateConfigRequest: ApiV1AdminUpdateConfigRequest) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/config`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      data: apiV1AdminSystemConfigRequest,
+      data: apiV1AdminUpdateConfigRequest,
     })
   }
 
@@ -646,7 +1037,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 根据Key获取单个配置
    */
   const getApiV1AdminConfigKey = (key: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/config/${key}`,
       method: 'GET',
     })
@@ -657,7 +1048,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取配置备份列表
    */
   const getApiV1AdminConfigBackups = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/config/backups`,
       method: 'GET',
     })
@@ -670,7 +1061,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const putApiV1AdminConfigBatch = (
     apiV1AdminBatchUpdateConfigRequest: ApiV1AdminBatchUpdateConfigRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/config/batch`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -683,7 +1074,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 恢复配置备份
    */
   const postApiV1AdminConfigRestore = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/config/restore`,
       method: 'POST',
     })
@@ -696,7 +1087,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1AdminConfigValidate = (
     apiV1AdminValidateConfigRequest: ApiV1AdminValidateConfigRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/config/validate`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -705,11 +1096,74 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
+   * 管理员导出书籍数据，支持CSV和Excel格式
+   * @summary 导出书籍数据
+   */
+  const getApiV1AdminContentBooksExport = (params?: GetApiV1AdminContentBooksExportParams) => {
+    return orvalMutator<string>({
+      url: `/api/v1/admin/content/books/export`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 获取书籍导出的字段模板
+   * @summary 获取书籍导出模板
+   */
+  const getApiV1AdminContentBooksExportTemplate = () => {
+    return orvalMutator<string>({
+      url: `/api/v1/admin/content/books/export/template`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 管理员导出章节数据，支持CSV和Excel格式
+   * @summary 导出章节数据
+   */
+  const getApiV1AdminContentChaptersExport = (
+    params?: GetApiV1AdminContentChaptersExportParams,
+  ) => {
+    return orvalMutator<string>({
+      url: `/api/v1/admin/content/chapters/export`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 获取章节导出的字段模板
+   * @summary 获取章节导出模板
+   */
+  const getApiV1AdminContentChaptersExportTemplate = () => {
+    return orvalMutator<string>({
+      url: `/api/v1/admin/content/chapters/export/template`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 管理员回放历史事件，支持按类型、时间范围过滤，支持dry-run模式
+   * @summary 事件回放
+   */
+  const postApiV1AdminEventsReplay = (
+    apiV1AdminReplayEventsRequest: ApiV1AdminReplayEventsRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/events/replay`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminReplayEventsRequest,
+    })
+  }
+
+  /**
    * 管理员获取操作日志
    * @summary 获取操作日志
    */
   const getApiV1AdminOperationLogs = (params?: GetApiV1AdminOperationLogsParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedPaginatedResponse>({
+    return orvalMutator<QingyuBackendPkgResponsePaginatedResponse>({
       url: `/api/v1/admin/operation-logs`,
       method: 'GET',
       params,
@@ -721,7 +1175,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取所有权限
    */
   const getApiV1AdminPermissions = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/permissions`,
       method: 'GET',
     })
@@ -731,14 +1185,12 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * 管理员创建新权限
    * @summary 创建权限
    */
-  const postApiV1AdminPermissions = (
-    qingyuBackendModelsAuthPermission: QingyuBackendModelsAuthPermission,
-  ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+  const postApiV1AdminPermissions = (apiV1AdminPermissionRequest: ApiV1AdminPermissionRequest) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/permissions`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: qingyuBackendModelsAuthPermission,
+      data: apiV1AdminPermissionRequest,
     })
   }
 
@@ -747,7 +1199,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除权限
    */
   const deleteApiV1AdminPermissionsCode = (code: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/permissions/${code}`,
       method: 'DELETE',
     })
@@ -758,7 +1210,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取权限详情
    */
   const getApiV1AdminPermissionsCode = (code: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/permissions/${code}`,
       method: 'GET',
     })
@@ -770,13 +1222,300 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    */
   const putApiV1AdminPermissionsCode = (
     code: string,
-    qingyuBackendModelsAuthPermission: QingyuBackendModelsAuthPermission,
+    apiV1AdminPermissionRequest: ApiV1AdminPermissionRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/permissions/${code}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      data: qingyuBackendModelsAuthPermission,
+      data: apiV1AdminPermissionRequest,
+    })
+  }
+
+  /**
+   * 管理员获取配额告警列表（支持筛选和分页）
+   * @summary 获取配额告警列表
+   */
+  const getApiV1AdminQuotaAlerts = (params?: GetApiV1AdminQuotaAlertsParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/alerts`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 管理员获取指定配额告警详情
+   * @summary 获取配额告警详情
+   */
+  const getApiV1AdminQuotaAlertsId = (id: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/alerts/${id}`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 管理员确认指定配额告警
+   * @summary 确认告警
+   */
+  const putApiV1AdminQuotaAlertsIdAcknowledge = (
+    id: string,
+    apiV1AdminAlertActionRequest: ApiV1AdminAlertActionRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/alerts/${id}/acknowledge`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminAlertActionRequest,
+    })
+  }
+
+  /**
+   * 管理员忽略指定配额告警
+   * @summary 忽略告警
+   */
+  const putApiV1AdminQuotaAlertsIdIgnore = (
+    id: string,
+    apiV1AdminAlertActionRequest: ApiV1AdminAlertActionRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/alerts/${id}/ignore`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminAlertActionRequest,
+    })
+  }
+
+  /**
+   * 管理员解决指定配额告警
+   * @summary 解决告警
+   */
+  const putApiV1AdminQuotaAlertsIdResolve = (
+    id: string,
+    apiV1AdminAlertActionRequest: ApiV1AdminAlertActionRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/alerts/${id}/resolve`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminAlertActionRequest,
+    })
+  }
+
+  /**
+   * 管理员批量激活多个用户的AI配额
+   * @summary 批量激活配额
+   */
+  const postApiV1AdminQuotaBatchActivate = (
+    apiV1AdminBatchQuotaRequest: ApiV1AdminBatchQuotaRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/batch-activate`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminBatchQuotaRequest,
+    })
+  }
+
+  /**
+   * 管理员为多个用户批量充值AI配额
+   * @summary 批量充值配额
+   */
+  const postApiV1AdminQuotaBatchRecharge = (
+    apiV1AdminBatchQuotaRequest: ApiV1AdminBatchQuotaRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/batch-recharge`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminBatchQuotaRequest,
+    })
+  }
+
+  /**
+   * 管理员批量暂停多个用户的AI配额
+   * @summary 批量暂停配额
+   */
+  const postApiV1AdminQuotaBatchSuspend = (
+    apiV1AdminBatchQuotaRequest: ApiV1AdminBatchQuotaRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/batch-suspend`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminBatchQuotaRequest,
+    })
+  }
+
+  /**
+   * 管理员为多个用户批量更新AI配额
+   * @summary 批量更新配额
+   */
+  const postApiV1AdminQuotaBatchUpdate = (
+    apiV1AdminBatchQuotaRequest: ApiV1AdminBatchQuotaRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/batch-update`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminBatchQuotaRequest,
+    })
+  }
+
+  /**
+   * 管理员获取配额仪表盘完整数据
+   * @summary 获取配额仪表盘
+   */
+  const getApiV1AdminQuotaDashboard = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/dashboard`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 管理员强制刷新配额仪表盘缓存
+   * @summary 刷新仪表盘缓存
+   */
+  const postApiV1AdminQuotaDashboardRefresh = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/dashboard/refresh`,
+      method: 'POST',
+    })
+  }
+
+  /**
+   * 管理员获取配额策略列表（支持筛选和分页）
+   * @summary 获取配额策略列表
+   */
+  const getApiV1AdminQuotaPolicies = (params?: GetApiV1AdminQuotaPoliciesParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/policies`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 管理员创建新的配额策略
+   * @summary 创建配额策略
+   */
+  const postApiV1AdminQuotaPolicies = (apiV1AdminPolicyRequest: ApiV1AdminPolicyRequest) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/policies`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminPolicyRequest,
+    })
+  }
+
+  /**
+   * 管理员删除指定配额策略（软删除）
+   * @summary 删除配额策略
+   */
+  const deleteApiV1AdminQuotaPoliciesId = (id: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/policies/${id}`,
+      method: 'DELETE',
+    })
+  }
+
+  /**
+   * 管理员获取指定配额策略详情
+   * @summary 获取配额策略详情
+   */
+  const getApiV1AdminQuotaPoliciesId = (id: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/policies/${id}`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 管理员更新指定配额策略
+   * @summary 更新配额策略
+   */
+  const putApiV1AdminQuotaPoliciesId = (
+    id: string,
+    apiV1AdminPolicyRequest: ApiV1AdminPolicyRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/policies/${id}`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminPolicyRequest,
+    })
+  }
+
+  /**
+   * 管理员初始化系统默认配额策略
+   * @summary 初始化默认策略
+   */
+  const postApiV1AdminQuotaPoliciesInitialize = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/policies/initialize`,
+      method: 'POST',
+    })
+  }
+
+  /**
+   * 管理员获取配额全局统计数据
+   * @summary 获取全局配额统计
+   */
+  const getApiV1AdminQuotaStatisticsGlobal = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/statistics/global`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 管理员获取 backend 与 AI service 的聚合配额消费对账结果
+   * @summary 获取跨服务聚合对账摘要
+   */
+  const getApiV1AdminQuotaStatisticsReconciliation = (
+    params?: GetApiV1AdminQuotaStatisticsReconciliationParams,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/statistics/reconciliation`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 管理员手动触发一次 backend 与 AI service 的配额对账检查
+   * @summary 执行跨服务一致性检查
+   */
+  const postApiV1AdminQuotaStatisticsReconciliationCheck = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/statistics/reconciliation/check`,
+      method: 'POST',
+    })
+  }
+
+  /**
+   * 管理员获取配额消耗趋势数据
+   * @summary 获取消耗趋势
+   */
+  const getApiV1AdminQuotaStatisticsTrend = (params?: GetApiV1AdminQuotaStatisticsTrendParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/statistics/trend`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 管理员获取用户配额列表（支持筛选和分页）
+   * @summary 获取用户配额列表
+   */
+  const getApiV1AdminQuotaUsers = (params?: GetApiV1AdminQuotaUsersParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/users`,
+      method: 'GET',
+      params,
     })
   }
 
@@ -784,9 +1523,9 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * 管理员获取指定用户的配额详情
    * @summary 获取用户配额详情
    */
-  const getApiV1AdminQuotaUserId = (userId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/admin/quota/${userId}`,
+  const getApiV1AdminQuotaUsersUserId = (userId: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/users/${userId}`,
       method: 'GET',
     })
   }
@@ -795,12 +1534,12 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * 管理员更新指定用户的AI配额
    * @summary 更新用户配额
    */
-  const putApiV1AdminQuotaUserId = (
+  const putApiV1AdminQuotaUsersUserId = (
     userId: string,
     apiV1AdminUpdateQuotaRequest: ApiV1AdminUpdateQuotaRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/admin/quota/${userId}`,
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/users/${userId}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       data: apiV1AdminUpdateQuotaRequest,
@@ -811,10 +1550,41 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * 管理员激活指定用户的AI配额
    * @summary 激活用户配额
    */
-  const postApiV1AdminQuotaUserIdActivate = (userId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/admin/quota/${userId}/activate`,
+  const postApiV1AdminQuotaUsersUserIdActivate = (userId: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/users/${userId}/activate`,
       method: 'POST',
+    })
+  }
+
+  /**
+   * 管理员为指定用户充值AI配额
+   * @summary 充值用户配额
+   */
+  const postApiV1AdminQuotaUsersUserIdRecharge = (
+    userId: string,
+    apiV1AdminAdminRechargeRequest: ApiV1AdminAdminRechargeRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/users/${userId}/recharge`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminAdminRechargeRequest,
+    })
+  }
+
+  /**
+   * 管理员查看指定用户在 backend 与 AI service 之间的配额消费差异
+   * @summary 获取单用户配额对账结果
+   */
+  const getApiV1AdminQuotaUsersUserIdReconciliation = (
+    userId: string,
+    params?: GetApiV1AdminQuotaUsersUserIdReconciliationParams,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/users/${userId}/reconciliation`,
+      method: 'GET',
+      params,
     })
   }
 
@@ -822,9 +1592,9 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * 管理员暂停指定用户的AI配额
    * @summary 暂停用户配额
    */
-  const postApiV1AdminQuotaUserIdSuspend = (userId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/admin/quota/${userId}/suspend`,
+  const postApiV1AdminQuotaUsersUserIdSuspend = (userId: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/quota/users/${userId}/suspend`,
       method: 'POST',
     })
   }
@@ -834,7 +1604,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取所有角色
    */
   const getApiV1AdminRoles = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/roles`,
       method: 'GET',
     })
@@ -845,7 +1615,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 创建角色
    */
   const postApiV1AdminRoles = (postApiV1AdminRolesBody: PostApiV1AdminRolesBody) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/roles`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -858,7 +1628,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除角色
    */
   const deleteApiV1AdminRolesId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/roles/${id}`,
       method: 'DELETE',
     })
@@ -869,7 +1639,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取角色详情
    */
   const getApiV1AdminRolesId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/roles/${id}`,
       method: 'GET',
     })
@@ -880,7 +1650,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 更新角色
    */
   const putApiV1AdminRolesId = (id: string, putApiV1AdminRolesIdBody: PutApiV1AdminRolesIdBody) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/roles/${id}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -893,7 +1663,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取角色权限
    */
   const getApiV1AdminRolesIdPermissions = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/roles/${id}/permissions`,
       method: 'GET',
     })
@@ -904,7 +1674,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 移除角色权限
    */
   const deleteApiV1AdminRolesIdPermissionsPermissionCode = (id: string, permissionCode: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/roles/${id}/permissions/${permissionCode}`,
       method: 'DELETE',
     })
@@ -915,7 +1685,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 为角色分配权限
    */
   const postApiV1AdminRolesIdPermissionsPermissionCode = (id: string, permissionCode: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/roles/${id}/permissions/${permissionCode}`,
       method: 'POST',
     })
@@ -934,10 +1704,23 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取用户列表
    */
   const getApiV1AdminUsers = (params?: GetApiV1AdminUsersParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/users`,
       method: 'GET',
       params,
+    })
+  }
+
+  /**
+   * 管理员创建新用户
+   * @summary 创建用户
+   */
+  const postApiV1AdminUsers = (apiV1AdminCreateUserRequest: ApiV1AdminCreateUserRequest) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/users`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminCreateUserRequest,
     })
   }
 
@@ -946,7 +1729,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除用户
    */
   const deleteApiV1AdminUsersId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/users/${id}`,
       method: 'DELETE',
     })
@@ -957,7 +1740,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取用户详情
    */
   const getApiV1AdminUsersId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/users/${id}`,
       method: 'GET',
     })
@@ -971,7 +1754,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     params?: GetApiV1AdminUsersIdActivitiesParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/users/${id}/activities`,
       method: 'GET',
       params,
@@ -983,7 +1766,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 重置用户密码
    */
   const postApiV1AdminUsersIdResetPassword = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/users/${id}/reset-password`,
       method: 'POST',
     })
@@ -997,7 +1780,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     apiV1AdminUpdateUserRoleRequest: ApiV1AdminUpdateUserRoleRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/users/${id}/role`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -1010,7 +1793,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取用户统计信息
    */
   const getApiV1AdminUsersIdStatistics = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/users/${id}/statistics`,
       method: 'GET',
     })
@@ -1024,7 +1807,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     apiV1AdminUpdateUserStatusRequest: ApiV1AdminUpdateUserStatusRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/users/${id}/status`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -1037,7 +1820,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取用户权限
    */
   const getApiV1AdminUsersUserIdPermissions = (userId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/users/${userId}/permissions`,
       method: 'GET',
     })
@@ -1051,7 +1834,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     userId: string,
     params: DeleteApiV1AdminUsersUserIdRolesParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/users/${userId}/roles`,
       method: 'DELETE',
       params,
@@ -1063,7 +1846,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取用户角色
    */
   const getApiV1AdminUsersUserIdRoles = (userId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/users/${userId}/roles`,
       method: 'GET',
     })
@@ -1077,11 +1860,41 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     userId: string,
     apiV1AdminAssignRoleRequest: ApiV1AdminAssignRoleRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/users/${userId}/roles`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       data: apiV1AdminAssignRoleRequest,
+    })
+  }
+
+  /**
+   * 管理员批量为用户分配角色
+   * @summary 批量分配角色
+   */
+  const postApiV1AdminUsersBatchAssignRole = (
+    apiV1AdminBatchRoleOperationRequest: ApiV1AdminBatchRoleOperationRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/users/batch-assign-role`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminBatchRoleOperationRequest,
+    })
+  }
+
+  /**
+   * 管理员批量创建用户
+   * @summary 批量创建用户
+   */
+  const postApiV1AdminUsersBatchCreate = (
+    apiV1AdminBatchCreateUserRequest: ApiV1AdminBatchCreateUserRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/users/batch-create`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminBatchCreateUserRequest,
     })
   }
 
@@ -1092,11 +1905,26 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1AdminUsersBatchDelete = (
     apiV1AdminBatchDeleteUsersRequest: ApiV1AdminBatchDeleteUsersRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/users/batch-delete`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       data: apiV1AdminBatchDeleteUsersRequest,
+    })
+  }
+
+  /**
+   * 管理员批量撤销用户角色
+   * @summary 批量撤销角色
+   */
+  const postApiV1AdminUsersBatchRevokeRole = (
+    apiV1AdminBatchRoleOperationRequest: ApiV1AdminBatchRoleOperationRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/users/batch-revoke-role`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AdminBatchRoleOperationRequest,
     })
   }
 
@@ -1107,7 +1935,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1AdminUsersBatchUpdateStatus = (
     apiV1AdminBatchUpdateStatusRequest: ApiV1AdminBatchUpdateStatusRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/users/batch-update-status`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1120,8 +1948,27 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 按状态统计用户数量
    */
   const getApiV1AdminUsersCountByStatus = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/users/count-by-status`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 管理员导出用户数据，支持CSV和Excel格式
+   * @summary 导出用户数据
+   */
+  const getApiV1AdminUsersExport = (params?: GetApiV1AdminUsersExportParams) => {
+    return orvalMutator<string | Blob>({ url: `/api/v1/admin/users/export`, method: 'GET', params })
+  }
+
+  /**
+   * 获取用户导出的字段模板
+   * @summary 获取导出模板
+   */
+  const getApiV1AdminUsersExportTemplate = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/admin/users/export/template`,
       method: 'GET',
     })
   }
@@ -1131,7 +1978,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 搜索用户
    */
   const getApiV1AdminUsersSearch = (params: GetApiV1AdminUsersSearchParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/users/search`,
       method: 'GET',
       params,
@@ -1145,7 +1992,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1AdminWithdrawReview = (
     apiV1AdminReviewWithdrawRequest: ApiV1AdminReviewWithdrawRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/admin/withdraw/review`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1160,7 +2007,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1AiAuditSensitiveWords = (
     postApiV1AiAuditSensitiveWordsBody: PostApiV1AiAuditSensitiveWordsBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/audit/sensitive-words`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1173,7 +2020,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取敏感词检测结果
    */
   const getApiV1AiAuditSensitiveWordsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/audit/sensitive-words/${id}`,
       method: 'GET',
     })
@@ -1183,12 +2030,12 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * 与AI助手进行对话
    * @summary AI聊天
    */
-  const postApiV1AiChat = (apiV1AiChatRequest: ApiV1AiChatRequest) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+  const postApiV1AiChat = (apiV1AiChatRequestDoc: ApiV1AiChatRequestDoc) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/chat`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: apiV1AiChatRequest,
+      data: apiV1AiChatRequestDoc,
     })
   }
 
@@ -1197,7 +2044,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取聊天会话列表
    */
   const getApiV1AiChatSessions = (params?: GetApiV1AiChatSessionsParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/chat/sessions`,
       method: 'GET',
       params,
@@ -1209,7 +2056,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除聊天会话
    */
   const deleteApiV1AiChatSessionsSessionId = (sessionId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/chat/sessions/${sessionId}`,
       method: 'DELETE',
     })
@@ -1223,7 +2070,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     sessionId: string,
     params?: GetApiV1AiChatSessionsSessionIdParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/chat/sessions/${sessionId}`,
       method: 'GET',
       params,
@@ -1234,12 +2081,12 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * 与AI助手进行对话，流式返回结果
    * @summary AI聊天（流式）
    */
-  const postApiV1AiChatStream = (apiV1AiChatRequest: ApiV1AiChatRequest) => {
+  const postApiV1AiChatStream = (apiV1AiChatRequestDoc: ApiV1AiChatRequestDoc) => {
     return orvalMutator<string>({
       url: `/api/v1/ai/chat/stream`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: apiV1AiChatRequest,
+      data: apiV1AiChatRequestDoc,
     })
   }
 
@@ -1250,7 +2097,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1AiCreativeCharacters = (
     apiV1AiGenerateCharactersRequest: ApiV1AiGenerateCharactersRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/creative/characters`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1263,7 +2110,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary Phase3服务健康检查
    */
   const getApiV1AiCreativeHealth = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/creative/health`,
       method: 'GET',
     })
@@ -1276,7 +2123,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1AiCreativeOutline = (
     apiV1AiGenerateOutlineRequest: ApiV1AiGenerateOutlineRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/creative/outline`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1289,7 +2136,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 生成情节设定
    */
   const postApiV1AiCreativePlot = (apiV1AiGeneratePlotRequest: ApiV1AiGeneratePlotRequest) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/creative/plot`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1304,7 +2151,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1AiCreativeWorkflow = (
     apiV1AiExecuteCreativeWorkflowRequest: ApiV1AiExecuteCreativeWorkflowRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/creative/workflow`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1317,7 +2164,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 健康检查
    */
   const getApiV1AiHealth = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/health`,
       method: 'GET',
     })
@@ -1328,7 +2175,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取可用模型列表
    */
   const getApiV1AiModels = (params?: GetApiV1AiModelsParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/models`,
       method: 'GET',
       params,
@@ -1340,7 +2187,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取AI提供商列表
    */
   const getApiV1AiProviders = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/providers`,
       method: 'GET',
     })
@@ -1351,7 +2198,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取配额信息
    */
   const getApiV1AiQuota = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/quota`,
       method: 'GET',
     })
@@ -1362,7 +2209,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取所有配额
    */
   const getApiV1AiQuotaAll = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/quota/all`,
       method: 'GET',
     })
@@ -1373,7 +2220,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 配额充值
    */
   const postApiV1AiQuotaRecharge = (apiV1AiRechargeRequest: ApiV1AiRechargeRequest) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/quota/recharge`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1386,7 +2233,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取配额统计
    */
   const getApiV1AiQuotaStatistics = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/quota/statistics`,
       method: 'GET',
     })
@@ -1397,10 +2244,78 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取配额事务历史
    */
   const getApiV1AiQuotaTransactions = (params?: GetApiV1AiQuotaTransactionsParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/quota/transactions`,
       method: 'GET',
       params,
+    })
+  }
+
+  /**
+   * 通过向量检索获取相关文档片段，结合LLM生成准确答案
+   * @summary RAG检索增强生成
+   */
+  const postApiV1AiRagRetrieve = (
+    apiV1AiRetrieveAndGenerateRequest: ApiV1AiRetrieveAndGenerateRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/ai/rag/retrieve`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AiRetrieveAndGenerateRequest,
+    })
+  }
+
+  /**
+   * 通过向量检索查找与查询内容相似的文档片段
+   * @summary 搜索相似内容
+   */
+  const getApiV1AiRagSearch = (params: GetApiV1AiRagSearchParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/ai/rag/search`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 预览三层上下文组装结果，用于调试
+   * @summary 上下文预览
+   */
+  const getApiV1AiStoryContextPreview = (params: GetApiV1AiStoryContextPreviewParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/ai/story/context-preview`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 基于三层上下文进行 AI 故事生成
+   * @summary 故事生成
+   */
+  const postApiV1AiStoryGenerate = (apiV1AiStoryGenerateRequest: ApiV1AiStoryGenerateRequest) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/ai/story/generate`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AiStoryGenerateRequest,
+    })
+  }
+
+  /**
+   * 更新文档的场景目标和活跃冲突
+   * @summary 更新场景状态
+   */
+  const putApiV1AiStorySceneStateId = (
+    id: string,
+    apiV1AiUpdateSceneStateRequest: ApiV1AiUpdateSceneStateRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/ai/story/scene-state/${id}`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1AiUpdateSceneStateRequest,
     })
   }
 
@@ -1409,13 +2324,13 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 智能续写
    */
   const postApiV1AiWritingContinue = (
-    apiV1AiContinueWritingRequest: ApiV1AiContinueWritingRequest,
+    apiV1AiContinueWritingRequestDoc: ApiV1AiContinueWritingRequestDoc,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/writing/continue`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: apiV1AiContinueWritingRequest,
+      data: apiV1AiContinueWritingRequestDoc,
     })
   }
 
@@ -1424,13 +2339,13 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 智能续写（流式）
    */
   const postApiV1AiWritingContinueStream = (
-    apiV1AiContinueWritingRequest: ApiV1AiContinueWritingRequest,
+    apiV1AiContinueWritingRequestDoc: ApiV1AiContinueWritingRequestDoc,
   ) => {
     return orvalMutator<string>({
       url: `/api/v1/ai/writing/continue/stream`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: apiV1AiContinueWritingRequest,
+      data: apiV1AiContinueWritingRequestDoc,
     })
   }
 
@@ -1441,7 +2356,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1AiWritingProofread = (
     postApiV1AiWritingProofreadBody: PostApiV1AiWritingProofreadBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/writing/proofread`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1453,12 +2368,14 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * 对文本进行扩写、缩写或润色
    * @summary 改写文本
    */
-  const postApiV1AiWritingRewrite = (apiV1AiRewriteTextRequest: ApiV1AiRewriteTextRequest) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+  const postApiV1AiWritingRewrite = (
+    apiV1AiRewriteTextRequestDoc: ApiV1AiRewriteTextRequestDoc,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/writing/rewrite`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: apiV1AiRewriteTextRequest,
+      data: apiV1AiRewriteTextRequestDoc,
     })
   }
 
@@ -1467,13 +2384,13 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 改写文本（流式）
    */
   const postApiV1AiWritingRewriteStream = (
-    apiV1AiRewriteTextRequest: ApiV1AiRewriteTextRequest,
+    apiV1AiRewriteTextRequestDoc: ApiV1AiRewriteTextRequestDoc,
   ) => {
     return orvalMutator<string>({
       url: `/api/v1/ai/writing/rewrite/stream`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: apiV1AiRewriteTextRequest,
+      data: apiV1AiRewriteTextRequestDoc,
     })
   }
 
@@ -1482,7 +2399,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取校对建议详情
    */
   const getApiV1AiWritingSuggestionsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/writing/suggestions/${id}`,
       method: 'GET',
     })
@@ -1495,7 +2412,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1AiWritingSummarize = (
     postApiV1AiWritingSummarizeBody: PostApiV1AiWritingSummarizeBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/writing/summarize`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1510,7 +2427,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1AiWritingSummarizeChapter = (
     postApiV1AiWritingSummarizeChapterBody: PostApiV1AiWritingSummarizeChapterBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/ai/writing/summarize-chapter`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1523,7 +2440,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取公告详情
    */
   const getApiV1AnnouncementsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/announcements/${id}`,
       method: 'GET',
     })
@@ -1534,7 +2451,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 增加查看次数
    */
   const postApiV1AnnouncementsIdView = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/announcements/${id}/view`,
       method: 'POST',
     })
@@ -1545,7 +2462,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取有效公告
    */
   const getApiV1AnnouncementsEffective = (params?: GetApiV1AnnouncementsEffectiveParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/announcements/effective`,
       method: 'GET',
       params,
@@ -1560,7 +2477,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     postApiV1AuditIdAppealBody: PostApiV1AuditIdAppealBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/audit/${id}/appeal`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1573,7 +2490,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 实时检测内容
    */
   const postApiV1AuditCheck = (postApiV1AuditCheckBody: PostApiV1AuditCheckBody) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/audit/check`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1586,7 +2503,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 增加Banner点击次数
    */
   const postApiV1BannersIdClick = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/banners/${id}/click`,
       method: 'POST',
     })
@@ -1597,7 +2514,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取激活的Banner列表
    */
   const getApiV1BookstoreBanners = (params?: GetApiV1BookstoreBannersParams) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/banners`,
       method: 'GET',
       params,
@@ -1609,47 +2526,21 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 增加Banner点击次数
    */
   const postApiV1BookstoreBannersIdClick = (id: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/banners/${id}/click`,
       method: 'POST',
     })
   }
 
   /**
-   * 获取所有书籍列表，支持分页
+   * 获取所有书籍列表，支持分页和关键词搜索
    * @summary 获取书籍列表
    */
   const getApiV1BookstoreBooks = (params?: GetApiV1BookstoreBooksParams) => {
-    return orvalMutator<ApiV1BookstorePaginatedResponse>({
+    return orvalMutator<QingyuBackendPkgResponsePaginatedResponse>({
       url: `/api/v1/bookstore/books`,
       method: 'GET',
       params,
-    })
-  }
-
-  /**
-   * 创建新的书籍详情信息
-   * @summary 创建书籍详情
-   */
-  const postApiV1BookstoreBooks = (
-    qingyuBackendModelsBookstoreBookDetail: QingyuBackendModelsBookstoreBookDetail,
-  ) => {
-    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
-      url: `/api/v1/bookstore/books`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: qingyuBackendModelsBookstoreBookDetail,
-    })
-  }
-
-  /**
-   * 删除书籍详情信息
-   * @summary 删除书籍详情
-   */
-  const deleteApiV1BookstoreBooksId = (id: string) => {
-    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
-      url: `/api/v1/bookstore/books/${id}`,
-      method: 'DELETE',
     })
   }
 
@@ -1658,35 +2549,8 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取书籍详情
    */
   const getApiV1BookstoreBooksId = (id: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
-      url: `/api/v1/bookstore/books/${id}`,
-      method: 'GET',
-    })
-  }
-
-  /**
-   * 更新书籍详情信息
-   * @summary 更新书籍详情
-   */
-  const putApiV1BookstoreBooksId = (
-    id: string,
-    qingyuBackendModelsBookstoreBookDetail: QingyuBackendModelsBookstoreBookDetail,
-  ) => {
     return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/books/${id}`,
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      data: qingyuBackendModelsBookstoreBookDetail,
-    })
-  }
-
-  /**
-   * 根据图书ID获取该图书的平均评分
-   * @summary 获取图书平均评分
-   */
-  const getApiV1BookstoreBooksIdAverageRating = (id: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
-      url: `/api/v1/bookstore/books/${id}/average-rating`,
       method: 'GET',
     })
   }
@@ -1696,7 +2560,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取书籍章节目录
    */
   const getApiV1BookstoreBooksIdChapters = (id: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/books/${id}/chapters`,
       method: 'GET',
     })
@@ -1718,7 +2582,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取单个章节信息
    */
   const getApiV1BookstoreBooksIdChaptersChapterId = (id: string, chapterId: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/books/${id}/chapters/${chapterId}`,
       method: 'GET',
     })
@@ -1814,93 +2678,13 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
-   * 用户点赞书籍，增加点赞数统计
-   * @summary 增加书籍点赞数
-   */
-  const postApiV1BookstoreBooksIdLike = (id: string) => {
-    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
-      url: `/api/v1/bookstore/books/${id}/like`,
-      method: 'POST',
-    })
-  }
-
-  /**
-   * 删除指定ID的评分
-   * @summary 删除评分
-   */
-  const deleteApiV1BookstoreBooksIdRating = (id: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
-      url: `/api/v1/bookstore/books/${id}/rating`,
-      method: 'DELETE',
-    })
-  }
-
-  /**
-   * 根据评分ID获取评分详情信息
-   * @summary 获取评分详情
+   * 根据图书ID获取评分统计信息
+   * @summary 获取书籍评分摘要
    */
   const getApiV1BookstoreBooksIdRating = (id: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/books/${id}/rating`,
       method: 'GET',
-    })
-  }
-
-  /**
-   * 为图书创建新的评分
-   * @summary 创建评分
-   */
-  const postApiV1BookstoreBooksIdRating = (
-    id: string,
-    postApiV1BookstoreBooksIdRatingBody: PostApiV1BookstoreBooksIdRatingBody,
-  ) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
-      url: `/api/v1/bookstore/books/${id}/rating`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: postApiV1BookstoreBooksIdRatingBody,
-    })
-  }
-
-  /**
-   * 更新指定ID的评分信息
-   * @summary 更新评分
-   */
-  const putApiV1BookstoreBooksIdRating = (
-    id: string,
-    putApiV1BookstoreBooksIdRatingBody: PutApiV1BookstoreBooksIdRatingBody,
-  ) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
-      url: `/api/v1/bookstore/books/${id}/rating`,
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      data: putApiV1BookstoreBooksIdRatingBody,
-    })
-  }
-
-  /**
-   * 根据图书ID获取该图书的评分分布统计
-   * @summary 获取图书评分分布
-   */
-  const getApiV1BookstoreBooksIdRatingDistribution = (id: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
-      url: `/api/v1/bookstore/books/${id}/rating-distribution`,
-      method: 'GET',
-    })
-  }
-
-  /**
-   * 根据图书ID获取该图书的所有评分列表
-   * @summary 获取图书的所有评分
-   */
-  const getApiV1BookstoreBooksIdRatings = (
-    id: string,
-    params?: GetApiV1BookstoreBooksIdRatingsParams,
-  ) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
-      url: `/api/v1/bookstore/books/${id}/ratings`,
-      method: 'GET',
-      params,
     })
   }
 
@@ -1912,21 +2696,10 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     params?: GetApiV1BookstoreBooksIdSimilarParams,
   ) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/books/${id}/similar`,
       method: 'GET',
       params,
-    })
-  }
-
-  /**
-   * 获取书籍的浏览量、收藏量等统计信息
-   * @summary 获取书籍统计信息
-   */
-  const getApiV1BookstoreBooksIdStatistics = (id: string) => {
-    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
-      url: `/api/v1/bookstore/books/${id}/statistics`,
-      method: 'GET',
     })
   }
 
@@ -1938,7 +2711,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     params?: GetApiV1BookstoreBooksIdTrialChaptersParams,
   ) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/books/${id}/trial-chapters`,
       method: 'GET',
       params,
@@ -1946,22 +2719,11 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
-   * 用户取消点赞书籍，减少点赞数统计
-   * @summary 减少书籍点赞数
-   */
-  const postApiV1BookstoreBooksIdUnlike = (id: string) => {
-    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
-      url: `/api/v1/bookstore/books/${id}/unlike`,
-      method: 'POST',
-    })
-  }
-
-  /**
-   * 记录用户浏览书籍，增加浏览量统计
+   * 记录用户浏览书籍详情，增加浏览量统计
    * @summary 增加书籍浏览量
    */
   const postApiV1BookstoreBooksIdView = (id: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/books/${id}/view`,
       method: 'POST',
     })
@@ -1972,21 +2734,9 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取VIP章节列表
    */
   const getApiV1BookstoreBooksIdVipChapters = (id: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/books/${id}/vip-chapters`,
       method: 'GET',
-    })
-  }
-
-  /**
-   * 根据分类获取书籍列表
-   * @summary 根据分类获取书籍
-   */
-  const getApiV1BookstoreBooksCategory = (params: GetApiV1BookstoreBooksCategoryParams) => {
-    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
-      url: `/api/v1/bookstore/books/category`,
-      method: 'GET',
-      params,
     })
   }
 
@@ -1995,32 +2745,8 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取精选书籍
    */
   const getApiV1BookstoreBooksFeatured = (params?: GetApiV1BookstoreBooksFeaturedParams) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/books/featured`,
-      method: 'GET',
-      params,
-    })
-  }
-
-  /**
-   * 获取最新发布的书籍列表
-   * @summary 获取最新书籍
-   */
-  const getApiV1BookstoreBooksLatest = (params?: GetApiV1BookstoreBooksLatestParams) => {
-    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
-      url: `/api/v1/bookstore/books/latest`,
-      method: 'GET',
-      params,
-    })
-  }
-
-  /**
-   * 获取热门书籍列表
-   * @summary 获取热门书籍
-   */
-  const getApiV1BookstoreBooksPopular = (params?: GetApiV1BookstoreBooksPopularParams) => {
-    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
-      url: `/api/v1/bookstore/books/popular`,
       method: 'GET',
       params,
     })
@@ -2031,7 +2757,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取推荐书籍
    */
   const getApiV1BookstoreBooksRecommended = (params?: GetApiV1BookstoreBooksRecommendedParams) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/books/recommended`,
       method: 'GET',
       params,
@@ -2043,7 +2769,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 搜索书籍
    */
   const getApiV1BookstoreBooksSearch = (params?: GetApiV1BookstoreBooksSearchParams) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/books/search`,
       method: 'GET',
       params,
@@ -2055,7 +2781,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 按作者搜索书籍
    */
   const getApiV1BookstoreBooksSearchAuthor = (params: GetApiV1BookstoreBooksSearchAuthorParams) => {
-    return orvalMutator<ApiV1BookstorePaginatedResponse>({
+    return orvalMutator<QingyuBackendPkgResponsePaginatedResponse>({
       url: `/api/v1/bookstore/books/search/author`,
       method: 'GET',
       params,
@@ -2067,7 +2793,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 按标题搜索书籍
    */
   const getApiV1BookstoreBooksSearchTitle = (params: GetApiV1BookstoreBooksSearchTitleParams) => {
-    return orvalMutator<ApiV1BookstorePaginatedResponse>({
+    return orvalMutator<QingyuBackendPkgResponsePaginatedResponse>({
       url: `/api/v1/bookstore/books/search/title`,
       method: 'GET',
       params,
@@ -2079,8 +2805,33 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 按状态筛选书籍
    */
   const getApiV1BookstoreBooksStatus = (params: GetApiV1BookstoreBooksStatusParams) => {
-    return orvalMutator<ApiV1BookstorePaginatedResponse>({
+    return orvalMutator<QingyuBackendPkgResponsePaginatedResponse>({
       url: `/api/v1/bookstore/books/status`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 使用游标机制流式返回搜索结果，NDJSON格式
+   * @summary 流式搜索书籍
+   */
+  const getApiV1BookstoreBooksStream = (params?: GetApiV1BookstoreBooksStreamParams) => {
+    return orvalMutator<Blob>({
+      url: `/api/v1/bookstore/books/stream`,
+      method: 'GET',
+      params,
+      responseType: 'blob',
+    })
+  }
+
+  /**
+   * 使用游标机制返回搜索结果，非流式响应
+   * @summary 批量流式搜索书籍
+   */
+  const getApiV1BookstoreBooksStreamBatch = (params?: GetApiV1BookstoreBooksStreamBatchParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/bookstore/books/stream-batch`,
       method: 'GET',
       params,
     })
@@ -2091,7 +2842,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 按标签筛选书籍
    */
   const getApiV1BookstoreBooksTags = (params: GetApiV1BookstoreBooksTagsParams) => {
-    return orvalMutator<ApiV1BookstorePaginatedResponse>({
+    return orvalMutator<QingyuBackendPkgResponsePaginatedResponse>({
       url: `/api/v1/bookstore/books/tags`,
       method: 'GET',
       params,
@@ -2103,7 +2854,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取分类详情
    */
   const getApiV1BookstoreCategoriesId = (id: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/categories/${id}`,
       method: 'GET',
     })
@@ -2117,7 +2868,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     params?: GetApiV1BookstoreCategoriesIdBooksParams,
   ) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/categories/${id}/books`,
       method: 'GET',
       params,
@@ -2129,7 +2880,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取分类树
    */
   const getApiV1BookstoreCategoriesTree = () => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/categories/tree`,
       method: 'GET',
     })
@@ -2140,13 +2891,13 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 创建章节
    */
   const postApiV1BookstoreChapters = (
-    qingyuBackendModelsBookstoreChapter: QingyuBackendModelsBookstoreChapter,
+    apiV1BookstoreChapterRequestDoc: ApiV1BookstoreChapterRequestDoc,
   ) => {
     return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/chapters`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: qingyuBackendModelsBookstoreChapter,
+      data: apiV1BookstoreChapterRequestDoc,
     })
   }
 
@@ -2178,13 +2929,13 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    */
   const putApiV1BookstoreChaptersId = (
     id: string,
-    qingyuBackendModelsBookstoreChapter: QingyuBackendModelsBookstoreChapter,
+    apiV1BookstoreChapterRequestDoc: ApiV1BookstoreChapterRequestDoc,
   ) => {
     return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/chapters/${id}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      data: qingyuBackendModelsBookstoreChapter,
+      data: apiV1BookstoreChapterRequestDoc,
     })
   }
 
@@ -2193,7 +2944,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 检查章节访问权限
    */
   const getApiV1BookstoreChaptersIdAccess = (id: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/chapters/${id}/access`,
       method: 'GET',
     })
@@ -2237,7 +2988,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取章节价格
    */
   const getApiV1BookstoreChaptersIdPrice = (id: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/chapters/${id}/price`,
       method: 'GET',
     })
@@ -2260,7 +3011,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取书城首页数据
    */
   const getApiV1BookstoreHomepage = () => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/homepage`,
       method: 'GET',
     })
@@ -2274,7 +3025,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     type: 'realtime' | 'weekly' | 'monthly' | 'newbie',
     params?: GetApiV1BookstoreRankingsTypeParams,
   ) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/rankings/${type}`,
       method: 'GET',
       params,
@@ -2286,7 +3037,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取月榜单
    */
   const getApiV1BookstoreRankingsMonthly = (params?: GetApiV1BookstoreRankingsMonthlyParams) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/rankings/monthly`,
       method: 'GET',
       params,
@@ -2298,7 +3049,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取新人榜单
    */
   const getApiV1BookstoreRankingsNewbie = (params?: GetApiV1BookstoreRankingsNewbieParams) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/rankings/newbie`,
       method: 'GET',
       params,
@@ -2310,7 +3061,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取实时榜单
    */
   const getApiV1BookstoreRankingsRealtime = (params?: GetApiV1BookstoreRankingsRealtimeParams) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/rankings/realtime`,
       method: 'GET',
       params,
@@ -2322,23 +3073,8 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取周榜单
    */
   const getApiV1BookstoreRankingsWeekly = (params?: GetApiV1BookstoreRankingsWeeklyParams) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/bookstore/rankings/weekly`,
-      method: 'GET',
-      params,
-    })
-  }
-
-  /**
-   * 根据用户ID获取该用户的所有评分列表
-   * @summary 获取用户的所有评分
-   */
-  const getApiV1BookstoreRatingsUserId = (
-    id: string,
-    params?: GetApiV1BookstoreRatingsUserIdParams,
-  ) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
-      url: `/api/v1/bookstore/ratings/user/${id}`,
       method: 'GET',
       params,
     })
@@ -2352,7 +3088,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     characterId: string,
     params: DeleteApiV1CharactersCharacterIdParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/characters/${characterId}`,
       method: 'DELETE',
       params,
@@ -2367,7 +3103,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     characterId: string,
     params: GetApiV1CharactersCharacterIdParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/characters/${characterId}`,
       method: 'GET',
       params,
@@ -2383,7 +3119,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     putApiV1CharactersCharacterIdBody: PutApiV1CharactersCharacterIdBody,
     params: PutApiV1CharactersCharacterIdParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/characters/${characterId}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -2400,7 +3136,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     postApiV1CharactersRelationsBody: PostApiV1CharactersRelationsBody,
     params: PostApiV1CharactersRelationsParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/characters/relations`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -2417,10 +3153,166 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     relationId: string,
     params: DeleteApiV1CharactersRelationsRelationIdParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/characters/relations/${relationId}`,
       method: 'DELETE',
       params,
+    })
+  }
+
+  /**
+   * 获取指定关系的所有时序变化事件
+   * @summary 获取关系时序历史
+   */
+  const getApiV1CharactersRelationsRelationIdTimeline = (
+    relationId: string,
+    params: GetApiV1CharactersRelationsRelationIdTimelineParams,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/characters/relations/${relationId}/timeline`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 在指定章节创建关系时序变化事件
+   * @summary 创建关系时序变化事件
+   */
+  const postApiV1CharactersRelationsRelationIdTimeline = (
+    relationId: string,
+    postApiV1CharactersRelationsRelationIdTimelineBody: PostApiV1CharactersRelationsRelationIdTimelineBody,
+    params: PostApiV1CharactersRelationsRelationIdTimelineParams,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/characters/relations/${relationId}/timeline`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: postApiV1CharactersRelationsRelationIdTimelineBody,
+      params,
+    })
+  }
+
+  /**
+   * 删除指定关系时序事件
+   * @summary 删除关系时序事件
+   */
+  const deleteApiV1CharactersRelationsTimelineEventsEventId = (
+    eventId: string,
+    params: DeleteApiV1CharactersRelationsTimelineEventsEventIdParams,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/characters/relations/timeline-events/${eventId}`,
+      method: 'DELETE',
+      params,
+    })
+  }
+
+  /**
+   * 更新指定关系时序事件
+   * @summary 更新关系时序事件
+   */
+  const putApiV1CharactersRelationsTimelineEventsEventId = (
+    eventId: string,
+    putApiV1CharactersRelationsTimelineEventsEventIdBody: PutApiV1CharactersRelationsTimelineEventsEventIdBody,
+    params: PutApiV1CharactersRelationsTimelineEventsEventIdParams,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/characters/relations/timeline-events/${eventId}`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: putApiV1CharactersRelationsTimelineEventsEventIdBody,
+      params,
+    })
+  }
+
+  /**
+   * @summary 获取动态列表
+   */
+  const getApiV1CommunityPosts = (params?: GetApiV1CommunityPostsParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/community/posts`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * @summary 创建动态
+   */
+  const postApiV1CommunityPosts = (
+    apiV1CommunityCreatePostRequest: ApiV1CommunityCreatePostRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/community/posts`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1CommunityCreatePostRequest,
+    })
+  }
+
+  /**
+   * @summary 删除动态
+   */
+  const deleteApiV1CommunityPostsId = (id: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/community/posts/${id}`,
+      method: 'DELETE',
+    })
+  }
+
+  /**
+   * @summary 获取动态详情
+   */
+  const getApiV1CommunityPostsId = (id: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/community/posts/${id}`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * @summary 更新动态
+   */
+  const putApiV1CommunityPostsId = (
+    id: string,
+    apiV1CommunityUpdatePostRequest: ApiV1CommunityUpdatePostRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/community/posts/${id}`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1CommunityUpdatePostRequest,
+    })
+  }
+
+  /**
+   * @summary 取消点赞动态
+   */
+  const deleteApiV1CommunityPostsIdLike = (id: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/community/posts/${id}/like`,
+      method: 'DELETE',
+    })
+  }
+
+  /**
+   * @summary 切换点赞状态
+   */
+  const patchApiV1CommunityPostsIdLike = (id: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/community/posts/${id}/like`,
+      method: 'PATCH',
+    })
+  }
+
+  /**
+   * @summary 点赞动态
+   */
+  const postApiV1CommunityPostsIdLike = (id: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/community/posts/${id}/like`,
+      method: 'POST',
     })
   }
 
@@ -2432,7 +3324,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     documentId: string,
     params?: GetApiV1DocumentsDocumentIdVersionsParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/documents/${documentId}/versions`,
       method: 'GET',
       params,
@@ -2444,7 +3336,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取特定版本
    */
   const getApiV1DocumentsDocumentIdVersionsVersionId = (documentId: string, versionId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/documents/${documentId}/versions/${versionId}`,
       method: 'GET',
     })
@@ -2458,7 +3350,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     documentId: string,
     versionId: string,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/documents/${documentId}/versions/${versionId}/restore`,
       method: 'POST',
     })
@@ -2472,7 +3364,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     documentId: string,
     params: GetApiV1DocumentsDocumentIdVersionsCompareParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/documents/${documentId}/versions/compare`,
       method: 'GET',
       params,
@@ -2484,7 +3376,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除文档
    */
   const deleteApiV1DocumentsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/documents/${id}`,
       method: 'DELETE',
     })
@@ -2495,7 +3387,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取文档详情
    */
   const getApiV1DocumentsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/documents/${id}`,
       method: 'GET',
     })
@@ -2506,7 +3398,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 更新文档
    */
   const putApiV1DocumentsId = (id: string, putApiV1DocumentsIdBody: PutApiV1DocumentsIdBody) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/documents/${id}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -2522,7 +3414,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     postApiV1DocumentsIdAuditBody: PostApiV1DocumentsIdAuditBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/documents/${id}/audit`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -2538,53 +3430,10 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     params?: GetApiV1DocumentsIdAuditResultParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/documents/${id}/audit-result`,
       method: 'GET',
       params,
-    })
-  }
-
-  /**
-   * 自动保存文档内容（支持版本冲突检测）
-   * @summary 自动保存文档
-   */
-  const postApiV1DocumentsIdAutosave = (
-    id: string,
-    postApiV1DocumentsIdAutosaveBody: PostApiV1DocumentsIdAutosaveBody,
-  ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/documents/${id}/autosave`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: postApiV1DocumentsIdAutosaveBody,
-    })
-  }
-
-  /**
-   * 获取文档的完整内容（用于编辑器加载）
-   * @summary 获取文档内容
-   */
-  const getApiV1DocumentsIdContent = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/documents/${id}/content`,
-      method: 'GET',
-    })
-  }
-
-  /**
-   * 手动更新文档内容（非自动保存）
-   * @summary 更新文档内容
-   */
-  const putApiV1DocumentsIdContent = (
-    id: string,
-    putApiV1DocumentsIdContentBody: PutApiV1DocumentsIdContentBody,
-  ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/documents/${id}/content`,
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      data: putApiV1DocumentsIdContentBody,
     })
   }
 
@@ -2596,7 +3445,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     putApiV1DocumentsIdMoveBody: PutApiV1DocumentsIdMoveBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/documents/${id}/move`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -2605,29 +3454,17 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
-   * 获取文档的保存状态和最后保存时间
-   * @summary 获取保存状态
+   * 接收浏览器端批量错误上报，当前仅记录日志并返回成功
+   * @summary 接收前端错误上报
    */
-  const getApiV1DocumentsIdSaveStatus = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/documents/${id}/save-status`,
-      method: 'GET',
-    })
-  }
-
-  /**
-   * 计算文档内容的字数统计（支持Markdown过滤）
-   * @summary 计算字数
-   */
-  const postApiV1DocumentsIdWordCount = (
-    id: string,
-    apiV1WriterWordCountRequest: ApiV1WriterWordCountRequest,
+  const postApiV1ErrorsReport = (
+    apiV1SystemClientErrorReportBatchRequest: ApiV1SystemClientErrorReportBatchRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/documents/${id}/word-count`,
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/errors/report`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: apiV1WriterWordCountRequest,
+      data: apiV1SystemClientErrorReportBatchRequest,
     })
   }
 
@@ -2636,7 +3473,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 查询文件列表
    */
   const getApiV1Files = (params?: GetApiV1FilesParams) => {
-    return orvalMutator<ApiV1SharedPaginatedResponse>({
+    return orvalMutator<QingyuBackendPkgResponsePaginatedResponse>({
       url: `/api/v1/files`,
       method: 'GET',
       params,
@@ -2651,7 +3488,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     fileId: string,
     params: DeleteApiV1FilesFileIdAccessParams,
   ) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/files/${fileId}/access`,
       method: 'DELETE',
       params,
@@ -2666,7 +3503,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     fileId: string,
     postApiV1FilesFileIdAccessBody: PostApiV1FilesFileIdAccessBody,
   ) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/files/${fileId}/access`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -2679,7 +3516,10 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除文件
    */
   const deleteApiV1FilesId = (id: string) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({ url: `/api/v1/files/${id}`, method: 'DELETE' })
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/files/${id}`,
+      method: 'DELETE',
+    })
   }
 
   /**
@@ -2687,7 +3527,10 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取文件信息
    */
   const getApiV1FilesId = (id: string) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({ url: `/api/v1/files/${id}`, method: 'GET' })
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/files/${id}`,
+      method: 'GET',
+    })
   }
 
   /**
@@ -2707,7 +3550,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取下载链接
    */
   const getApiV1FilesIdUrl = (id: string, params?: GetApiV1FilesIdUrlParams) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/files/${id}/url`,
       method: 'GET',
       params,
@@ -2719,7 +3562,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 中止分片上传
    */
   const postApiV1FilesMultipartAbort = (params: PostApiV1FilesMultipartAbortParams) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/files/multipart/abort`,
       method: 'POST',
       params,
@@ -2733,7 +3576,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1FilesMultipartComplete = (
     qingyuBackendServiceSharedStorageCompleteMultipartUploadRequest: QingyuBackendServiceSharedStorageCompleteMultipartUploadRequest,
   ) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/files/multipart/complete`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -2748,7 +3591,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1FilesMultipartInit = (
     qingyuBackendServiceSharedStorageInitiateMultipartUploadRequest: QingyuBackendServiceSharedStorageInitiateMultipartUploadRequest,
   ) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/files/multipart/init`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -2761,7 +3604,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取上传进度
    */
   const getApiV1FilesMultipartProgress = (params: GetApiV1FilesMultipartProgressParams) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/files/multipart/progress`,
       method: 'GET',
       params,
@@ -2780,7 +3623,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     formData.append(`chunk_index`, postApiV1FilesMultipartUploadBody.chunk_index.toString())
     formData.append(`chunk`, postApiV1FilesMultipartUploadBody.chunk)
 
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/files/multipart/upload`,
       method: 'POST',
       headers: { 'Content-Type': 'multipart/form-data' },
@@ -2793,7 +3636,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 生成缩略图
    */
   const postApiV1FilesThumbnail = (params: PostApiV1FilesThumbnailParams) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/files/thumbnail`,
       method: 'POST',
       params,
@@ -2814,7 +3657,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
       formData.append(`is_public`, postApiV1FilesUploadBody.is_public.toString())
     }
 
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/files/upload`,
       method: 'POST',
       headers: { 'Content-Type': 'multipart/form-data' },
@@ -2827,7 +3670,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取作者收入列表
    */
   const getApiV1FinanceAuthorEarnings = (params?: GetApiV1FinanceAuthorEarningsParams) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/author/earnings`,
       method: 'GET',
       params,
@@ -2842,7 +3685,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     bookId: string,
     params?: GetApiV1FinanceAuthorEarningsBookIdParams,
   ) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/author/earnings/${bookId}`,
       method: 'GET',
       params,
@@ -2856,7 +3699,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const getApiV1FinanceAuthorRevenueDetails = (
     params?: GetApiV1FinanceAuthorRevenueDetailsParams,
   ) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/author/revenue-details`,
       method: 'GET',
       params,
@@ -2870,7 +3713,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const getApiV1FinanceAuthorRevenueStatistics = (
     params?: GetApiV1FinanceAuthorRevenueStatisticsParams,
   ) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/author/revenue-statistics`,
       method: 'GET',
       params,
@@ -2882,7 +3725,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取结算记录
    */
   const getApiV1FinanceAuthorSettlements = (params?: GetApiV1FinanceAuthorSettlementsParams) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/author/settlements`,
       method: 'GET',
       params,
@@ -2894,7 +3737,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取结算详情
    */
   const getApiV1FinanceAuthorSettlementsId = (id: string) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/author/settlements/${id}`,
       method: 'GET',
     })
@@ -2905,7 +3748,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取税务信息
    */
   const getApiV1FinanceAuthorTaxInfo = () => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/author/tax-info`,
       method: 'GET',
     })
@@ -2918,7 +3761,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const putApiV1FinanceAuthorTaxInfo = (
     apiV1FinanceUpdateTaxInfoRequest: ApiV1FinanceUpdateTaxInfoRequest,
   ) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/author/tax-info`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -2933,7 +3776,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1FinanceAuthorWithdraw = (
     apiV1FinanceWithdrawRequest: ApiV1FinanceWithdrawRequest,
   ) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/author/withdraw`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -2946,7 +3789,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取提现记录
    */
   const getApiV1FinanceAuthorWithdrawals = (params?: GetApiV1FinanceAuthorWithdrawalsParams) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/author/withdrawals`,
       method: 'GET',
       params,
@@ -2958,7 +3801,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取会员权益列表
    */
   const getApiV1FinanceMembershipBenefits = (params?: GetApiV1FinanceMembershipBenefitsParams) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/membership/benefits`,
       method: 'GET',
       params,
@@ -2970,7 +3813,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 取消自动续费
    */
   const postApiV1FinanceMembershipCancel = () => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/membership/cancel`,
       method: 'POST',
     })
@@ -2981,7 +3824,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取会员卡列表
    */
   const getApiV1FinanceMembershipCards = (params?: GetApiV1FinanceMembershipCardsParams) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/membership/cards`,
       method: 'GET',
       params,
@@ -2995,7 +3838,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1FinanceMembershipCardsActivate = (
     apiV1FinanceActivateCardRequest: ApiV1FinanceActivateCardRequest,
   ) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/membership/cards/activate`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -3008,7 +3851,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取会员套餐列表
    */
   const getApiV1FinanceMembershipPlans = () => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/membership/plans`,
       method: 'GET',
     })
@@ -3019,7 +3862,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 手动续费
    */
   const putApiV1FinanceMembershipRenew = () => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/membership/renew`,
       method: 'PUT',
     })
@@ -3030,7 +3873,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取会员状态
    */
   const getApiV1FinanceMembershipStatus = () => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/membership/status`,
       method: 'GET',
     })
@@ -3043,7 +3886,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1FinanceMembershipSubscribe = (
     apiV1FinanceSubscribeRequest: ApiV1FinanceSubscribeRequest,
   ) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/membership/subscribe`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -3056,7 +3899,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取会员权益使用情况
    */
   const getApiV1FinanceMembershipUsage = () => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/membership/usage`,
       method: 'GET',
     })
@@ -3067,7 +3910,10 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取钱包信息
    */
   const getApiV1FinanceWallet = () => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({ url: `/api/v1/finance/wallet`, method: 'GET' })
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/finance/wallet`,
+      method: 'GET',
+    })
   }
 
   /**
@@ -3075,7 +3921,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 查询钱包余额
    */
   const getApiV1FinanceWalletBalance = () => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/wallet/balance`,
       method: 'GET',
     })
@@ -3088,7 +3934,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1FinanceWalletConsume = (
     apiV1FinanceConsumeRequest: ApiV1FinanceConsumeRequest,
   ) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/wallet/consume`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -3103,7 +3949,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1FinanceWalletRecharge = (
     apiV1FinanceRechargeRequest: ApiV1FinanceRechargeRequest,
   ) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/wallet/recharge`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -3116,7 +3962,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取交易记录
    */
   const getApiV1FinanceWalletTransactions = (params?: GetApiV1FinanceWalletTransactionsParams) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/wallet/transactions`,
       method: 'GET',
       params,
@@ -3130,7 +3976,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1FinanceWalletTransfer = (
     apiV1FinanceTransferRequest: ApiV1FinanceTransferRequest,
   ) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/wallet/transfer`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -3145,7 +3991,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1FinanceWalletWithdraw = (
     apiV1FinanceWithdrawRequest: ApiV1FinanceWithdrawRequest,
   ) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/wallet/withdraw`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -3158,7 +4004,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 查询提现申请
    */
   const getApiV1FinanceWalletWithdrawals = (params?: GetApiV1FinanceWalletWithdrawalsParams) => {
-    return orvalMutator<ApiV1FinanceAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/finance/wallet/withdrawals`,
       method: 'GET',
       params,
@@ -3166,29 +4012,226 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
-   * 获取当前用户的通知列表（分页）
-   * @summary 获取通知列表
+   * 按分类和关键词搜索设定概念
+   * @summary 搜索设定概念
    */
-  const getApiV1Notifications = (params?: GetApiV1NotificationsParams) => {
-    return orvalMutator<ApiV1SharedPaginatedResponse>({
-      url: `/api/v1/notifications`,
+  const getApiV1InternalAiConcepts = (params: GetApiV1InternalAiConceptsParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/internal/ai/concepts`,
       method: 'GET',
       params,
     })
   }
 
   /**
-   * 创建系统通知（仅管理员）
-   * @summary 创建系统通知
+   * AI助手创建新的设定概念（角色、地点、魔法等）
+   * @summary 创建设定概念
    */
-  const postApiV1Notifications = (
-    apiV1SharedCreateNotificationRequest: ApiV1SharedCreateNotificationRequest,
+  const postApiV1InternalAiConcepts = (
+    apiV1InternalapiAiCreateConceptRequest: ApiV1InternalapiAiCreateConceptRequest,
   ) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
-      url: `/api/v1/notifications`,
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/internal/ai/concepts`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: apiV1SharedCreateNotificationRequest,
+      data: apiV1InternalapiAiCreateConceptRequest,
+    })
+  }
+
+  /**
+   * 根据ID删除设定概念
+   * @summary 删除设定概念
+   */
+  const deleteApiV1InternalAiConceptsId = (
+    id: string,
+    params: DeleteApiV1InternalAiConceptsIdParams,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/internal/ai/concepts/${id}`,
+      method: 'DELETE',
+      params,
+    })
+  }
+
+  /**
+   * 根据ID获取设定概念详情
+   * @summary 获取设定概念
+   */
+  const getApiV1InternalAiConceptsId = (id: string, params: GetApiV1InternalAiConceptsIdParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/internal/ai/concepts/${id}`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 更新现有的设定概念
+   * @summary 更新设定概念
+   */
+  const putApiV1InternalAiConceptsId = (
+    id: string,
+    apiV1InternalapiAiUpdateConceptRequest: ApiV1InternalapiAiUpdateConceptRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/internal/ai/concepts/${id}`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1InternalapiAiUpdateConceptRequest,
+    })
+  }
+
+  /**
+   * 根据ID列表批量获取设定概念
+   * @summary 批量获取设定概念
+   */
+  const postApiV1InternalAiConceptsBatch = (
+    postApiV1InternalAiConceptsBatchBody: PostApiV1InternalAiConceptsBatchBody,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/internal/ai/concepts/batch`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: postApiV1InternalAiConceptsBatchBody,
+    })
+  }
+
+  /**
+   * 获取项目下的文档列表
+   * @summary 列出文档
+   */
+  const getApiV1InternalAiDocuments = (params: GetApiV1InternalAiDocumentsParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/internal/ai/documents`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 根据action参数执行创建、更新、创建或更新、追加内容操作
+   * @summary 创建或更新文档
+   */
+  const postApiV1InternalAiDocuments = (
+    apiV1InternalapiAiCreateOrUpdateDocumentRequest: ApiV1InternalapiAiCreateOrUpdateDocumentRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/internal/ai/documents`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1InternalapiAiCreateOrUpdateDocumentRequest,
+    })
+  }
+
+  /**
+   * 根据ID删除文档
+   * @summary 删除文档
+   */
+  const deleteApiV1InternalAiDocumentsId = (
+    id: string,
+    params: DeleteApiV1InternalAiDocumentsIdParams,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/internal/ai/documents/${id}`,
+      method: 'DELETE',
+      params,
+    })
+  }
+
+  /**
+   * 根据ID获取文档详情
+   * @summary 获取文档
+   */
+  const getApiV1InternalAiDocumentsId = (
+    id: string,
+    params: GetApiV1InternalAiDocumentsIdParams,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/internal/ai/documents/${id}`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 根据ID列表批量获取文档
+   * @summary 批量获取文档
+   */
+  const postApiV1InternalAiDocumentsBatch = (
+    postApiV1InternalAiDocumentsBatchBody: PostApiV1InternalAiDocumentsBatchBody,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/internal/ai/documents/batch`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: postApiV1InternalAiDocumentsBatchBody,
+    })
+  }
+
+  /**
+   * 根据文档ID获取文档正文内容和字数统计
+   * @summary 获取文档内容
+   */
+  const getApiV1InternalDocumentsIdContent = (id: string) => {
+    return orvalMutator<GetApiV1InternalDocumentsIdContent200>({
+      url: `/api/v1/internal/documents/${id}/content`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 获取指定项目下所有角色卡片数据
+   * @summary 获取项目角色列表
+   */
+  const getApiV1InternalProjectsIdCharacters = (id: string) => {
+    return orvalMutator<GetApiV1InternalProjectsIdCharacters200>({
+      url: `/api/v1/internal/projects/${id}/characters`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 获取项目基本信息、统计、设置等上下文数据
+   * @summary 获取项目上下文汇总
+   */
+  const getApiV1InternalProjectsIdContext = (id: string) => {
+    return orvalMutator<GetApiV1InternalProjectsIdContext200>({
+      url: `/api/v1/internal/projects/${id}/context`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 获取指定项目的完整大纲树结构
+   * @summary 获取项目大纲树
+   */
+  const getApiV1InternalProjectsIdOutline = (id: string) => {
+    return orvalMutator<GetApiV1InternalProjectsIdOutline200>({
+      url: `/api/v1/internal/projects/${id}/outline`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 获取指定项目下所有角色关系数据
+   * @summary 获取角色关系列表
+   */
+  const getApiV1InternalProjectsIdRelations = (id: string) => {
+    return orvalMutator<GetApiV1InternalProjectsIdRelations200>({
+      url: `/api/v1/internal/projects/${id}/relations`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 获取当前用户的通知列表，支持分页和筛选
+   * @summary 获取通知列表
+   */
+  const getApiV1Notifications = (params?: GetApiV1NotificationsParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/notifications`,
+      method: 'GET',
+      params,
     })
   }
 
@@ -3197,7 +4240,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除通知
    */
   const deleteApiV1NotificationsId = (id: string) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/notifications/${id}`,
       method: 'DELETE',
     })
@@ -3208,32 +4251,32 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取通知详情
    */
   const getApiV1NotificationsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/notifications/${id}`,
       method: 'GET',
     })
   }
 
   /**
-   * 标记指定通知为已读
-   * @summary 标记为已读
+   * 将指定通知标记为已读
+   * @summary 标记通知为已读
    */
-  const putApiV1NotificationsIdRead = (id: string) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+  const postApiV1NotificationsIdRead = (id: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/notifications/${id}/read`,
-      method: 'PUT',
+      method: 'POST',
     })
   }
 
   /**
-   * 重新发送指定的通知给用户
-   * @summary 重发通知
+   * 重新发送通知（邮件/推送）
+   * @summary 重新发送通知
    */
   const postApiV1NotificationsIdResend = (
     id: string,
     postApiV1NotificationsIdResendBody: PostApiV1NotificationsIdResendBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/notifications/${id}/resend`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -3245,23 +4288,38 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * 批量删除多个通知
    * @summary 批量删除通知
    */
-  const deleteApiV1NotificationsBatchDelete = (
-    deleteApiV1NotificationsBatchDeleteBody: DeleteApiV1NotificationsBatchDeleteBody,
+  const postApiV1NotificationsBatchDelete = (
+    qingyuBackendApiV1NotificationsDtoBatchDeleteRequest: QingyuBackendApiV1NotificationsDtoBatchDeleteRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<PostApiV1NotificationsBatchDelete200>({
       url: `/api/v1/notifications/batch-delete`,
-      method: 'DELETE',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: deleteApiV1NotificationsBatchDeleteBody,
+      data: qingyuBackendApiV1NotificationsDtoBatchDeleteRequest,
     })
   }
 
   /**
-   * 清除当前用户的所有已读通知
+   * 将多个通知标记为已读
+   * @summary 批量标记通知为已读
+   */
+  const postApiV1NotificationsBatchRead = (
+    qingyuBackendApiV1NotificationsDtoBatchMarkReadRequest: QingyuBackendApiV1NotificationsDtoBatchMarkReadRequest,
+  ) => {
+    return orvalMutator<PostApiV1NotificationsBatchRead200>({
+      url: `/api/v1/notifications/batch-read`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: qingyuBackendApiV1NotificationsDtoBatchMarkReadRequest,
+    })
+  }
+
+  /**
+   * 删除用户所有已读的通知
    * @summary 清除已读通知
    */
   const postApiV1NotificationsClearRead = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<PostApiV1NotificationsClearRead200>({
       url: `/api/v1/notifications/clear-read`,
       method: 'POST',
     })
@@ -3272,24 +4330,9 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除所有通知
    */
   const deleteApiV1NotificationsDeleteAll = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/notifications/delete-all`,
       method: 'DELETE',
-    })
-  }
-
-  /**
-   * 将多个通知标记为已读
-   * @summary 批量标记通知为已读
-   */
-  const putApiV1NotificationsMarkRead = (
-    putApiV1NotificationsMarkReadBody: PutApiV1NotificationsMarkReadBody,
-  ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/notifications/mark-read`,
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      data: putApiV1NotificationsMarkReadBody,
     })
   }
 
@@ -3298,9 +4341,24 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取通知偏好设置
    */
   const getApiV1NotificationsPreferences = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/notifications/preferences`,
       method: 'GET',
+    })
+  }
+
+  /**
+   * 更新当前用户的通知偏好设置
+   * @summary 更新通知偏好设置
+   */
+  const patchApiV1NotificationsPreferences = (
+    patchApiV1NotificationsPreferencesBody: PatchApiV1NotificationsPreferencesBody,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/notifications/preferences`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: patchApiV1NotificationsPreferencesBody,
     })
   }
 
@@ -3311,7 +4369,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const putApiV1NotificationsPreferences = (
     putApiV1NotificationsPreferencesBody: PutApiV1NotificationsPreferencesBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/notifications/preferences`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -3324,7 +4382,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 重置通知偏好设置
    */
   const postApiV1NotificationsPreferencesReset = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/notifications/preferences/reset`,
       method: 'POST',
     })
@@ -3335,7 +4393,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取推送设备列表
    */
   const getApiV1NotificationsPushDevices = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/notifications/push/devices`,
       method: 'GET',
     })
@@ -3348,7 +4406,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1NotificationsPushRegister = (
     postApiV1NotificationsPushRegisterBody: PostApiV1NotificationsPushRegisterBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/notifications/push/register`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -3361,20 +4419,20 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 取消注册推送设备
    */
   const deleteApiV1NotificationsPushUnregisterDeviceId = (deviceId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/notifications/push/unregister/${deviceId}`,
       method: 'DELETE',
     })
   }
 
   /**
-   * 标记当前用户的所有通知为已读
-   * @summary 标记所有为已读
+   * 将当前用户的所有未读通知标记为已读
+   * @summary 标记所有通知为已读
    */
-  const putApiV1NotificationsReadAll = () => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+  const postApiV1NotificationsReadAll = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/notifications/read-all`,
-      method: 'PUT',
+      method: 'POST',
     })
   }
 
@@ -3383,7 +4441,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取通知统计
    */
   const getApiV1NotificationsStats = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/notifications/stats`,
       method: 'GET',
     })
@@ -3391,21 +4449,21 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
 
   /**
    * 获取当前用户的未读通知数量
-   * @summary 获取未读数量
+   * @summary 获取未读通知数量
    */
   const getApiV1NotificationsUnreadCount = () => {
-    return orvalMutator<GetApiV1NotificationsUnreadCount200>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/notifications/unread-count`,
       method: 'GET',
     })
   }
 
   /**
-   * 获取通知WebSocket连接的端点信息
-   * @summary 获取WebSocket端点
+   * 获取WebSocket连接地址，用于实时推送通知
+   * @summary WebSocket端点
    */
   const getApiV1NotificationsWsEndpoint = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<GetApiV1NotificationsWsEndpoint200>({
       url: `/api/v1/notifications/ws-endpoint`,
       method: 'GET',
     })
@@ -3416,7 +4474,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取项目列表
    */
   const getApiV1Projects = (params?: GetApiV1ProjectsParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/projects`,
       method: 'GET',
       params,
@@ -3427,12 +4485,14 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * 创建一个新的写作项目
    * @summary 创建项目
    */
-  const postApiV1Projects = (postApiV1ProjectsBody: PostApiV1ProjectsBody) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+  const postApiV1Projects = (
+    qingyuBackendModelsDtoCreateProjectRequest: QingyuBackendModelsDtoCreateProjectRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/projects`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: postApiV1ProjectsBody,
+      data: qingyuBackendModelsDtoCreateProjectRequest,
     })
   }
 
@@ -3441,7 +4501,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除项目
    */
   const deleteApiV1ProjectsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/projects/${id}`,
       method: 'DELETE',
     })
@@ -3452,7 +4512,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取项目详情
    */
   const getApiV1ProjectsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/projects/${id}`,
       method: 'GET',
     })
@@ -3463,7 +4523,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 更新项目
    */
   const putApiV1ProjectsId = (id: string, putApiV1ProjectsIdBody: PutApiV1ProjectsIdBody) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/projects/${id}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -3476,7 +4536,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 更新项目统计信息
    */
   const putApiV1ProjectsIdStatistics = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/projects/${id}/statistics`,
       method: 'PUT',
     })
@@ -3487,7 +4547,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取项目角色列表
    */
   const getApiV1ProjectsProjectIdCharacters = (projectId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/projects/${projectId}/characters`,
       method: 'GET',
     })
@@ -3501,7 +4561,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     projectId: string,
     postApiV1ProjectsProjectIdCharactersBody: PostApiV1ProjectsProjectIdCharactersBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/projects/${projectId}/characters`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -3514,7 +4574,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取角色关系图
    */
   const getApiV1ProjectsProjectIdCharactersGraph = (projectId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/projects/${projectId}/characters/graph`,
       method: 'GET',
     })
@@ -3528,7 +4588,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     projectId: string,
     params?: GetApiV1ProjectsProjectIdCharactersRelationsParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/projects/${projectId}/characters/relations`,
       method: 'GET',
       params,
@@ -3543,7 +4603,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     projectId: string,
     params?: GetApiV1ProjectsProjectIdDocumentsParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/projects/${projectId}/documents`,
       method: 'GET',
       params,
@@ -3558,7 +4618,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     projectId: string,
     postApiV1ProjectsProjectIdDocumentsBody: PostApiV1ProjectsProjectIdDocumentsBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/projects/${projectId}/documents`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -3574,7 +4634,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     projectId: string,
     putApiV1ProjectsProjectIdDocumentsReorderBody: PutApiV1ProjectsProjectIdDocumentsReorderBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/projects/${projectId}/documents/reorder`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -3587,8 +4647,36 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取文档树
    */
   const getApiV1ProjectsProjectIdDocumentsTree = (projectId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/projects/${projectId}/documents/tree`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 获取指定目标（评论/书评/书籍）的评分统计信息
+   * @summary 获取评分统计
+   */
+  const getApiV1RatingsTargetTypeTargetIdStats = (
+    targetType: 'comment' | 'review' | 'book',
+    targetId: string,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/ratings/${targetType}/${targetId}/stats`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 获取当前用户对指定目标的评分
+   * @summary 获取用户评分
+   */
+  const getApiV1RatingsTargetTypeTargetIdUserRating = (
+    targetType: 'book' | 'review',
+    targetId: string,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/ratings/${targetType}/${targetId}/user-rating`,
       method: 'GET',
     })
   }
@@ -3599,7 +4687,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1ReaderAnnotations = (
     apiV1ReaderCreateAnnotationRequest: ApiV1ReaderCreateAnnotationRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -3611,7 +4699,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除标注
    */
   const deleteApiV1ReaderAnnotationsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations/${id}`,
       method: 'DELETE',
     })
@@ -3624,7 +4712,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     apiV1ReaderUpdateAnnotationRequest: ApiV1ReaderUpdateAnnotationRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations/${id}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -3638,7 +4726,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const deleteApiV1ReaderAnnotationsBatch = (
     apiV1ReaderBatchDeleteAnnotationsRequest: ApiV1ReaderBatchDeleteAnnotationsRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations/batch`,
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -3652,7 +4740,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1ReaderAnnotationsBatch = (
     apiV1ReaderBatchCreateAnnotationsRequest: ApiV1ReaderBatchCreateAnnotationsRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations/batch`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -3666,7 +4754,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const putApiV1ReaderAnnotationsBatch = (
     apiV1ReaderBatchUpdateAnnotationsRequest: ApiV1ReaderBatchUpdateAnnotationsRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations/batch`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -3678,7 +4766,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取书籍标注
    */
   const getApiV1ReaderAnnotationsBook = (params: GetApiV1ReaderAnnotationsBookParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations/book`,
       method: 'GET',
       params,
@@ -3689,7 +4777,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取书签
    */
   const getApiV1ReaderAnnotationsBookmarks = (params: GetApiV1ReaderAnnotationsBookmarksParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations/bookmarks`,
       method: 'GET',
       params,
@@ -3702,7 +4790,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const getApiV1ReaderAnnotationsBookmarksLatest = (
     params: GetApiV1ReaderAnnotationsBookmarksLatestParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations/bookmarks/latest`,
       method: 'GET',
       params,
@@ -3713,7 +4801,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取章节标注
    */
   const getApiV1ReaderAnnotationsChapter = (params: GetApiV1ReaderAnnotationsChapterParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations/chapter`,
       method: 'GET',
       params,
@@ -3724,7 +4812,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 导出注记
    */
   const getApiV1ReaderAnnotationsExport = (params: GetApiV1ReaderAnnotationsExportParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations/export`,
       method: 'GET',
       params,
@@ -3737,7 +4825,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const getApiV1ReaderAnnotationsHighlights = (
     params: GetApiV1ReaderAnnotationsHighlightsParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations/highlights`,
       method: 'GET',
       params,
@@ -3748,7 +4836,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取笔记
    */
   const getApiV1ReaderAnnotationsNotes = (params: GetApiV1ReaderAnnotationsNotesParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations/notes`,
       method: 'GET',
       params,
@@ -3761,7 +4849,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const getApiV1ReaderAnnotationsNotesSearch = (
     params: GetApiV1ReaderAnnotationsNotesSearchParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations/notes/search`,
       method: 'GET',
       params,
@@ -3772,7 +4860,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取公开标注
    */
   const getApiV1ReaderAnnotationsPublic = (params: GetApiV1ReaderAnnotationsPublicParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations/public`,
       method: 'GET',
       params,
@@ -3783,7 +4871,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取最近标注
    */
   const getApiV1ReaderAnnotationsRecent = (params?: GetApiV1ReaderAnnotationsRecentParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations/recent`,
       method: 'GET',
       params,
@@ -3794,7 +4882,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取注记统计
    */
   const getApiV1ReaderAnnotationsStats = (params: GetApiV1ReaderAnnotationsStatsParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations/stats`,
       method: 'GET',
       params,
@@ -3807,7 +4895,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1ReaderAnnotationsSync = (
     postApiV1ReaderAnnotationsSyncBody: PostApiV1ReaderAnnotationsSyncBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/annotations/sync`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -3820,7 +4908,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 记录读者行为
    */
   const postApiV1ReaderBehavior = (postApiV1ReaderBehaviorBody: PostApiV1ReaderBehaviorBody) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/behavior`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -3833,7 +4921,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取书签列表
    */
   const getApiV1ReaderBookmarks = (params?: GetApiV1ReaderBookmarksParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/bookmarks`,
       method: 'GET',
       params,
@@ -3845,7 +4933,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除书签
    */
   const deleteApiV1ReaderBookmarksId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/bookmarks/${id}`,
       method: 'DELETE',
     })
@@ -3856,9 +4944,25 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取书签详情
    */
   const getApiV1ReaderBookmarksId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/bookmarks/${id}`,
       method: 'GET',
+    })
+  }
+
+  /**
+   * 更新书签信息
+   * @summary 更新书签
+   */
+  const patchApiV1ReaderBookmarksId = (
+    id: string,
+    apiV1ReaderUpdateBookmarkRequest: ApiV1ReaderUpdateBookmarkRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/reader/bookmarks/${id}`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1ReaderUpdateBookmarkRequest,
     })
   }
 
@@ -3870,7 +4974,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     apiV1ReaderUpdateBookmarkRequest: ApiV1ReaderUpdateBookmarkRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/bookmarks/${id}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -3891,7 +4995,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 搜索书签
    */
   const getApiV1ReaderBookmarksSearch = (params: GetApiV1ReaderBookmarksSearchParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/bookmarks/search`,
       method: 'GET',
       params,
@@ -3903,7 +5007,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 书签统计
    */
   const getApiV1ReaderBookmarksStats = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/bookmarks/stats`,
       method: 'GET',
     })
@@ -3913,7 +5017,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取书架
    */
   const getApiV1ReaderBooks = (params?: GetApiV1ReaderBooksParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books`,
       method: 'GET',
       params,
@@ -3924,7 +5028,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 从书架移除
    */
   const deleteApiV1ReaderBooksBookId = (bookId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books/${bookId}`,
       method: 'DELETE',
     })
@@ -3934,7 +5038,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 添加到书架
    */
   const postApiV1ReaderBooksBookId = (bookId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books/${bookId}`,
       method: 'POST',
     })
@@ -3948,7 +5052,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     bookId: string,
     params?: GetApiV1ReaderBooksBookIdBookmarksParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books/${bookId}/bookmarks`,
       method: 'GET',
       params,
@@ -3963,7 +5067,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     bookId: string,
     apiV1ReaderCreateBookmarkRequest: ApiV1ReaderCreateBookmarkRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books/${bookId}/bookmarks`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -3979,7 +5083,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     bookId: string,
     params?: GetApiV1ReaderBooksBookIdChaptersParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books/${bookId}/chapters`,
       method: 'GET',
       params,
@@ -3991,7 +5095,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取下一章
    */
   const getApiV1ReaderBooksBookIdChaptersChapterIdNext = (bookId: string, chapterId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books/${bookId}/chapters/${chapterId}/next`,
       method: 'GET',
     })
@@ -4005,7 +5109,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     bookId: string,
     chapterId: string,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books/${bookId}/chapters/${chapterId}/previous`,
       method: 'GET',
     })
@@ -4019,7 +5123,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     bookId: string,
     chapterNum: number,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books/${bookId}/chapters/by-number/${chapterNum}`,
       method: 'GET',
     })
@@ -4029,7 +5133,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 取消点赞书籍
    */
   const deleteApiV1ReaderBooksBookIdLike = (bookId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books/${bookId}/like`,
       method: 'DELETE',
     })
@@ -4039,7 +5143,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 点赞书籍
    */
   const postApiV1ReaderBooksBookIdLike = (bookId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books/${bookId}/like`,
       method: 'POST',
     })
@@ -4049,7 +5153,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取书籍点赞信息
    */
   const getApiV1ReaderBooksBookIdLikeInfo = (bookId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books/${bookId}/like/info`,
       method: 'GET',
     })
@@ -4062,7 +5166,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     bookId: string,
     apiV1ReaderUpdateBookStatusRequest: ApiV1ReaderUpdateBookStatusRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books/${bookId}/status`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -4075,9 +5179,23 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 购买全书
    */
   const postApiV1ReaderBooksIdBuyAll = (id: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books/${id}/buy-all`,
       method: 'POST',
+    })
+  }
+
+  /**
+   * @summary 批量点赞书籍
+   */
+  const postApiV1ReaderBooksBatchLike = (
+    apiV1SocialBatchLikeBooksRequest: ApiV1SocialBatchLikeBooksRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/reader/books/batch-like`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1SocialBatchLikeBooksRequest,
     })
   }
 
@@ -4087,7 +5205,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const putApiV1ReaderBooksBatchStatus = (
     apiV1ReaderBatchUpdateBookStatusRequest: ApiV1ReaderBatchUpdateBookStatusRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books/batch/status`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -4099,7 +5217,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取已读完的书
    */
   const getApiV1ReaderBooksFinished = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books/finished`,
       method: 'GET',
     })
@@ -4109,7 +5227,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取最近阅读
    */
   const getApiV1ReaderBooksRecent = (params?: GetApiV1ReaderBooksRecentParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books/recent`,
       method: 'GET',
       params,
@@ -4120,7 +5238,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取未读完的书
    */
   const getApiV1ReaderBooksUnfinished = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/books/unfinished`,
       method: 'GET',
     })
@@ -4133,7 +5251,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     chapterId: string,
     postApiV1ReaderChaptersChapterIdCommentsBody: PostApiV1ReaderChaptersChapterIdCommentsBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/chapters/${chapterId}/comments`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -4146,7 +5264,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取章节信息
    */
   const getApiV1ReaderChaptersChapterIdInfo = (chapterId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/chapters/${chapterId}/info`,
       method: 'GET',
     })
@@ -4156,7 +5274,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取章节所有段落评论概览
    */
   const getApiV1ReaderChaptersChapterIdParagraphComments = (chapterId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/chapters/${chapterId}/paragraph-comments`,
       method: 'GET',
     })
@@ -4169,7 +5287,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     chapterId: string,
     postApiV1ReaderChaptersChapterIdParagraphCommentsBody: PostApiV1ReaderChaptersChapterIdParagraphCommentsBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/chapters/${chapterId}/paragraph-comments`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -4184,7 +5302,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     chapterId: string,
     paragraphIndex: number,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/chapters/${chapterId}/paragraphs/${paragraphIndex}/comments`,
       method: 'GET',
     })
@@ -4195,7 +5313,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 购买章节
    */
   const postApiV1ReaderChaptersIdPurchase = (id: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/chapters/${id}/purchase`,
       method: 'POST',
     })
@@ -4205,7 +5323,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取收藏列表
    */
   const getApiV1ReaderCollections = (params?: GetApiV1ReaderCollectionsParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/collections`,
       method: 'GET',
       params,
@@ -4218,7 +5336,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1ReaderCollections = (
     apiV1SocialAddCollectionRequest: ApiV1SocialAddCollectionRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/collections`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -4230,9 +5348,24 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除收藏
    */
   const deleteApiV1ReaderCollectionsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/collections/${id}`,
       method: 'DELETE',
+    })
+  }
+
+  /**
+   * @summary 更新收藏
+   */
+  const patchApiV1ReaderCollectionsId = (
+    id: string,
+    apiV1SocialUpdateCollectionRequest: ApiV1SocialUpdateCollectionRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/reader/collections/${id}`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1SocialUpdateCollectionRequest,
     })
   }
 
@@ -4243,7 +5376,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     apiV1SocialUpdateCollectionRequest: ApiV1SocialUpdateCollectionRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/collections/${id}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -4255,7 +5388,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 取消分享收藏
    */
   const deleteApiV1ReaderCollectionsIdShare = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/collections/${id}/share`,
       method: 'DELETE',
     })
@@ -4265,19 +5398,33 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 分享收藏
    */
   const postApiV1ReaderCollectionsIdShare = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/collections/${id}/share`,
       method: 'POST',
     })
   }
 
   /**
-   * @summary 检查是否已收藏
+   * @summary 分享收藏并返回分享链接
    */
-  const getApiV1ReaderCollectionsCheckBookId = (bookId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/reader/collections/check/${bookId}`,
-      method: 'GET',
+  const postApiV1ReaderCollectionsIdShareUrl = (id: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/reader/collections/${id}/share/url`,
+      method: 'POST',
+    })
+  }
+
+  /**
+   * @summary 批量添加收藏
+   */
+  const postApiV1ReaderCollectionsBatch = (
+    apiV1SocialBatchAddCollectionsRequest: ApiV1SocialBatchAddCollectionsRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/reader/collections/batch`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1SocialBatchAddCollectionsRequest,
     })
   }
 
@@ -4285,7 +5432,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取收藏夹列表
    */
   const getApiV1ReaderCollectionsFolders = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/collections/folders`,
       method: 'GET',
     })
@@ -4297,7 +5444,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1ReaderCollectionsFolders = (
     apiV1SocialCreateFolderRequest: ApiV1SocialCreateFolderRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/collections/folders`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -4309,9 +5456,24 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除收藏夹
    */
   const deleteApiV1ReaderCollectionsFoldersId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/collections/folders/${id}`,
       method: 'DELETE',
+    })
+  }
+
+  /**
+   * @summary 更新收藏夹
+   */
+  const patchApiV1ReaderCollectionsFoldersId = (
+    id: string,
+    apiV1SocialUpdateFolderRequest: ApiV1SocialUpdateFolderRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/reader/collections/folders/${id}`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1SocialUpdateFolderRequest,
     })
   }
 
@@ -4322,7 +5484,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     apiV1SocialUpdateFolderRequest: ApiV1SocialUpdateFolderRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/collections/folders/${id}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -4334,7 +5496,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取公开收藏列表
    */
   const getApiV1ReaderCollectionsPublic = (params?: GetApiV1ReaderCollectionsPublicParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/collections/public`,
       method: 'GET',
       params,
@@ -4342,10 +5504,20 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
+   * @summary 获取分享的收藏详情
+   */
+  const getApiV1ReaderCollectionsSharedShareId = (shareId: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/reader/collections/shared/${shareId}`,
+      method: 'GET',
+    })
+  }
+
+  /**
    * @summary 获取收藏统计
    */
   const getApiV1ReaderCollectionsStats = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/collections/stats`,
       method: 'GET',
     })
@@ -4358,7 +5530,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     tag: string,
     params?: GetApiV1ReaderCollectionsTagsTagParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/collections/tags/${tag}`,
       method: 'GET',
       params,
@@ -4369,7 +5541,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取评论列表
    */
   const getApiV1ReaderComments = (params: GetApiV1ReaderCommentsParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/comments`,
       method: 'GET',
       params,
@@ -4382,7 +5554,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1ReaderComments = (
     apiV1SocialCreateCommentRequest: ApiV1SocialCreateCommentRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/comments`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -4394,7 +5566,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除章节评论
    */
   const deleteApiV1ReaderCommentsCommentId = (commentId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/comments/${commentId}`,
       method: 'DELETE',
     })
@@ -4404,7 +5576,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取单条评论详情
    */
   const getApiV1ReaderCommentsCommentId = (commentId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/comments/${commentId}`,
       method: 'GET',
     })
@@ -4417,7 +5589,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     commentId: string,
     putApiV1ReaderCommentsCommentIdBody: PutApiV1ReaderCommentsCommentIdBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/comments/${commentId}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -4429,7 +5601,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 取消点赞章节评论
    */
   const deleteApiV1ReaderCommentsCommentIdLike = (commentId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/comments/${commentId}/like`,
       method: 'DELETE',
     })
@@ -4439,7 +5611,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 点赞章节评论
    */
   const postApiV1ReaderCommentsCommentIdLike = (commentId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/comments/${commentId}/like`,
       method: 'POST',
     })
@@ -4449,7 +5621,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除评论
    */
   const deleteApiV1ReaderCommentsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/comments/${id}`,
       method: 'DELETE',
     })
@@ -4459,9 +5631,24 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取评论详情
    */
   const getApiV1ReaderCommentsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/comments/${id}`,
       method: 'GET',
+    })
+  }
+
+  /**
+   * @summary 更新评论
+   */
+  const patchApiV1ReaderCommentsId = (
+    id: string,
+    apiV1SocialUpdateCommentRequest: ApiV1SocialUpdateCommentRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/reader/comments/${id}`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1SocialUpdateCommentRequest,
     })
   }
 
@@ -4472,7 +5659,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     apiV1SocialUpdateCommentRequest: ApiV1SocialUpdateCommentRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/comments/${id}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -4484,7 +5671,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 取消点赞评论
    */
   const deleteApiV1ReaderCommentsIdLike = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/comments/${id}/like`,
       method: 'DELETE',
     })
@@ -4494,7 +5681,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 点赞评论
    */
   const postApiV1ReaderCommentsIdLike = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/comments/${id}/like`,
       method: 'POST',
     })
@@ -4507,7 +5694,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     params?: GetApiV1ReaderCommentsIdRepliesParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/comments/${id}/replies`,
       method: 'GET',
       params,
@@ -4521,7 +5708,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     apiV1SocialReplyCommentRequest: ApiV1SocialReplyCommentRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/comments/${id}/reply`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -4533,7 +5720,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取评论完整线程
    */
   const getApiV1ReaderCommentsIdThread = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/comments/${id}/thread`,
       method: 'GET',
     })
@@ -4543,7 +5730,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取热门评论
    */
   const getApiV1ReaderCommentsTop = (params: GetApiV1ReaderCommentsTopParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/comments/top`,
       method: 'GET',
       params,
@@ -4554,7 +5741,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取可用字体列表
    */
   const getApiV1ReaderFonts = (params?: GetApiV1ReaderFontsParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/fonts`,
       method: 'GET',
       params,
@@ -4565,7 +5752,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 创建自定义字体
    */
   const postApiV1ReaderFonts = (postApiV1ReaderFontsBody: PostApiV1ReaderFontsBody) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<unknown>({
       url: `/api/v1/reader/fonts`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -4577,10 +5764,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除自定义字体
    */
   const deleteApiV1ReaderFontsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/reader/fonts/${id}`,
-      method: 'DELETE',
-    })
+    return orvalMutator<unknown>({ url: `/api/v1/reader/fonts/${id}`, method: 'DELETE' })
   }
 
   /**
@@ -4590,7 +5774,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     putApiV1ReaderFontsIdBody: PutApiV1ReaderFontsIdBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<unknown>({
       url: `/api/v1/reader/fonts/${id}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -4602,7 +5786,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 根据名称获取字体
    */
   const getApiV1ReaderFontsName = (name: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/fonts/${name}`,
       method: 'GET',
     })
@@ -4612,7 +5796,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取用户点赞的书籍列表
    */
   const getApiV1ReaderLikesBooks = (params?: GetApiV1ReaderLikesBooksParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/likes/books`,
       method: 'GET',
       params,
@@ -4623,7 +5807,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取用户点赞统计
    */
   const getApiV1ReaderLikesStats = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/likes/stats`,
       method: 'GET',
     })
@@ -4635,7 +5819,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1ReaderProgress = (
     apiV1ReaderSaveProgressRequest: ApiV1ReaderSaveProgressRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/progress`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -4647,8 +5831,18 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取阅读进度
    */
   const getApiV1ReaderProgressBookId = (bookId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/progress/${bookId}`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * @summary 获取跨设备阅读记录
+   */
+  const getApiV1ReaderProgressDevices = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/reader/progress/devices`,
       method: 'GET',
     })
   }
@@ -4657,7 +5851,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取已读完的书籍
    */
   const getApiV1ReaderProgressFinished = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/progress/finished`,
       method: 'GET',
     })
@@ -4667,7 +5861,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取阅读历史
    */
   const getApiV1ReaderProgressHistory = (params?: GetApiV1ReaderProgressHistoryParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/progress/history`,
       method: 'GET',
       params,
@@ -4681,7 +5875,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1ReaderProgressMerge = (
     apiV1ReaderMergeProgressRequest: ApiV1ReaderMergeProgressRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/progress/merge`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -4695,7 +5889,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const putApiV1ReaderProgressReadingTime = (
     apiV1ReaderUpdateReadingTimeRequest: ApiV1ReaderUpdateReadingTimeRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/progress/reading-time`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -4707,7 +5901,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取最近阅读记录
    */
   const getApiV1ReaderProgressRecent = (params?: GetApiV1ReaderProgressRecentParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/progress/recent`,
       method: 'GET',
       params,
@@ -4718,7 +5912,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取阅读统计
    */
   const getApiV1ReaderProgressStats = (params?: GetApiV1ReaderProgressStatsParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/progress/stats`,
       method: 'GET',
       params,
@@ -4732,7 +5926,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1ReaderProgressSync = (
     apiV1ReaderSyncProgressRequest: ApiV1ReaderSyncProgressRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/progress/sync`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -4745,7 +5939,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取同步状态
    */
   const getApiV1ReaderProgressSyncStatus = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/progress/sync-status`,
       method: 'GET',
     })
@@ -4755,7 +5949,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取未读完的书籍
    */
   const getApiV1ReaderProgressUnfinished = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/progress/unfinished`,
       method: 'GET',
     })
@@ -4774,7 +5968,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取购买记录
    */
   const getApiV1ReaderPurchases = (params?: GetApiV1ReaderPurchasesParams) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/purchases`,
       method: 'GET',
       params,
@@ -4785,12 +5979,9 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * 获取用户对指定书籍的购买记录
    * @summary 获取某本书的购买记录
    */
-  const getApiV1ReaderPurchasesBookId = (
-    bookId: string,
-    params?: GetApiV1ReaderPurchasesBookIdParams,
-  ) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
-      url: `/api/v1/reader/purchases/${bookId}`,
+  const getApiV1ReaderPurchasesId = (id: string, params?: GetApiV1ReaderPurchasesIdParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/reader/purchases/${id}`,
       method: 'GET',
       params,
     })
@@ -4800,7 +5991,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 清空历史记录
    */
   const deleteApiV1ReaderReadingHistory = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/reading-history`,
       method: 'DELETE',
     })
@@ -4810,7 +6001,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取阅读历史
    */
   const getApiV1ReaderReadingHistory = (params?: GetApiV1ReaderReadingHistoryParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/reading-history`,
       method: 'GET',
       params,
@@ -4823,7 +6014,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1ReaderReadingHistory = (
     apiV1ReaderRecordReadingRequest: ApiV1ReaderRecordReadingRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/reading-history`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -4835,7 +6026,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除历史记录
    */
   const deleteApiV1ReaderReadingHistoryId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/reading-history/${id}`,
       method: 'DELETE',
     })
@@ -4845,7 +6036,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取阅读统计
    */
   const getApiV1ReaderReadingHistoryStats = (params?: GetApiV1ReaderReadingHistoryStatsParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/reading-history/stats`,
       method: 'GET',
       params,
@@ -4856,9 +6047,23 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取阅读设置
    */
   const getApiV1ReaderSettings = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/settings`,
       method: 'GET',
+    })
+  }
+
+  /**
+   * @summary 更新阅读设置
+   */
+  const patchApiV1ReaderSettings = (
+    apiV1ReaderUpdateSettingsRequest: ApiV1ReaderUpdateSettingsRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/reader/settings`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1ReaderUpdateSettingsRequest,
     })
   }
 
@@ -4866,7 +6071,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 保存阅读设置
    */
   const postApiV1ReaderSettings = (postApiV1ReaderSettingsBody: PostApiV1ReaderSettingsBody) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/settings`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -4880,7 +6085,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const putApiV1ReaderSettings = (
     apiV1ReaderUpdateSettingsRequest: ApiV1ReaderUpdateSettingsRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/settings`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -4894,7 +6099,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1ReaderSettingsFont = (
     postApiV1ReaderSettingsFontBody: PostApiV1ReaderSettingsFontBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/settings/font`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -4903,10 +6108,70 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
+   * 获取当前登录读者的聚合统计概览
+   * @summary 获取读者统计概览
+   */
+  const getApiV1ReaderStatistics = () => {
+    return orvalMutator<GetApiV1ReaderStatistics200>({
+      url: `/api/v1/reader/statistics`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 获取当前读者最近 N 天的阅读热力图数据
+   * @summary 获取阅读热力图
+   */
+  const getApiV1ReaderStatisticsHeatmap = (params?: GetApiV1ReaderStatisticsHeatmapParams) => {
+    return orvalMutator<GetApiV1ReaderStatisticsHeatmap200>({
+      url: `/api/v1/reader/statistics/heatmap`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 获取当前登录读者的聚合统计概览
+   * @summary 获取读者统计概览
+   */
+  const getApiV1ReaderStatisticsOverview = () => {
+    return orvalMutator<GetApiV1ReaderStatisticsOverview200>({
+      url: `/api/v1/reader/statistics/overview`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 按 today/week/month/all 返回当前读者的阅读时长
+   * @summary 获取阅读时长统计
+   */
+  const getApiV1ReaderStatisticsReadingTime = (
+    params?: GetApiV1ReaderStatisticsReadingTimeParams,
+  ) => {
+    return orvalMutator<GetApiV1ReaderStatisticsReadingTime200>({
+      url: `/api/v1/reader/statistics/reading-time`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 获取当前读者最近 N 天的阅读趋势数据
+   * @summary 获取阅读趋势
+   */
+  const getApiV1ReaderStatisticsTrends = (params?: GetApiV1ReaderStatisticsTrendsParams) => {
+    return orvalMutator<GetApiV1ReaderStatisticsTrends200>({
+      url: `/api/v1/reader/statistics/trends`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
    * @summary 获取可用主题列表
    */
   const getApiV1ReaderThemes = (params?: GetApiV1ReaderThemesParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/themes`,
       method: 'GET',
       params,
@@ -4917,7 +6182,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 创建自定义主题
    */
   const postApiV1ReaderThemes = (postApiV1ReaderThemesBody: PostApiV1ReaderThemesBody) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/themes`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -4929,7 +6194,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除自定义主题
    */
   const deleteApiV1ReaderThemesId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/themes/${id}`,
       method: 'DELETE',
     })
@@ -4942,7 +6207,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     putApiV1ReaderThemesIdBody: PutApiV1ReaderThemesIdBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/themes/${id}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -4954,7 +6219,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 根据名称获取主题
    */
   const getApiV1ReaderThemesName = (name: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/themes/${name}`,
       method: 'GET',
     })
@@ -4964,7 +6229,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 激活主题（应用到阅读设置）
    */
   const postApiV1ReaderThemesNameActivate = (name: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reader/themes/${name}/activate`,
       method: 'POST',
     })
@@ -4974,7 +6239,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取我的每日阅读统计
    */
   const getApiV1ReadingStatsMyDaily = (params?: GetApiV1ReadingStatsMyDailyParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading-stats/my/daily`,
       method: 'GET',
       params,
@@ -4985,7 +6250,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取我的阅读历史统计
    */
   const getApiV1ReadingStatsMyHistory = (params?: GetApiV1ReadingStatsMyHistoryParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading-stats/my/history`,
       method: 'GET',
       params,
@@ -4996,7 +6261,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取我的阅读排名
    */
   const getApiV1ReadingStatsMyRanking = (params?: GetApiV1ReadingStatsMyRankingParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading-stats/my/ranking`,
       method: 'GET',
       params,
@@ -5007,7 +6272,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取我的阅读时长统计
    */
   const getApiV1ReadingStatsMyReadingTime = (params?: GetApiV1ReadingStatsMyReadingTimeParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading-stats/my/reading-time`,
       method: 'GET',
       params,
@@ -5018,7 +6283,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取我的阅读统计
    */
   const getApiV1ReadingStatsMyStats = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading-stats/my/stats`,
       method: 'GET',
     })
@@ -5030,7 +6295,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const getApiV1ReadingStatsRecommendations = (
     params?: GetApiV1ReadingStatsRecommendationsParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading-stats/recommendations`,
       method: 'GET',
       params,
@@ -5042,7 +6307,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 增加收藏量
    */
   const postApiV1ReadingBooksBookIdFavorite = (bookId: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading/books/${bookId}/favorite`,
       method: 'POST',
     })
@@ -5053,7 +6318,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取图书统计信息
    */
   const getApiV1ReadingBooksBookIdStatistics = (bookId: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading/books/${bookId}/statistics`,
       method: 'GET',
     })
@@ -5064,43 +6329,9 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 增加浏览量
    */
   const postApiV1ReadingBooksBookIdView = (bookId: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading/books/${bookId}/view`,
       method: 'POST',
-    })
-  }
-
-  /**
-   * 为指定评分点赞
-   * @summary 点赞评分
-   */
-  const postApiV1ReadingRatingsIdLike = (id: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
-      url: `/api/v1/reading/ratings/${id}/like`,
-      method: 'POST',
-    })
-  }
-
-  /**
-   * 取消对指定评分的点赞
-   * @summary 取消点赞评分
-   */
-  const postApiV1ReadingRatingsIdUnlike = (id: string) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
-      url: `/api/v1/reading/ratings/${id}/unlike`,
-      method: 'POST',
-    })
-  }
-
-  /**
-   * 根据关键词搜索评分
-   * @summary 搜索评分
-   */
-  const getApiV1ReadingRatingsSearch = (params: GetApiV1ReadingRatingsSearchParams) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
-      url: `/api/v1/reading/ratings/search`,
-      method: 'GET',
-      params,
     })
   }
 
@@ -5109,7 +6340,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取聚合统计信息
    */
   const getApiV1ReadingStatisticsAggregated = () => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading/statistics/aggregated`,
       method: 'GET',
     })
@@ -5122,7 +6353,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const getApiV1ReadingStatisticsDailyReport = (
     params: GetApiV1ReadingStatisticsDailyReportParams,
   ) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading/statistics/daily-report`,
       method: 'GET',
       params,
@@ -5134,7 +6365,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取最热门的图书
    */
   const getApiV1ReadingStatisticsHottest = (params?: GetApiV1ReadingStatisticsHottestParams) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading/statistics/hottest`,
       method: 'GET',
       params,
@@ -5148,7 +6379,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const getApiV1ReadingStatisticsMonthlyReport = (
     params: GetApiV1ReadingStatisticsMonthlyReportParams,
   ) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading/statistics/monthly-report`,
       method: 'GET',
       params,
@@ -5160,7 +6391,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 搜索统计信息
    */
   const getApiV1ReadingStatisticsSearch = (params: GetApiV1ReadingStatisticsSearchParams) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading/statistics/search`,
       method: 'GET',
       params,
@@ -5172,7 +6403,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取时间范围内的统计信息
    */
   const getApiV1ReadingStatisticsTimeRange = (params: GetApiV1ReadingStatisticsTimeRangeParams) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading/statistics/time-range`,
       method: 'GET',
       params,
@@ -5186,7 +6417,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const getApiV1ReadingStatisticsTopFavorited = (
     params?: GetApiV1ReadingStatisticsTopFavoritedParams,
   ) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading/statistics/top-favorited`,
       method: 'GET',
       params,
@@ -5198,7 +6429,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取最高评分的图书
    */
   const getApiV1ReadingStatisticsTopRated = (params?: GetApiV1ReadingStatisticsTopRatedParams) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading/statistics/top-rated`,
       method: 'GET',
       params,
@@ -5212,7 +6443,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const getApiV1ReadingStatisticsTopViewed = (
     params?: GetApiV1ReadingStatisticsTopViewedParams,
   ) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading/statistics/top-viewed`,
       method: 'GET',
       params,
@@ -5224,7 +6455,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取趋势图书
    */
   const getApiV1ReadingStatisticsTrending = (params?: GetApiV1ReadingStatisticsTrendingParams) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading/statistics/trending`,
       method: 'GET',
       params,
@@ -5238,7 +6469,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const getApiV1ReadingStatisticsWeeklyReport = (
     params: GetApiV1ReadingStatisticsWeeklyReportParams,
   ) => {
-    return orvalMutator<ApiV1BookstoreAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/reading/statistics/weekly-report`,
       method: 'GET',
       params,
@@ -5251,7 +6482,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1RecommendationBehavior = (
     postApiV1RecommendationBehaviorBody: PostApiV1RecommendationBehaviorBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/recommendation/behavior`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5263,7 +6494,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取分类推荐（当前使用热门推荐）
    */
   const getApiV1RecommendationCategory = (params: GetApiV1RecommendationCategoryParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/recommendation/category`,
       method: 'GET',
       params,
@@ -5271,10 +6502,11 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
+   * 返回推荐列表、新书上架、编辑推荐
    * @summary 获取首页推荐（混合推荐策略：个性化+热门）
    */
   const getApiV1RecommendationHomepage = (params?: GetApiV1RecommendationHomepageParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<GetApiV1RecommendationHomepage200>({
       url: `/api/v1/recommendation/homepage`,
       method: 'GET',
       params,
@@ -5285,7 +6517,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取热门推荐
    */
   const getApiV1RecommendationHot = (params?: GetApiV1RecommendationHotParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/recommendation/hot`,
       method: 'GET',
       params,
@@ -5298,7 +6530,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const getApiV1RecommendationPersonalized = (
     params?: GetApiV1RecommendationPersonalizedParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/recommendation/personalized`,
       method: 'GET',
       params,
@@ -5309,7 +6541,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取相似物品推荐
    */
   const getApiV1RecommendationSimilar = (params: GetApiV1RecommendationSimilarParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/recommendation/similar`,
       method: 'GET',
       params,
@@ -5321,7 +6553,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 批量搜索
    */
   const postApiV1SearchBatch = (apiV1SearchBatchSearchRequest: ApiV1SearchBatchSearchRequest) => {
-    return orvalMutator<PostApiV1SearchBatch200>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/search/batch`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5336,7 +6568,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1SearchGrayscaleConfig = (
     apiV1SearchUpdateGrayscaleConfigRequest: ApiV1SearchUpdateGrayscaleConfigRequest,
   ) => {
-    return orvalMutator<PostApiV1SearchGrayscaleConfig200>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/search/grayscale/config`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5349,7 +6581,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取灰度指标
    */
   const getApiV1SearchGrayscaleMetrics = () => {
-    return orvalMutator<GetApiV1SearchGrayscaleMetrics200>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/search/grayscale/metrics`,
       method: 'GET',
     })
@@ -5360,7 +6592,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取灰度状态
    */
   const getApiV1SearchGrayscaleStatus = () => {
-    return orvalMutator<GetApiV1SearchGrayscaleStatus200>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/search/grayscale/status`,
       method: 'GET',
     })
@@ -5371,7 +6603,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取流量分配
    */
   const getApiV1SearchGrayscaleTraffic = () => {
-    return orvalMutator<GetApiV1SearchGrayscaleTraffic200>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/search/grayscale/traffic`,
       method: 'GET',
     })
@@ -5382,7 +6614,10 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 搜索服务健康检查
    */
   const getApiV1SearchHealth = () => {
-    return orvalMutator<GetApiV1SearchHealth200>({ url: `/api/v1/search/health`, method: 'GET' })
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/search/health`,
+      method: 'GET',
+    })
   }
 
   /**
@@ -5390,7 +6625,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 统一搜索
    */
   const postApiV1SearchSearch = (apiV1SearchSearchRequest: ApiV1SearchSearchRequest) => {
-    return orvalMutator<PostApiV1SearchSearch200>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/search/search`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5399,29 +6634,15 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
-   * 根据关键词前缀获取搜索建议（自动补全），支持书籍和文档的搜索建议
-   * @summary 获取搜索建议
-   */
-  const getApiV1SearchSuggest = (params: GetApiV1SearchSuggestParams) => {
-    return orvalMutator<GetApiV1SearchSuggest200>({
-      url: `/api/v1/search/suggest`,
-      method: 'GET',
-      params,
-    })
-  }
-
-  /**
    * 用户登录获取Token
    * @summary 用户登录
    */
-  const postApiV1SharedAuthLogin = (
-    qingyuBackendServiceSharedAuthLoginRequest: QingyuBackendServiceSharedAuthLoginRequest,
-  ) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+  const postApiV1SharedAuthLogin = (apiV1SharedLoginRequest: ApiV1SharedLoginRequest) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/shared/auth/login`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: qingyuBackendServiceSharedAuthLoginRequest,
+      data: apiV1SharedLoginRequest,
     })
   }
 
@@ -5430,7 +6651,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 用户登出
    */
   const postApiV1SharedAuthLogout = () => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/shared/auth/logout`,
       method: 'POST',
     })
@@ -5441,7 +6662,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取用户权限
    */
   const getApiV1SharedAuthPermissions = () => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/shared/auth/permissions`,
       method: 'GET',
     })
@@ -5452,7 +6673,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 刷新Token
    */
   const postApiV1SharedAuthRefresh = () => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/shared/auth/refresh`,
       method: 'POST',
     })
@@ -5462,14 +6683,12 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * 注册新用户账号
    * @summary 用户注册
    */
-  const postApiV1SharedAuthRegister = (
-    qingyuBackendServiceSharedAuthRegisterRequest: QingyuBackendServiceSharedAuthRegisterRequest,
-  ) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+  const postApiV1SharedAuthRegister = (apiV1SharedRegisterRequest: ApiV1SharedRegisterRequest) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/shared/auth/register`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: qingyuBackendServiceSharedAuthRegisterRequest,
+      data: apiV1SharedRegisterRequest,
     })
   }
 
@@ -5478,7 +6697,25 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取用户角色
    */
   const getApiV1SharedAuthRoles = () => {
-    return orvalMutator<ApiV1SharedAPIResponse>({ url: `/api/v1/shared/auth/roles`, method: 'GET' })
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/shared/auth/roles`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 发送用户注册验证码到邮箱
+   * @summary 发送邮箱验证码
+   */
+  const postApiV1SharedAuthSendVerificationCode = (
+    apiV1SharedSendVerificationCodeRequest: ApiV1SharedSendVerificationCodeRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/shared/auth/send-verification-code`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1SharedSendVerificationCodeRequest,
+    })
   }
 
   /**
@@ -5489,7 +6726,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     provider: string,
     apiV1SharedOAuthAuthorizeRequest: ApiV1SharedOAuthAuthorizeRequest,
   ) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/shared/oauth/${provider}/authorize`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5505,7 +6742,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     provider: string,
     apiV1SharedOAuthCallbackRequest: ApiV1SharedOAuthCallbackRequest,
   ) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/shared/oauth/${provider}/callback`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5518,7 +6755,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取绑定的OAuth账号
    */
   const getApiV1SharedOauthAccounts = () => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/shared/oauth/accounts`,
       method: 'GET',
     })
@@ -5529,7 +6766,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 解绑OAuth账号
    */
   const deleteApiV1SharedOauthAccountsAccountID = (accountID: string) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/shared/oauth/accounts/${accountID}`,
       method: 'DELETE',
     })
@@ -5540,7 +6777,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 设置主账号
    */
   const putApiV1SharedOauthAccountsAccountIDPrimary = (accountID: string) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/shared/oauth/accounts/${accountID}/primary`,
       method: 'PUT',
     })
@@ -5551,7 +6788,10 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取钱包信息
    */
   const getApiV1SharedWallet = () => {
-    return orvalMutator<ApiV1SharedAPIResponse>({ url: `/api/v1/shared/wallet`, method: 'GET' })
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/shared/wallet`,
+      method: 'GET',
+    })
   }
 
   /**
@@ -5559,7 +6799,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 查询余额
    */
   const getApiV1SharedWalletBalance = () => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/shared/wallet/balance`,
       method: 'GET',
     })
@@ -5570,7 +6810,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 钱包消费
    */
   const postApiV1SharedWalletConsume = (apiV1SharedConsumeRequest: ApiV1SharedConsumeRequest) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/shared/wallet/consume`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5585,7 +6825,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1SharedWalletRecharge = (
     apiV1SharedRechargeRequest: ApiV1SharedRechargeRequest,
   ) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/shared/wallet/recharge`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5598,7 +6838,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 查询交易记录
    */
   const getApiV1SharedWalletTransactions = (params?: GetApiV1SharedWalletTransactionsParams) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/shared/wallet/transactions`,
       method: 'GET',
       params,
@@ -5612,7 +6852,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1SharedWalletTransfer = (
     apiV1SharedTransferRequest: ApiV1SharedTransferRequest,
   ) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/shared/wallet/transfer`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5627,7 +6867,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1SharedWalletWithdraw = (
     apiV1SharedWithdrawRequest: ApiV1SharedWithdrawRequest,
   ) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/shared/wallet/withdraw`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5640,7 +6880,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 查询提现申请
    */
   const getApiV1SharedWalletWithdrawals = (params?: GetApiV1SharedWalletWithdrawalsParams) => {
-    return orvalMutator<ApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/shared/wallet/withdrawals`,
       method: 'GET',
       params,
@@ -5654,7 +6894,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     authorId: string,
     apiV1SocialFollowAuthorRequest: ApiV1SocialFollowAuthorRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/authors/${authorId}/follow`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5666,7 +6906,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 取消关注作者
    */
   const deleteApiV1SocialAuthorsAuthorIdUnfollow = (authorId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/authors/${authorId}/unfollow`,
       method: 'DELETE',
     })
@@ -5676,7 +6916,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取书单列表
    */
   const getApiV1SocialBooklists = (params?: GetApiV1SocialBooklistsParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/booklists`,
       method: 'GET',
       params,
@@ -5689,7 +6929,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1SocialBooklists = (
     apiV1SocialCreateBookListRequest: ApiV1SocialCreateBookListRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/booklists`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5701,7 +6941,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除书单
    */
   const deleteApiV1SocialBooklistsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/booklists/${id}`,
       method: 'DELETE',
     })
@@ -5711,9 +6951,24 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取书单详情
    */
   const getApiV1SocialBooklistsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/booklists/${id}`,
       method: 'GET',
+    })
+  }
+
+  /**
+   * @summary 更新书单
+   */
+  const patchApiV1SocialBooklistsId = (
+    id: string,
+    apiV1SocialUpdateBookListRequest: ApiV1SocialUpdateBookListRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/social/booklists/${id}`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1SocialUpdateBookListRequest,
     })
   }
 
@@ -5724,7 +6979,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     apiV1SocialUpdateBookListRequest: ApiV1SocialUpdateBookListRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/booklists/${id}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -5736,7 +6991,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取书单中的书籍
    */
   const getApiV1SocialBooklistsIdBooks = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/booklists/${id}/books`,
       method: 'GET',
     })
@@ -5746,7 +7001,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 复制书单
    */
   const postApiV1SocialBooklistsIdFork = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/booklists/${id}/fork`,
       method: 'POST',
     })
@@ -5756,9 +7011,20 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 点赞书单
    */
   const postApiV1SocialBooklistsIdLike = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/booklists/${id}/like`,
       method: 'POST',
+    })
+  }
+
+  /**
+   * @summary 检查是否已收藏
+   */
+  const getApiV1SocialCollectionsCheck = (params: GetApiV1SocialCollectionsCheckParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/social/collections/check`,
+      method: 'GET',
+      params,
     })
   }
 
@@ -5767,7 +7033,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 取消关注用户
    */
   const deleteApiV1SocialFollowUserId = (userId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/follow/${userId}`,
       method: 'DELETE',
     })
@@ -5778,7 +7044,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 关注用户
    */
   const postApiV1SocialFollowUserId = (userId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/follow/${userId}`,
       method: 'POST',
     })
@@ -5789,7 +7055,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 检查关注状态
    */
   const getApiV1SocialFollowUserIdStatus = (userId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/follow/${userId}/status`,
       method: 'GET',
     })
@@ -5799,7 +7065,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取关注的作者列表
    */
   const getApiV1SocialFollowingAuthors = (params?: GetApiV1SocialFollowingAuthorsParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/following/authors`,
       method: 'GET',
       params,
@@ -5810,7 +7076,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取@提醒列表
    */
   const getApiV1SocialMentions = (params?: GetApiV1SocialMentionsParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/mentions`,
       method: 'GET',
       params,
@@ -5823,7 +7089,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1SocialMentions = (
     apiV1MessagesCreateMentionRequest: ApiV1MessagesCreateMentionRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/mentions`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5835,7 +7101,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 标记@提醒已读
    */
   const putApiV1SocialMentionsIdRead = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/mentions/${id}/read`,
       method: 'PUT',
     })
@@ -5847,7 +7113,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1SocialMessages = (
     apiV1MessagesSendMessageRequest: ApiV1MessagesSendMessageRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/messages`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5862,7 +7128,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     conversationId: string,
     params?: GetApiV1SocialMessagesConversationIdParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/messages/${conversationId}`,
       method: 'GET',
       params,
@@ -5873,7 +7139,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除消息
    */
   const deleteApiV1SocialMessagesId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/messages/${id}`,
       method: 'DELETE',
     })
@@ -5883,7 +7149,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 标记消息已读
    */
   const putApiV1SocialMessagesIdRead = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/messages/${id}/read`,
       method: 'PUT',
     })
@@ -5895,7 +7161,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const getApiV1SocialMessagesConversations = (
     params?: GetApiV1SocialMessagesConversationsParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/messages/conversations`,
       method: 'GET',
       params,
@@ -5907,13 +7173,13 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 创建会话
    */
   const postApiV1SocialMessagesConversations = (
-    postApiV1SocialMessagesConversationsBody: PostApiV1SocialMessagesConversationsBody,
+    qingyuBackendApiV1SocialDtoCreateConversationRequest: QingyuBackendApiV1SocialDtoCreateConversationRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<PostApiV1SocialMessagesConversations200>({
       url: `/api/v1/social/messages/conversations`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: postApiV1SocialMessagesConversationsBody,
+      data: qingyuBackendApiV1SocialDtoCreateConversationRequest,
     })
   }
 
@@ -5925,7 +7191,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     conversationId: string,
     params?: GetApiV1SocialMessagesConversationsConversationIdMessagesParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<GetApiV1SocialMessagesConversationsConversationIdMessages200>({
       url: `/api/v1/social/messages/conversations/${conversationId}/messages`,
       method: 'GET',
       params,
@@ -5938,13 +7204,13 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    */
   const postApiV1SocialMessagesConversationsConversationIdMessages = (
     conversationId: string,
-    postApiV1SocialMessagesConversationsConversationIdMessagesBody: PostApiV1SocialMessagesConversationsConversationIdMessagesBody,
+    qingyuBackendApiV1SocialDtoSendMessageRequest: QingyuBackendApiV1SocialDtoSendMessageRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<PostApiV1SocialMessagesConversationsConversationIdMessages200>({
       url: `/api/v1/social/messages/conversations/${conversationId}/messages`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: postApiV1SocialMessagesConversationsConversationIdMessagesBody,
+      data: qingyuBackendApiV1SocialDtoSendMessageRequest,
     })
   }
 
@@ -5954,13 +7220,13 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    */
   const postApiV1SocialMessagesConversationsConversationIdRead = (
     conversationId: string,
-    postApiV1SocialMessagesConversationsConversationIdReadBody: PostApiV1SocialMessagesConversationsConversationIdReadBody,
+    qingyuBackendApiV1SocialDtoMarkConversationReadRequest: QingyuBackendApiV1SocialDtoMarkConversationReadRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/messages/conversations/${conversationId}/read`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: postApiV1SocialMessagesConversationsConversationIdReadBody,
+      data: qingyuBackendApiV1SocialDtoMarkConversationReadRequest,
     })
   }
 
@@ -5968,7 +7234,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取书评列表
    */
   const getApiV1SocialReviews = (params?: GetApiV1SocialReviewsParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/reviews`,
       method: 'GET',
       params,
@@ -5981,7 +7247,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1SocialReviews = (
     apiV1SocialCreateReviewRequest: ApiV1SocialCreateReviewRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/reviews`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5993,7 +7259,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除书评
    */
   const deleteApiV1SocialReviewsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/reviews/${id}`,
       method: 'DELETE',
     })
@@ -6003,7 +7269,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取书评详情
    */
   const getApiV1SocialReviewsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/reviews/${id}`,
       method: 'GET',
     })
@@ -6016,7 +7282,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     apiV1SocialUpdateReviewRequest: ApiV1SocialUpdateReviewRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/reviews/${id}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -6028,7 +7294,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 点赞书评
    */
   const postApiV1SocialReviewsIdLike = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/reviews/${id}/like`,
       method: 'POST',
     })
@@ -6038,7 +7304,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 关注用户
    */
   const postApiV1SocialUsersUserIdFollow = (userId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/users/${userId}/follow`,
       method: 'POST',
     })
@@ -6049,7 +7315,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取关注统计
    */
   const getApiV1SocialUsersUserIdFollowStats = (userId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/users/${userId}/follow-stats`,
       method: 'GET',
     })
@@ -6059,21 +7325,20 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 检查关注状态
    */
   const getApiV1SocialUsersUserIdFollowStatus = (userId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/users/${userId}/follow-status`,
       method: 'GET',
     })
   }
 
   /**
-   * 获取指定用户的粉丝列表
    * @summary 获取粉丝列表
    */
   const getApiV1SocialUsersUserIdFollowers = (
     userId: string,
     params?: GetApiV1SocialUsersUserIdFollowersParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/users/${userId}/followers`,
       method: 'GET',
       params,
@@ -6081,14 +7346,13 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
-   * 获取指定用户的关注列表
    * @summary 获取关注列表
    */
   const getApiV1SocialUsersUserIdFollowing = (
     userId: string,
     params?: GetApiV1SocialUsersUserIdFollowingParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/users/${userId}/following`,
       method: 'GET',
       params,
@@ -6099,9 +7363,53 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 取消关注用户
    */
   const deleteApiV1SocialUsersUserIdUnfollow = (userId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/social/users/${userId}/unfollow`,
       method: 'DELETE',
+    })
+  }
+
+  /**
+   * 检查系统整体健康状态，包括 MongoDB、Redis、Milvus、AI gRPC 服务
+   * @summary 系统健康检查
+   */
+  const getApiV1SystemHealth = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/system/health`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 检查指定服务的健康状态
+   * @summary 特定服务健康检查
+   */
+  const getApiV1SystemHealthService = (service: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/system/health/${service}`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 获取所有服务的运行指标
+   * @summary 获取所有服务指标
+   */
+  const getApiV1SystemMetrics = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/system/metrics`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 获取指定服务的运行指标
+   * @summary 获取特定服务指标
+   */
+  const getApiV1SystemMetricsService = (service: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/system/metrics/${service}`,
+      method: 'GET',
     })
   }
 
@@ -6110,7 +7418,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取邮件通知设置
    */
   const getApiV1UserManagementEmailNotifications = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/user-management/email-notifications`,
       method: 'GET',
     })
@@ -6123,7 +7431,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const putApiV1UserManagementEmailNotifications = (
     putApiV1UserManagementEmailNotificationsBody: PutApiV1UserManagementEmailNotificationsBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/user-management/email-notifications`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -6136,7 +7444,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取短信通知设置
    */
   const getApiV1UserManagementSmsNotifications = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/user-management/sms-notifications`,
       method: 'GET',
     })
@@ -6149,7 +7457,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const putApiV1UserManagementSmsNotifications = (
     putApiV1UserManagementSmsNotificationsBody: PutApiV1UserManagementSmsNotificationsBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/user-management/sms-notifications`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -6173,6 +7481,17 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
+   * 用户登出，清除服务端会话/Token
+   * @summary 用户登出
+   */
+  const postApiV1UserAuthLogout = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/user/auth/logout`,
+      method: 'POST',
+    })
+  }
+
+  /**
    * 注册新用户账户
    * @summary 用户注册
    */
@@ -6188,13 +7507,29 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
+   * 上传用户头像图片，支持JPG、PNG、JPEG格式，最大5MB
+   * @summary 上传头像
+   */
+  const postApiV1UserAvatar = (postApiV1UserAvatarBody: PostApiV1UserAvatarBody) => {
+    const formData = new FormData()
+    formData.append(`file`, postApiV1UserAvatarBody.file)
+
+    return orvalMutator<PostApiV1UserAvatar200>({
+      url: `/api/v1/user/avatar`,
+      method: 'POST',
+      headers: { 'Content-Type': 'multipart/form-data' },
+      data: formData,
+    })
+  }
+
+  /**
    * 向用户邮箱发送6位数字验证码，用于验证邮箱
    * @summary 发送邮箱验证码
    */
   const postApiV1UserEmailSendCode = (
     postApiV1UserEmailSendCodeBody: PostApiV1UserEmailSendCodeBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/user/email/send-code`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -6207,7 +7542,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 验证邮箱
    */
   const postApiV1UserEmailVerify = (postApiV1UserEmailVerifyBody: PostApiV1UserEmailVerifyBody) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/user/email/verify`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -6220,13 +7555,13 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 修改密码
    */
   const putApiV1UserPassword = (
-    qingyuBackendApiV1UserDtoChangePasswordRequest: QingyuBackendApiV1UserDtoChangePasswordRequest,
+    qingyuBackendApiV1UserDtoUpdatePasswordRequest: QingyuBackendApiV1UserDtoUpdatePasswordRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/user/password`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      data: qingyuBackendApiV1UserDtoChangePasswordRequest,
+      data: qingyuBackendApiV1UserDtoUpdatePasswordRequest,
     })
   }
 
@@ -6237,7 +7572,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1UserPasswordReset = (
     postApiV1UserPasswordResetBody: PostApiV1UserPasswordResetBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/user/password/reset`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -6252,7 +7587,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1UserPasswordResetRequest = (
     postApiV1UserPasswordResetRequestBody: PostApiV1UserPasswordResetRequestBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/user/password/reset-request`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -6275,7 +7610,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const putApiV1UserProfile = (
     qingyuBackendApiV1UserDtoUpdateProfileRequest: QingyuBackendApiV1UserDtoUpdateProfileRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/user/profile`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -6284,50 +7619,17 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
-   * 获取当前用户的快捷键配置（包括自定义和默认）
-   * @summary 获取用户快捷键配置
+   * 将当前用户角色降级到指定角色（author只能降级到reader，admin可以降级到author或reader）
+   * @summary 降级用户角色
    */
-  const getApiV1UserShortcuts = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/user/shortcuts`,
-      method: 'GET',
-    })
-  }
-
-  /**
-   * 更新用户的自定义快捷键配置
-   * @summary 更新用户快捷键配置
-   */
-  const putApiV1UserShortcuts = (
-    apiV1WriterUpdateShortcutsRequest: ApiV1WriterUpdateShortcutsRequest,
+  const postApiV1UserRoleDowngrade = (
+    apiV1UserHandlerDowngradeRoleRequest: ApiV1UserHandlerDowngradeRoleRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/user/shortcuts`,
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      data: apiV1WriterUpdateShortcutsRequest,
-    })
-  }
-
-  /**
-   * 获取快捷键帮助文档（按分类）
-   * @summary 获取快捷键帮助
-   */
-  const getApiV1UserShortcutsHelp = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/user/shortcuts/help`,
-      method: 'GET',
-    })
-  }
-
-  /**
-   * 重置用户快捷键为默认配置
-   * @summary 重置用户快捷键配置
-   */
-  const postApiV1UserShortcutsReset = () => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/user/shortcuts/reset`,
+    return orvalMutator<PostApiV1UserRoleDowngrade200>({
+      url: `/api/v1/user/role/downgrade`,
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1UserHandlerDowngradeRoleRequest,
     })
   }
 
@@ -6344,11 +7646,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取活跃度统计
    */
   const getApiV1UserStatsMyActivity = (params?: GetApiV1UserStatsMyActivityParams) => {
-    return orvalMutator<GetApiV1UserStatsMyActivity200>({
-      url: `/api/v1/user/stats/my/activity`,
-      method: 'GET',
-      params,
-    })
+    return orvalMutator<unknown>({ url: `/api/v1/user/stats/my/activity`, method: 'GET', params })
   }
 
   /**
@@ -6367,11 +7665,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取收益统计
    */
   const getApiV1UserStatsMyRevenue = (params?: GetApiV1UserStatsMyRevenueParams) => {
-    return orvalMutator<GetApiV1UserStatsMyRevenue200>({
-      url: `/api/v1/user/stats/my/revenue`,
-      method: 'GET',
-      params,
-    })
+    return orvalMutator<unknown>({ url: `/api/v1/user/stats/my/revenue`, method: 'GET', params })
   }
 
   /**
@@ -6406,11 +7700,23 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
+   * 根据用户ID列表批量获取用户的公开信息
+   * @summary 批量获取用户信息
+   */
+  const getApiV1UserUsersBatch = (params: GetApiV1UserUsersBatchParams) => {
+    return orvalMutator<GetApiV1UserUsersBatch200>({
+      url: `/api/v1/user/users/batch`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
    * 获取指定用户的违规统计信息
    * @summary 获取用户违规统计
    */
   const getApiV1UsersUserIdViolationSummary = (userId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/users/${userId}/violation-summary`,
       method: 'GET',
     })
@@ -6421,7 +7727,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取用户违规记录
    */
   const getApiV1UsersUserIdViolations = (userId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/users/${userId}/violations`,
       method: 'GET',
     })
@@ -6435,7 +7741,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     deviceId: string,
     qingyuBackendApiV1UserDtoDeleteDeviceRequest: QingyuBackendApiV1UserDtoDeleteDeviceRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/users/devices/${deviceId}`,
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -6450,7 +7756,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const deleteApiV1UsersEmailUnbind = (
     qingyuBackendApiV1UserDtoUnbindEmailRequest: QingyuBackendApiV1UserDtoUnbindEmailRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/users/email/unbind`,
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -6480,7 +7786,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const putApiV1UsersPassword = (
     qingyuBackendApiV1UserDtoUpdatePasswordRequest: QingyuBackendApiV1UserDtoUpdatePasswordRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/users/password`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -6525,7 +7831,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const deleteApiV1UsersPhoneUnbind = (
     qingyuBackendApiV1UserDtoUnbindPhoneRequest: QingyuBackendApiV1UserDtoUnbindPhoneRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/users/phone/unbind`,
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -6570,7 +7876,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1WriterBatchOperations = (
     apiV1WriterSubmitBatchOperationRequest: ApiV1WriterSubmitBatchOperationRequest,
   ) => {
-    return orvalMutator<ApiV1WriterSubmitBatchOperationResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/batch-operations`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -6583,7 +7889,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取批量操作状态
    */
   const getApiV1WriterBatchOperationsId = (id: string) => {
-    return orvalMutator<GetApiV1WriterBatchOperationsId200>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/batch-operations/${id}`,
       method: 'GET',
     })
@@ -6609,6 +7915,18 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
+   * 获取当前登录作者的书籍列表，用于统计与收入页筛选
+   * @summary 获取当前作者作品列表
+   */
+  const getApiV1WriterBooks = (params?: GetApiV1WriterBooksParams) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/books`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
    * 获取作品最近N天的每日统计数据
    * @summary 获取作品每日统计
    */
@@ -6616,7 +7934,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     bookId: string,
     params?: GetApiV1WriterBooksBookIdDailyStatsParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/books/${bookId}/daily-stats`,
       method: 'GET',
       params,
@@ -6628,7 +7946,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取作品跳出点分析
    */
   const getApiV1WriterBooksBookIdDropOffPoints = (bookId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/books/${bookId}/drop-off-points`,
       method: 'GET',
     })
@@ -6639,7 +7957,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取作品阅读热力图
    */
   const getApiV1WriterBooksBookIdHeatmap = (bookId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/books/${bookId}/heatmap`,
       method: 'GET',
     })
@@ -6653,7 +7971,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     bookId: string,
     params?: GetApiV1WriterBooksBookIdRetentionParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/books/${bookId}/retention`,
       method: 'GET',
       params,
@@ -6668,7 +7986,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     bookId: string,
     params?: GetApiV1WriterBooksBookIdRevenueParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/books/${bookId}/revenue`,
       method: 'GET',
       params,
@@ -6680,7 +7998,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取作品统计数据
    */
   const getApiV1WriterBooksBookIdStats = (bookId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/books/${bookId}/stats`,
       method: 'GET',
     })
@@ -6691,9 +8009,36 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取热门章节列表
    */
   const getApiV1WriterBooksBookIdTopChapters = (bookId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/books/${bookId}/top-chapters`,
       method: 'GET',
+    })
+  }
+
+  /**
+   * 根据ID获取变更建议详情
+   * @summary 获取建议详情
+   */
+  const getApiV1WriterChangeRequestsRequestId = (requestId: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/change-requests/${requestId}`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 接受/忽略/延后一条变更建议
+   * @summary 处理建议
+   */
+  const putApiV1WriterChangeRequestsRequestIdStatus = (
+    requestId: string,
+    putApiV1WriterChangeRequestsRequestIdStatusBody: PutApiV1WriterChangeRequestsRequestIdStatusBody,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/change-requests/${requestId}/status`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: putApiV1WriterChangeRequestsRequestIdStatusBody,
     })
   }
 
@@ -6702,7 +8047,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取章节统计数据
    */
   const getApiV1WriterChaptersChapterIdStats = (chapterId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/chapters/${chapterId}/stats`,
       method: 'GET',
     })
@@ -6713,7 +8058,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除批注
    */
   const deleteApiV1WriterCommentsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/comments/${id}`,
       method: 'DELETE',
     })
@@ -6724,7 +8069,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取批注详情
    */
   const getApiV1WriterCommentsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/comments/${id}`,
       method: 'GET',
     })
@@ -6738,7 +8083,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     apiV1WriterUpdateCommentRequest: ApiV1WriterUpdateCommentRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/comments/${id}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -6754,7 +8099,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     apiV1WriterReplyCommentRequest: ApiV1WriterReplyCommentRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/comments/${id}/reply`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -6767,7 +8112,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 标记批注为已解决
    */
   const postApiV1WriterCommentsIdResolve = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/comments/${id}/resolve`,
       method: 'POST',
     })
@@ -6778,7 +8123,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 标记批注为未解决
    */
   const postApiV1WriterCommentsIdUnresolve = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/comments/${id}/unresolve`,
       method: 'POST',
     })
@@ -6791,7 +8136,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1WriterCommentsBatchDelete = (
     apiV1WriterBatchDeleteRequest: ApiV1WriterBatchDeleteRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/comments/batch-delete`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -6804,9 +8149,49 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取批注线程
    */
   const getApiV1WriterCommentsThreadsThreadId = (threadId: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/comments/threads/${threadId}`,
       method: 'GET',
+    })
+  }
+
+  /**
+   * 获取作者工作台的汇总统计，包括总字数、项目数、今日字数、待审核数、连续写作天数
+   * @summary 获取作者仪表板统计数据
+   */
+  const getApiV1WriterDashboardStats = () => {
+    return orvalMutator<GetApiV1WriterDashboardStats200>({
+      url: `/api/v1/writer/dashboard/stats`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 在项目中创建新文档，project_id 从请求体获取
+   * @summary 创建文档（通过请求体）
+   */
+  const postApiV1WriterDocuments = (postApiV1WriterDocumentsBody: PostApiV1WriterDocumentsBody) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/documents`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: postApiV1WriterDocumentsBody,
+    })
+  }
+
+  /**
+   * 自动保存文档内容（支持版本冲突检测）
+   * @summary 自动保存文档
+   */
+  const postApiV1WriterDocumentsIdAutosave = (
+    id: string,
+    postApiV1WriterDocumentsIdAutosaveBody: PostApiV1WriterDocumentsIdAutosaveBody,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/documents/${id}/autosave`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: postApiV1WriterDocumentsIdAutosaveBody,
     })
   }
 
@@ -6818,7 +8203,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     params?: GetApiV1WriterDocumentsIdCommentsParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/documents/${id}/comments`,
       method: 'GET',
       params,
@@ -6833,7 +8218,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     apiV1WriterCreateCommentRequest: ApiV1WriterCreateCommentRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/documents/${id}/comments`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -6849,7 +8234,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     params: GetApiV1WriterDocumentsIdCommentsSearchParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/documents/${id}/comments/search`,
       method: 'GET',
       params,
@@ -6861,9 +8246,36 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 批注统计
    */
   const getApiV1WriterDocumentsIdCommentsStats = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/documents/${id}/comments/stats`,
       method: 'GET',
+    })
+  }
+
+  /**
+   * 获取文档的完整内容（用于编辑器加载）
+   * @summary 获取文档内容
+   */
+  const getApiV1WriterDocumentsIdContent = (id: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/documents/${id}/content`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 手动更新文档内容（非自动保存）
+   * @summary 更新文档内容
+   */
+  const putApiV1WriterDocumentsIdContent = (
+    id: string,
+    putApiV1WriterDocumentsIdContentBody: PutApiV1WriterDocumentsIdContentBody,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/documents/${id}/content`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: putApiV1WriterDocumentsIdContentBody,
     })
   }
 
@@ -6875,7 +8287,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     postApiV1WriterDocumentsIdDuplicateBody: PostApiV1WriterDocumentsIdDuplicateBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/documents/${id}/duplicate`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -6892,7 +8304,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     postApiV1WriterDocumentsIdExportBody: PostApiV1WriterDocumentsIdExportBody,
     params: PostApiV1WriterDocumentsIdExportParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/documents/${id}/export`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -6906,7 +8318,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 解锁文档
    */
   const deleteApiV1WriterDocumentsIdLock = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/documents/${id}/lock`,
       method: 'DELETE',
     })
@@ -6920,7 +8332,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     apiV1WriterLockDocumentRequest: ApiV1WriterLockDocumentRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/documents/${id}/lock`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -6936,7 +8348,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     apiV1WriterExtendLockRequest: ApiV1WriterExtendLockRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/documents/${id}/lock/extend`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -6949,7 +8361,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 强制解锁
    */
   const postApiV1WriterDocumentsIdLockForce = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/documents/${id}/lock/force`,
       method: 'POST',
     })
@@ -6960,7 +8372,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 刷新锁
    */
   const putApiV1WriterDocumentsIdLockRefresh = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/documents/${id}/lock/refresh`,
       method: 'PUT',
     })
@@ -6971,7 +8383,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取锁状态
    */
   const getApiV1WriterDocumentsIdLockStatus = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/documents/${id}/lock/status`,
       method: 'GET',
     })
@@ -6984,9 +8396,9 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1WriterDocumentsIdPublish = (
     id: string,
     postApiV1WriterDocumentsIdPublishBody: PostApiV1WriterDocumentsIdPublishBody,
-    params: PostApiV1WriterDocumentsIdPublishParams,
+    params?: PostApiV1WriterDocumentsIdPublishParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<PostApiV1WriterDocumentsIdPublish202>({
       url: `/api/v1/writer/documents/${id}/publish`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -7004,7 +8416,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     putApiV1WriterDocumentsIdPublishStatusBody: PutApiV1WriterDocumentsIdPublishStatusBody,
     params: PutApiV1WriterDocumentsIdPublishStatusParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/documents/${id}/publish-status`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -7014,11 +8426,54 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
+   * 获取文档的保存状态和最后保存时间
+   * @summary 获取保存状态
+   */
+  const getApiV1WriterDocumentsIdSaveStatus = (id: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/documents/${id}/save-status`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 计算文档内容的字数统计（支持Markdown过滤）
+   * @summary 计算字数
+   */
+  const postApiV1WriterDocumentsIdWordCount = (
+    id: string,
+    apiV1WriterWordCountRequest: ApiV1WriterWordCountRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/documents/${id}/word-count`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1WriterWordCountRequest,
+    })
+  }
+
+  /**
+   * 更新指定实体的状态字段（如生命值、心情等）
+   * @summary 更新实体状态字段
+   */
+  const putApiV1WriterEntitiesEntityIdStateFields = (
+    entityId: string,
+    putApiV1WriterEntitiesEntityIdStateFieldsBody: PutApiV1WriterEntitiesEntityIdStateFieldsBody,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/entities/${entityId}/state-fields`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: putApiV1WriterEntitiesEntityIdStateFieldsBody,
+    })
+  }
+
+  /**
    * 删除指定的导出任务及其文件
    * @summary 删除导出任务
    */
   const deleteApiV1WriterExportsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/exports/${id}`,
       method: 'DELETE',
     })
@@ -7029,7 +8484,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取导出任务状态
    */
   const getApiV1WriterExportsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/exports/${id}`,
       method: 'GET',
     })
@@ -7040,7 +8495,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 取消导出任务
    */
   const postApiV1WriterExportsIdCancel = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/exports/${id}/cancel`,
       method: 'POST',
     })
@@ -7051,9 +8506,177 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 下载导出文件
    */
   const getApiV1WriterExportsIdDownload = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/exports/${id}/download`,
       method: 'GET',
+    })
+  }
+
+  /**
+   * 删除指定大纲节点（如果有子节点则拒绝删除）
+   * @summary 删除大纲
+   */
+  const deleteApiV1WriterOutlinesOutlineId = (
+    outlineId: string,
+    params: DeleteApiV1WriterOutlinesOutlineIdParams,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/outlines/${outlineId}`,
+      method: 'DELETE',
+      params,
+    })
+  }
+
+  /**
+   * 根据ID获取大纲节点详细信息
+   * @summary 获取大纲详情
+   */
+  const getApiV1WriterOutlinesOutlineId = (
+    outlineId: string,
+    params: GetApiV1WriterOutlinesOutlineIdParams,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/outlines/${outlineId}`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 更新大纲节点信息
+   * @summary 更新大纲
+   */
+  const putApiV1WriterOutlinesOutlineId = (
+    outlineId: string,
+    qingyuBackendServiceInterfacesUpdateOutlineRequest: QingyuBackendServiceInterfacesUpdateOutlineRequest,
+    params: PutApiV1WriterOutlinesOutlineIdParams,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/outlines/${outlineId}`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: qingyuBackendServiceInterfacesUpdateOutlineRequest,
+      params,
+    })
+  }
+
+  /**
+   * 获取指定章节的变更建议列表
+   * @summary 获取章节建议列表
+   */
+  const getApiV1WriterProjectsIdChaptersChapterIdChangeRequests = (
+    id: string,
+    chapterId: string,
+    params?: GetApiV1WriterProjectsIdChaptersChapterIdChangeRequestsParams,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/projects/${id}/chapters/${chapterId}/change-requests`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 获取当前章节的角色快照、关系、作用域等 Context Lens 数据
+   * @summary 获取章节上下文
+   */
+  const getApiV1WriterProjectsIdChaptersChapterIdContext = (id: string, chapterId: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/projects/${id}/chapters/${chapterId}/context`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 基于当前章节已 accepted 的建议重新构建 projection，用于修复或回放
+   * @summary 重建章节投影
+   */
+  const postApiV1WriterProjectsIdChaptersChapterIdRebuildProjection = (
+    id: string,
+    chapterId: string,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/projects/${id}/chapters/${chapterId}/rebuild-projection`,
+      method: 'POST',
+    })
+  }
+
+  /**
+   * 对当前章节运行最小规则引擎，生成变更建议批次
+   * @summary 触发章节索引
+   */
+  const postApiV1WriterProjectsIdChaptersChapterIdTriggerIndex = (
+    id: string,
+    chapterId: string,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/projects/${id}/chapters/${chapterId}/trigger-index`,
+      method: 'POST',
+    })
+  }
+
+  /**
+   * 获取项目下的所有概念
+   * @summary 获取概念列表
+   */
+  const getApiV1WriterProjectsIdConcepts = (id: string) => {
+    return orvalMutator<GetApiV1WriterProjectsIdConcepts200>({
+      url: `/api/v1/writer/projects/${id}/concepts`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 获取指定概念的详细信息
+   * @summary 获取概念详情
+   */
+  const getApiV1WriterProjectsIdConceptsConceptId = (id: string, conceptId: string) => {
+    return orvalMutator<GetApiV1WriterProjectsIdConceptsConceptId200>({
+      url: `/api/v1/writer/projects/${id}/concepts/${conceptId}`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 在项目下搜索概念
+   * @summary 搜索概念
+   */
+  const getApiV1WriterProjectsIdConceptsSearch = (
+    id: string,
+    params?: GetApiV1WriterProjectsIdConceptsSearchParams,
+  ) => {
+    return orvalMutator<GetApiV1WriterProjectsIdConceptsSearch200>({
+      url: `/api/v1/writer/projects/${id}/concepts/search`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 批量发布多个文档到书城平台
+   * @summary 批量发布文档
+   */
+  const postApiV1WriterProjectsIdDocumentsBatchPublish = (
+    id: string,
+    postApiV1WriterProjectsIdDocumentsBatchPublishBody: PostApiV1WriterProjectsIdDocumentsBatchPublishBody,
+  ) => {
+    return orvalMutator<PostApiV1WriterProjectsIdDocumentsBatchPublish202>({
+      url: `/api/v1/writer/projects/${id}/documents/batch-publish`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: postApiV1WriterProjectsIdDocumentsBatchPublishBody,
+    })
+  }
+
+  /**
+   * 将整个项目导出为ZIP压缩包（直接下载）
+   * @summary 导出项目为ZIP
+   */
+  const getApiV1WriterProjectsIdExport = (id: string) => {
+    return orvalMutator<Blob>({
+      url: `/api/v1/writer/projects/${id}/export`,
+      method: 'GET',
+      responseType: 'blob',
     })
   }
 
@@ -7065,7 +8688,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     postApiV1WriterProjectsIdExportBody: PostApiV1WriterProjectsIdExportBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/projects/${id}/export`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -7078,9 +8701,24 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取项目发布状态
    */
   const getApiV1WriterProjectsIdPublicationStatus = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/projects/${id}/publication-status`,
       method: 'GET',
+    })
+  }
+
+  /**
+   * 获取项目的所有发布记录
+   * @summary 获取发布记录列表
+   */
+  const getApiV1WriterProjectsIdPublications = (
+    id: string,
+    params?: GetApiV1WriterProjectsIdPublicationsParams,
+  ) => {
+    return orvalMutator<GetApiV1WriterProjectsIdPublications200>({
+      url: `/api/v1/writer/projects/${id}/publications`,
+      method: 'GET',
+      params,
     })
   }
 
@@ -7092,7 +8730,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     postApiV1WriterProjectsIdPublishBody: PostApiV1WriterProjectsIdPublishBody,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<PostApiV1WriterProjectsIdPublish202>({
       url: `/api/v1/writer/projects/${id}/publish`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -7105,25 +8743,35 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 取消发布项目
    */
   const postApiV1WriterProjectsIdUnpublish = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/projects/${id}/unpublish`,
       method: 'POST',
     })
   }
 
   /**
-   * 批量发布多个文档到书城平台
-   * @summary 批量发布文档
+   * 查询项目下所有实体，支持按类型筛选
+   * @summary 获取项目实体列表
    */
-  const postApiV1WriterProjectsProjectIdDocumentsBatchPublish = (
+  const getApiV1WriterProjectsProjectIdEntities = (
     projectId: string,
-    postApiV1WriterProjectsProjectIdDocumentsBatchPublishBody: PostApiV1WriterProjectsProjectIdDocumentsBatchPublishBody,
+    params?: GetApiV1WriterProjectsProjectIdEntitiesParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/writer/projects/${projectId}/documents/batch-publish`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: postApiV1WriterProjectsProjectIdDocumentsBatchPublishBody,
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/projects/${projectId}/entities`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 获取项目下所有实体及其关系，以图谱形式返回
+   * @summary 获取项目实体图谱
+   */
+  const getApiV1WriterProjectsProjectIdEntitiesGraph = (projectId: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/projects/${projectId}/entities/graph`,
+      method: 'GET',
     })
   }
 
@@ -7135,7 +8783,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     projectId: string,
     params?: GetApiV1WriterProjectsProjectIdExportsParams,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/projects/${projectId}/exports`,
       method: 'GET',
       params,
@@ -7143,17 +8791,73 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   }
 
   /**
-   * 获取项目的所有发布记录
-   * @summary 获取发布记录列表
+   * 获取指定项目的所有大纲节点（扁平列表）
+   * @summary 获取项目大纲列表
    */
-  const getApiV1WriterProjectsProjectIdPublications = (
+  const getApiV1WriterProjectsProjectIdOutlines = (projectId: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/projects/${projectId}/outlines`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 在项目中创建一个新的大纲节点
+   * @summary 创建大纲节点
+   */
+  const postApiV1WriterProjectsProjectIdOutlines = (
     projectId: string,
-    params?: GetApiV1WriterProjectsProjectIdPublicationsParams,
+    qingyuBackendServiceInterfacesCreateOutlineRequest: QingyuBackendServiceInterfacesCreateOutlineRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
-      url: `/api/v1/writer/projects/${projectId}/publications`,
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/projects/${projectId}/outlines`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: qingyuBackendServiceInterfacesCreateOutlineRequest,
+    })
+  }
+
+  /**
+   * 获取指定父节点的所有子节点
+   * @summary 获取子节点列表
+   */
+  const getApiV1WriterProjectsProjectIdOutlinesChildren = (
+    projectId: string,
+    params?: GetApiV1WriterProjectsProjectIdOutlinesChildrenParams,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/projects/${projectId}/outlines/children`,
       method: 'GET',
       params,
+    })
+  }
+
+  /**
+   * 获取项目的完整大纲树形结构
+   * @summary 获取大纲树
+   */
+  const getApiV1WriterProjectsProjectIdOutlinesTree = (projectId: string) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/projects/${projectId}/outlines/tree`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 从ZIP压缩包导入项目
+   * @summary 从ZIP导入项目
+   */
+  const postApiV1WriterProjectsImport = (
+    postApiV1WriterProjectsImportBody: PostApiV1WriterProjectsImportBody,
+  ) => {
+    const formData = new FormData()
+    formData.append(`file`, postApiV1WriterProjectsImportBody.file)
+
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/projects/import`,
+      method: 'POST',
+      headers: { 'Content-Type': 'multipart/form-data' },
+      data: formData,
     })
   }
 
@@ -7162,7 +8866,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取发布记录详情
    */
   const getApiV1WriterPublicationsId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<GetApiV1WriterPublicationsId200>({
       url: `/api/v1/writer/publications/${id}`,
       method: 'GET',
     })
@@ -7173,8 +8877,68 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 搜索文档
    */
   const getApiV1WriterSearchDocuments = (params: GetApiV1WriterSearchDocumentsParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/search/documents`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 获取作者作品的章节表现排行
+   * @summary 获取作者章节统计
+   */
+  const getApiV1WriterStatsChapters = (params?: GetApiV1WriterStatsChaptersParams) => {
+    return orvalMutator<GetApiV1WriterStatsChapters200>({
+      url: `/api/v1/writer/stats/chapters`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 获取作者工作台概览统计，支持通过 bookId 或 projectId 指定作品
+   * @summary 获取作者统计概览
+   */
+  const getApiV1WriterStatsOverview = (params?: GetApiV1WriterStatsOverviewParams) => {
+    return orvalMutator<GetApiV1WriterStatsOverview200>({
+      url: `/api/v1/writer/stats/overview`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 获取作者作品最近 N 天的订阅增长趋势
+   * @summary 获取作者订阅趋势
+   */
+  const getApiV1WriterStatsSubscribers = (params?: GetApiV1WriterStatsSubscribersParams) => {
+    return orvalMutator<GetApiV1WriterStatsSubscribers200>({
+      url: `/api/v1/writer/stats/subscribers`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 获取作者作品当日阅读与订阅统计
+   * @summary 获取作者今日统计
+   */
+  const getApiV1WriterStatsToday = (params?: GetApiV1WriterStatsTodayParams) => {
+    return orvalMutator<GetApiV1WriterStatsToday200>({
+      url: `/api/v1/writer/stats/today`,
+      method: 'GET',
+      params,
+    })
+  }
+
+  /**
+   * 获取作者作品最近 N 天的阅读量趋势
+   * @summary 获取作者阅读量趋势
+   */
+  const getApiV1WriterStatsViews = (params?: GetApiV1WriterStatsViewsParams) => {
+    return orvalMutator<GetApiV1WriterStatsViews200>({
+      url: `/api/v1/writer/stats/views`,
       method: 'GET',
       params,
     })
@@ -7185,7 +8949,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 列出模板
    */
   const getApiV1WriterTemplates = (params?: GetApiV1WriterTemplatesParams) => {
-    return orvalMutator<QingyuBackendApiV1SharedPaginatedResponse>({
+    return orvalMutator<QingyuBackendPkgResponsePaginatedResponse>({
       url: `/api/v1/writer/templates`,
       method: 'GET',
       params,
@@ -7199,7 +8963,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
   const postApiV1WriterTemplates = (
     apiV1WriterCreateTemplateRequest: ApiV1WriterCreateTemplateRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/templates`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -7212,7 +8976,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 删除模板
    */
   const deleteApiV1WriterTemplatesId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/templates/${id}`,
       method: 'DELETE',
     })
@@ -7223,7 +8987,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
    * @summary 获取模板详情
    */
   const getApiV1WriterTemplatesId = (id: string) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/templates/${id}`,
       method: 'GET',
     })
@@ -7237,7 +9001,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     apiV1WriterUpdateTemplateRequest: ApiV1WriterUpdateTemplateRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/templates/${id}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -7253,7 +9017,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     id: string,
     apiV1WriterApplyTemplateRequest: ApiV1WriterApplyTemplateRequest,
   ) => {
-    return orvalMutator<QingyuBackendApiV1SharedAPIResponse>({
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
       url: `/api/v1/writer/templates/${id}/apply`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -7261,7 +9025,66 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     })
   }
 
+  /**
+   * 获取当前用户的快捷键配置（包括自定义和默认）
+   * @summary 获取用户快捷键配置
+   */
+  const getApiV1WriterUserShortcuts = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/user/shortcuts`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 更新用户的自定义快捷键配置
+   * @summary 更新用户快捷键配置
+   */
+  const putApiV1WriterUserShortcuts = (
+    apiV1WriterUpdateShortcutsRequest: ApiV1WriterUpdateShortcutsRequest,
+  ) => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/user/shortcuts`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: apiV1WriterUpdateShortcutsRequest,
+    })
+  }
+
+  /**
+   * 获取快捷键帮助文档（按分类）
+   * @summary 获取快捷键帮助
+   */
+  const getApiV1WriterUserShortcutsHelp = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/user/shortcuts/help`,
+      method: 'GET',
+    })
+  }
+
+  /**
+   * 重置用户快捷键为默认配置
+   * @summary 重置用户快捷键配置
+   */
+  const postApiV1WriterUserShortcutsReset = () => {
+    return orvalMutator<QingyuBackendPkgResponseAPIResponse>({
+      url: `/api/v1/writer/user/shortcuts/reset`,
+      method: 'POST',
+    })
+  }
+
   return {
+    getApiV1AdminAnalyticsActiveUsers,
+    getApiV1AdminAnalyticsCompare,
+    getApiV1AdminAnalyticsContentStatistics,
+    postApiV1AdminAnalyticsCustom,
+    getApiV1AdminAnalyticsDashboard,
+    getApiV1AdminAnalyticsExport,
+    getApiV1AdminAnalyticsPredict,
+    getApiV1AdminAnalyticsRealtime,
+    getApiV1AdminAnalyticsRevenueReport,
+    getApiV1AdminAnalyticsSystemOverview,
+    getApiV1AdminAnalyticsUserGrowth,
     getApiV1AdminAnnouncements,
     postApiV1AdminAnnouncements,
     deleteApiV1AdminAnnouncementsId,
@@ -7271,9 +9094,13 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     putApiV1AdminAnnouncementsBatchStatus,
     postApiV1AdminAuditIdAppealReview,
     postApiV1AdminAuditIdReview,
+    postApiV1AdminAuditBatchReview,
     getApiV1AdminAuditHighRisk,
     getApiV1AdminAuditPending,
     getApiV1AdminAuditStatistics,
+    getApiV1AdminAuditTrail,
+    getApiV1AdminAuditTrailExport,
+    getApiV1AdminAuditTrailResourceTypeId,
     getApiV1AdminBanners,
     postApiV1AdminBanners,
     deleteApiV1AdminBannersId,
@@ -7281,6 +9108,14 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     putApiV1AdminBannersId,
     putApiV1AdminBannersBatchSort,
     putApiV1AdminBannersBatchStatus,
+    getApiV1AdminCategories,
+    postApiV1AdminCategories,
+    deleteApiV1AdminCategoriesId,
+    getApiV1AdminCategoriesId,
+    putApiV1AdminCategoriesId,
+    putApiV1AdminCategoriesIdMove,
+    putApiV1AdminCategoriesIdSort,
+    getApiV1AdminCategoriesTree,
     getApiV1AdminConfig,
     putApiV1AdminConfig,
     getApiV1AdminConfigKey,
@@ -7288,16 +9123,45 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     putApiV1AdminConfigBatch,
     postApiV1AdminConfigRestore,
     postApiV1AdminConfigValidate,
+    getApiV1AdminContentBooksExport,
+    getApiV1AdminContentBooksExportTemplate,
+    getApiV1AdminContentChaptersExport,
+    getApiV1AdminContentChaptersExportTemplate,
+    postApiV1AdminEventsReplay,
     getApiV1AdminOperationLogs,
     getApiV1AdminPermissions,
     postApiV1AdminPermissions,
     deleteApiV1AdminPermissionsCode,
     getApiV1AdminPermissionsCode,
     putApiV1AdminPermissionsCode,
-    getApiV1AdminQuotaUserId,
-    putApiV1AdminQuotaUserId,
-    postApiV1AdminQuotaUserIdActivate,
-    postApiV1AdminQuotaUserIdSuspend,
+    getApiV1AdminQuotaAlerts,
+    getApiV1AdminQuotaAlertsId,
+    putApiV1AdminQuotaAlertsIdAcknowledge,
+    putApiV1AdminQuotaAlertsIdIgnore,
+    putApiV1AdminQuotaAlertsIdResolve,
+    postApiV1AdminQuotaBatchActivate,
+    postApiV1AdminQuotaBatchRecharge,
+    postApiV1AdminQuotaBatchSuspend,
+    postApiV1AdminQuotaBatchUpdate,
+    getApiV1AdminQuotaDashboard,
+    postApiV1AdminQuotaDashboardRefresh,
+    getApiV1AdminQuotaPolicies,
+    postApiV1AdminQuotaPolicies,
+    deleteApiV1AdminQuotaPoliciesId,
+    getApiV1AdminQuotaPoliciesId,
+    putApiV1AdminQuotaPoliciesId,
+    postApiV1AdminQuotaPoliciesInitialize,
+    getApiV1AdminQuotaStatisticsGlobal,
+    getApiV1AdminQuotaStatisticsReconciliation,
+    postApiV1AdminQuotaStatisticsReconciliationCheck,
+    getApiV1AdminQuotaStatisticsTrend,
+    getApiV1AdminQuotaUsers,
+    getApiV1AdminQuotaUsersUserId,
+    putApiV1AdminQuotaUsersUserId,
+    postApiV1AdminQuotaUsersUserIdActivate,
+    postApiV1AdminQuotaUsersUserIdRecharge,
+    getApiV1AdminQuotaUsersUserIdReconciliation,
+    postApiV1AdminQuotaUsersUserIdSuspend,
     getApiV1AdminRoles,
     postApiV1AdminRoles,
     deleteApiV1AdminRolesId,
@@ -7308,6 +9172,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     postApiV1AdminRolesIdPermissionsPermissionCode,
     getApiV1AdminStats,
     getApiV1AdminUsers,
+    postApiV1AdminUsers,
     deleteApiV1AdminUsersId,
     getApiV1AdminUsersId,
     getApiV1AdminUsersIdActivities,
@@ -7319,9 +9184,14 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     deleteApiV1AdminUsersUserIdRoles,
     getApiV1AdminUsersUserIdRoles,
     postApiV1AdminUsersUserIdRoles,
+    postApiV1AdminUsersBatchAssignRole,
+    postApiV1AdminUsersBatchCreate,
     postApiV1AdminUsersBatchDelete,
+    postApiV1AdminUsersBatchRevokeRole,
     postApiV1AdminUsersBatchUpdateStatus,
     getApiV1AdminUsersCountByStatus,
+    getApiV1AdminUsersExport,
+    getApiV1AdminUsersExportTemplate,
     getApiV1AdminUsersSearch,
     postApiV1AdminWithdrawReview,
     postApiV1AiAuditSensitiveWords,
@@ -7344,6 +9214,11 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     postApiV1AiQuotaRecharge,
     getApiV1AiQuotaStatistics,
     getApiV1AiQuotaTransactions,
+    postApiV1AiRagRetrieve,
+    getApiV1AiRagSearch,
+    getApiV1AiStoryContextPreview,
+    postApiV1AiStoryGenerate,
+    putApiV1AiStorySceneStateId,
     postApiV1AiWritingContinue,
     postApiV1AiWritingContinueStream,
     postApiV1AiWritingProofread,
@@ -7361,11 +9236,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     getApiV1BookstoreBanners,
     postApiV1BookstoreBannersIdClick,
     getApiV1BookstoreBooks,
-    postApiV1BookstoreBooks,
-    deleteApiV1BookstoreBooksId,
     getApiV1BookstoreBooksId,
-    putApiV1BookstoreBooksId,
-    getApiV1BookstoreBooksIdAverageRating,
     getApiV1BookstoreBooksIdChapters,
     getApiV1BookstoreBooksIdChaptersChapterNum,
     getApiV1BookstoreBooksIdChaptersChapterId,
@@ -7376,28 +9247,19 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     getApiV1BookstoreBooksIdChaptersPublished,
     getApiV1BookstoreBooksIdChaptersStatistics,
     getApiV1BookstoreBooksIdDetail,
-    postApiV1BookstoreBooksIdLike,
-    deleteApiV1BookstoreBooksIdRating,
     getApiV1BookstoreBooksIdRating,
-    postApiV1BookstoreBooksIdRating,
-    putApiV1BookstoreBooksIdRating,
-    getApiV1BookstoreBooksIdRatingDistribution,
-    getApiV1BookstoreBooksIdRatings,
     getApiV1BookstoreBooksIdSimilar,
-    getApiV1BookstoreBooksIdStatistics,
     getApiV1BookstoreBooksIdTrialChapters,
-    postApiV1BookstoreBooksIdUnlike,
     postApiV1BookstoreBooksIdView,
     getApiV1BookstoreBooksIdVipChapters,
-    getApiV1BookstoreBooksCategory,
     getApiV1BookstoreBooksFeatured,
-    getApiV1BookstoreBooksLatest,
-    getApiV1BookstoreBooksPopular,
     getApiV1BookstoreBooksRecommended,
     getApiV1BookstoreBooksSearch,
     getApiV1BookstoreBooksSearchAuthor,
     getApiV1BookstoreBooksSearchTitle,
     getApiV1BookstoreBooksStatus,
+    getApiV1BookstoreBooksStream,
+    getApiV1BookstoreBooksStreamBatch,
     getApiV1BookstoreBooksTags,
     getApiV1BookstoreCategoriesId,
     getApiV1BookstoreCategoriesIdBooks,
@@ -7418,12 +9280,23 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     getApiV1BookstoreRankingsNewbie,
     getApiV1BookstoreRankingsRealtime,
     getApiV1BookstoreRankingsWeekly,
-    getApiV1BookstoreRatingsUserId,
     deleteApiV1CharactersCharacterId,
     getApiV1CharactersCharacterId,
     putApiV1CharactersCharacterId,
     postApiV1CharactersRelations,
     deleteApiV1CharactersRelationsRelationId,
+    getApiV1CharactersRelationsRelationIdTimeline,
+    postApiV1CharactersRelationsRelationIdTimeline,
+    deleteApiV1CharactersRelationsTimelineEventsEventId,
+    putApiV1CharactersRelationsTimelineEventsEventId,
+    getApiV1CommunityPosts,
+    postApiV1CommunityPosts,
+    deleteApiV1CommunityPostsId,
+    getApiV1CommunityPostsId,
+    putApiV1CommunityPostsId,
+    deleteApiV1CommunityPostsIdLike,
+    patchApiV1CommunityPostsIdLike,
+    postApiV1CommunityPostsIdLike,
     getApiV1DocumentsDocumentIdVersions,
     getApiV1DocumentsDocumentIdVersionsVersionId,
     postApiV1DocumentsDocumentIdVersionsVersionIdRestore,
@@ -7433,12 +9306,8 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     putApiV1DocumentsId,
     postApiV1DocumentsIdAudit,
     getApiV1DocumentsIdAuditResult,
-    postApiV1DocumentsIdAutosave,
-    getApiV1DocumentsIdContent,
-    putApiV1DocumentsIdContent,
     putApiV1DocumentsIdMove,
-    getApiV1DocumentsIdSaveStatus,
-    postApiV1DocumentsIdWordCount,
+    postApiV1ErrorsReport,
     getApiV1Files,
     deleteApiV1FilesFileIdAccess,
     postApiV1FilesFileIdAccess,
@@ -7480,23 +9349,39 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     postApiV1FinanceWalletTransfer,
     postApiV1FinanceWalletWithdraw,
     getApiV1FinanceWalletWithdrawals,
+    getApiV1InternalAiConcepts,
+    postApiV1InternalAiConcepts,
+    deleteApiV1InternalAiConceptsId,
+    getApiV1InternalAiConceptsId,
+    putApiV1InternalAiConceptsId,
+    postApiV1InternalAiConceptsBatch,
+    getApiV1InternalAiDocuments,
+    postApiV1InternalAiDocuments,
+    deleteApiV1InternalAiDocumentsId,
+    getApiV1InternalAiDocumentsId,
+    postApiV1InternalAiDocumentsBatch,
+    getApiV1InternalDocumentsIdContent,
+    getApiV1InternalProjectsIdCharacters,
+    getApiV1InternalProjectsIdContext,
+    getApiV1InternalProjectsIdOutline,
+    getApiV1InternalProjectsIdRelations,
     getApiV1Notifications,
-    postApiV1Notifications,
     deleteApiV1NotificationsId,
     getApiV1NotificationsId,
-    putApiV1NotificationsIdRead,
+    postApiV1NotificationsIdRead,
     postApiV1NotificationsIdResend,
-    deleteApiV1NotificationsBatchDelete,
+    postApiV1NotificationsBatchDelete,
+    postApiV1NotificationsBatchRead,
     postApiV1NotificationsClearRead,
     deleteApiV1NotificationsDeleteAll,
-    putApiV1NotificationsMarkRead,
     getApiV1NotificationsPreferences,
+    patchApiV1NotificationsPreferences,
     putApiV1NotificationsPreferences,
     postApiV1NotificationsPreferencesReset,
     getApiV1NotificationsPushDevices,
     postApiV1NotificationsPushRegister,
     deleteApiV1NotificationsPushUnregisterDeviceId,
-    putApiV1NotificationsReadAll,
+    postApiV1NotificationsReadAll,
     getApiV1NotificationsStats,
     getApiV1NotificationsUnreadCount,
     getApiV1NotificationsWsEndpoint,
@@ -7514,6 +9399,8 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     postApiV1ProjectsProjectIdDocuments,
     putApiV1ProjectsProjectIdDocumentsReorder,
     getApiV1ProjectsProjectIdDocumentsTree,
+    getApiV1RatingsTargetTypeTargetIdStats,
+    getApiV1RatingsTargetTypeTargetIdUserRating,
     postApiV1ReaderAnnotations,
     deleteApiV1ReaderAnnotationsId,
     putApiV1ReaderAnnotationsId,
@@ -7536,6 +9423,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     getApiV1ReaderBookmarks,
     deleteApiV1ReaderBookmarksId,
     getApiV1ReaderBookmarksId,
+    patchApiV1ReaderBookmarksId,
     putApiV1ReaderBookmarksId,
     getApiV1ReaderBookmarksExport,
     getApiV1ReaderBookmarksSearch,
@@ -7554,6 +9442,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     getApiV1ReaderBooksBookIdLikeInfo,
     putApiV1ReaderBooksBookIdStatus,
     postApiV1ReaderBooksIdBuyAll,
+    postApiV1ReaderBooksBatchLike,
     putApiV1ReaderBooksBatchStatus,
     getApiV1ReaderBooksFinished,
     getApiV1ReaderBooksRecent,
@@ -7567,15 +9456,19 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     getApiV1ReaderCollections,
     postApiV1ReaderCollections,
     deleteApiV1ReaderCollectionsId,
+    patchApiV1ReaderCollectionsId,
     putApiV1ReaderCollectionsId,
     deleteApiV1ReaderCollectionsIdShare,
     postApiV1ReaderCollectionsIdShare,
-    getApiV1ReaderCollectionsCheckBookId,
+    postApiV1ReaderCollectionsIdShareUrl,
+    postApiV1ReaderCollectionsBatch,
     getApiV1ReaderCollectionsFolders,
     postApiV1ReaderCollectionsFolders,
     deleteApiV1ReaderCollectionsFoldersId,
+    patchApiV1ReaderCollectionsFoldersId,
     putApiV1ReaderCollectionsFoldersId,
     getApiV1ReaderCollectionsPublic,
+    getApiV1ReaderCollectionsSharedShareId,
     getApiV1ReaderCollectionsStats,
     getApiV1ReaderCollectionsTagsTag,
     getApiV1ReaderComments,
@@ -7587,6 +9480,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     postApiV1ReaderCommentsCommentIdLike,
     deleteApiV1ReaderCommentsId,
     getApiV1ReaderCommentsId,
+    patchApiV1ReaderCommentsId,
     putApiV1ReaderCommentsId,
     deleteApiV1ReaderCommentsIdLike,
     postApiV1ReaderCommentsIdLike,
@@ -7603,6 +9497,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     getApiV1ReaderLikesStats,
     postApiV1ReaderProgress,
     getApiV1ReaderProgressBookId,
+    getApiV1ReaderProgressDevices,
     getApiV1ReaderProgressFinished,
     getApiV1ReaderProgressHistory,
     postApiV1ReaderProgressMerge,
@@ -7614,16 +9509,22 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     getApiV1ReaderProgressUnfinished,
     getApiV1ReaderProgressWs,
     getApiV1ReaderPurchases,
-    getApiV1ReaderPurchasesBookId,
+    getApiV1ReaderPurchasesId,
     deleteApiV1ReaderReadingHistory,
     getApiV1ReaderReadingHistory,
     postApiV1ReaderReadingHistory,
     deleteApiV1ReaderReadingHistoryId,
     getApiV1ReaderReadingHistoryStats,
     getApiV1ReaderSettings,
+    patchApiV1ReaderSettings,
     postApiV1ReaderSettings,
     putApiV1ReaderSettings,
     postApiV1ReaderSettingsFont,
+    getApiV1ReaderStatistics,
+    getApiV1ReaderStatisticsHeatmap,
+    getApiV1ReaderStatisticsOverview,
+    getApiV1ReaderStatisticsReadingTime,
+    getApiV1ReaderStatisticsTrends,
     getApiV1ReaderThemes,
     postApiV1ReaderThemes,
     deleteApiV1ReaderThemesId,
@@ -7639,9 +9540,6 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     postApiV1ReadingBooksBookIdFavorite,
     getApiV1ReadingBooksBookIdStatistics,
     postApiV1ReadingBooksBookIdView,
-    postApiV1ReadingRatingsIdLike,
-    postApiV1ReadingRatingsIdUnlike,
-    getApiV1ReadingRatingsSearch,
     getApiV1ReadingStatisticsAggregated,
     getApiV1ReadingStatisticsDailyReport,
     getApiV1ReadingStatisticsHottest,
@@ -7666,13 +9564,13 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     getApiV1SearchGrayscaleTraffic,
     getApiV1SearchHealth,
     postApiV1SearchSearch,
-    getApiV1SearchSuggest,
     postApiV1SharedAuthLogin,
     postApiV1SharedAuthLogout,
     getApiV1SharedAuthPermissions,
     postApiV1SharedAuthRefresh,
     postApiV1SharedAuthRegister,
     getApiV1SharedAuthRoles,
+    postApiV1SharedAuthSendVerificationCode,
     postApiV1SharedOauthProviderAuthorize,
     postApiV1SharedOauthProviderCallback,
     getApiV1SharedOauthAccounts,
@@ -7692,10 +9590,12 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     postApiV1SocialBooklists,
     deleteApiV1SocialBooklistsId,
     getApiV1SocialBooklistsId,
+    patchApiV1SocialBooklistsId,
     putApiV1SocialBooklistsId,
     getApiV1SocialBooklistsIdBooks,
     postApiV1SocialBooklistsIdFork,
     postApiV1SocialBooklistsIdLike,
+    getApiV1SocialCollectionsCheck,
     deleteApiV1SocialFollowUserId,
     postApiV1SocialFollowUserId,
     getApiV1SocialFollowUserIdStatus,
@@ -7724,12 +9624,18 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     getApiV1SocialUsersUserIdFollowers,
     getApiV1SocialUsersUserIdFollowing,
     deleteApiV1SocialUsersUserIdUnfollow,
+    getApiV1SystemHealth,
+    getApiV1SystemHealthService,
+    getApiV1SystemMetrics,
+    getApiV1SystemMetricsService,
     getApiV1UserManagementEmailNotifications,
     putApiV1UserManagementEmailNotifications,
     getApiV1UserManagementSmsNotifications,
     putApiV1UserManagementSmsNotifications,
     postApiV1UserAuthLogin,
+    postApiV1UserAuthLogout,
     postApiV1UserAuthRegister,
+    postApiV1UserAvatar,
     postApiV1UserEmailSendCode,
     postApiV1UserEmailVerify,
     putApiV1UserPassword,
@@ -7737,10 +9643,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     postApiV1UserPasswordResetRequest,
     getApiV1UserProfile,
     putApiV1UserProfile,
-    getApiV1UserShortcuts,
-    putApiV1UserShortcuts,
-    getApiV1UserShortcutsHelp,
-    postApiV1UserShortcutsReset,
+    postApiV1UserRoleDowngrade,
     getApiV1UserStatsMy,
     getApiV1UserStatsMyActivity,
     getApiV1UserStatsMyContent,
@@ -7748,6 +9651,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     getApiV1UserUsersId,
     getApiV1UserUsersIdBooks,
     getApiV1UserUsersIdProfile,
+    getApiV1UserUsersBatch,
     getApiV1UsersUserIdViolationSummary,
     getApiV1UsersUserIdViolations,
     deleteApiV1UsersDevicesDeviceId,
@@ -7763,6 +9667,7 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     getApiV1WriterBatchOperationsId,
     postApiV1WriterBatchOperationsIdCancel,
     postApiV1WriterBatchOperationsIdUndo,
+    getApiV1WriterBooks,
     getApiV1WriterBooksBookIdDailyStats,
     getApiV1WriterBooksBookIdDropOffPoints,
     getApiV1WriterBooksBookIdHeatmap,
@@ -7770,6 +9675,8 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     getApiV1WriterBooksBookIdRevenue,
     getApiV1WriterBooksBookIdStats,
     getApiV1WriterBooksBookIdTopChapters,
+    getApiV1WriterChangeRequestsRequestId,
+    putApiV1WriterChangeRequestsRequestIdStatus,
     getApiV1WriterChaptersChapterIdStats,
     deleteApiV1WriterCommentsId,
     getApiV1WriterCommentsId,
@@ -7779,10 +9686,15 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     postApiV1WriterCommentsIdUnresolve,
     postApiV1WriterCommentsBatchDelete,
     getApiV1WriterCommentsThreadsThreadId,
+    getApiV1WriterDashboardStats,
+    postApiV1WriterDocuments,
+    postApiV1WriterDocumentsIdAutosave,
     getApiV1WriterDocumentsIdComments,
     postApiV1WriterDocumentsIdComments,
     getApiV1WriterDocumentsIdCommentsSearch,
     getApiV1WriterDocumentsIdCommentsStats,
+    getApiV1WriterDocumentsIdContent,
+    putApiV1WriterDocumentsIdContent,
     postApiV1WriterDocumentsIdDuplicate,
     postApiV1WriterDocumentsIdExport,
     deleteApiV1WriterDocumentsIdLock,
@@ -7793,27 +9705,90 @@ export const getApi = (_axiosInstance: AxiosInstance = axios) => {
     getApiV1WriterDocumentsIdLockStatus,
     postApiV1WriterDocumentsIdPublish,
     putApiV1WriterDocumentsIdPublishStatus,
+    getApiV1WriterDocumentsIdSaveStatus,
+    postApiV1WriterDocumentsIdWordCount,
+    putApiV1WriterEntitiesEntityIdStateFields,
     deleteApiV1WriterExportsId,
     getApiV1WriterExportsId,
     postApiV1WriterExportsIdCancel,
     getApiV1WriterExportsIdDownload,
+    deleteApiV1WriterOutlinesOutlineId,
+    getApiV1WriterOutlinesOutlineId,
+    putApiV1WriterOutlinesOutlineId,
+    getApiV1WriterProjectsIdChaptersChapterIdChangeRequests,
+    getApiV1WriterProjectsIdChaptersChapterIdContext,
+    postApiV1WriterProjectsIdChaptersChapterIdRebuildProjection,
+    postApiV1WriterProjectsIdChaptersChapterIdTriggerIndex,
+    getApiV1WriterProjectsIdConcepts,
+    getApiV1WriterProjectsIdConceptsConceptId,
+    getApiV1WriterProjectsIdConceptsSearch,
+    postApiV1WriterProjectsIdDocumentsBatchPublish,
+    getApiV1WriterProjectsIdExport,
     postApiV1WriterProjectsIdExport,
     getApiV1WriterProjectsIdPublicationStatus,
+    getApiV1WriterProjectsIdPublications,
     postApiV1WriterProjectsIdPublish,
     postApiV1WriterProjectsIdUnpublish,
-    postApiV1WriterProjectsProjectIdDocumentsBatchPublish,
+    getApiV1WriterProjectsProjectIdEntities,
+    getApiV1WriterProjectsProjectIdEntitiesGraph,
     getApiV1WriterProjectsProjectIdExports,
-    getApiV1WriterProjectsProjectIdPublications,
+    getApiV1WriterProjectsProjectIdOutlines,
+    postApiV1WriterProjectsProjectIdOutlines,
+    getApiV1WriterProjectsProjectIdOutlinesChildren,
+    getApiV1WriterProjectsProjectIdOutlinesTree,
+    postApiV1WriterProjectsImport,
     getApiV1WriterPublicationsId,
     getApiV1WriterSearchDocuments,
+    getApiV1WriterStatsChapters,
+    getApiV1WriterStatsOverview,
+    getApiV1WriterStatsSubscribers,
+    getApiV1WriterStatsToday,
+    getApiV1WriterStatsViews,
     getApiV1WriterTemplates,
     postApiV1WriterTemplates,
     deleteApiV1WriterTemplatesId,
     getApiV1WriterTemplatesId,
     putApiV1WriterTemplatesId,
     postApiV1WriterTemplatesIdApply,
+    getApiV1WriterUserShortcuts,
+    putApiV1WriterUserShortcuts,
+    getApiV1WriterUserShortcutsHelp,
+    postApiV1WriterUserShortcutsReset,
   }
 }
+export type GetApiV1AdminAnalyticsActiveUsersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminAnalyticsActiveUsers']>>
+>
+export type GetApiV1AdminAnalyticsCompareResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminAnalyticsCompare']>>
+>
+export type GetApiV1AdminAnalyticsContentStatisticsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminAnalyticsContentStatistics']>>
+>
+export type PostApiV1AdminAnalyticsCustomResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminAnalyticsCustom']>>
+>
+export type GetApiV1AdminAnalyticsDashboardResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminAnalyticsDashboard']>>
+>
+export type GetApiV1AdminAnalyticsExportResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminAnalyticsExport']>>
+>
+export type GetApiV1AdminAnalyticsPredictResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminAnalyticsPredict']>>
+>
+export type GetApiV1AdminAnalyticsRealtimeResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminAnalyticsRealtime']>>
+>
+export type GetApiV1AdminAnalyticsRevenueReportResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminAnalyticsRevenueReport']>>
+>
+export type GetApiV1AdminAnalyticsSystemOverviewResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminAnalyticsSystemOverview']>>
+>
+export type GetApiV1AdminAnalyticsUserGrowthResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminAnalyticsUserGrowth']>>
+>
 export type GetApiV1AdminAnnouncementsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminAnnouncements']>>
 >
@@ -7841,6 +9816,9 @@ export type PostApiV1AdminAuditIdAppealReviewResult = NonNullable<
 export type PostApiV1AdminAuditIdReviewResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminAuditIdReview']>>
 >
+export type PostApiV1AdminAuditBatchReviewResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminAuditBatchReview']>>
+>
 export type GetApiV1AdminAuditHighRiskResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminAuditHighRisk']>>
 >
@@ -7849,6 +9827,15 @@ export type GetApiV1AdminAuditPendingResult = NonNullable<
 >
 export type GetApiV1AdminAuditStatisticsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminAuditStatistics']>>
+>
+export type GetApiV1AdminAuditTrailResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminAuditTrail']>>
+>
+export type GetApiV1AdminAuditTrailExportResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminAuditTrailExport']>>
+>
+export type GetApiV1AdminAuditTrailResourceTypeIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminAuditTrailResourceTypeId']>>
 >
 export type GetApiV1AdminBannersResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminBanners']>>
@@ -7871,6 +9858,30 @@ export type PutApiV1AdminBannersBatchSortResult = NonNullable<
 export type PutApiV1AdminBannersBatchStatusResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1AdminBannersBatchStatus']>>
 >
+export type GetApiV1AdminCategoriesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminCategories']>>
+>
+export type PostApiV1AdminCategoriesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminCategories']>>
+>
+export type DeleteApiV1AdminCategoriesIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1AdminCategoriesId']>>
+>
+export type GetApiV1AdminCategoriesIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminCategoriesId']>>
+>
+export type PutApiV1AdminCategoriesIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1AdminCategoriesId']>>
+>
+export type PutApiV1AdminCategoriesIdMoveResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1AdminCategoriesIdMove']>>
+>
+export type PutApiV1AdminCategoriesIdSortResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1AdminCategoriesIdSort']>>
+>
+export type GetApiV1AdminCategoriesTreeResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminCategoriesTree']>>
+>
 export type GetApiV1AdminConfigResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminConfig']>>
 >
@@ -7892,6 +9903,21 @@ export type PostApiV1AdminConfigRestoreResult = NonNullable<
 export type PostApiV1AdminConfigValidateResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminConfigValidate']>>
 >
+export type GetApiV1AdminContentBooksExportResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminContentBooksExport']>>
+>
+export type GetApiV1AdminContentBooksExportTemplateResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminContentBooksExportTemplate']>>
+>
+export type GetApiV1AdminContentChaptersExportResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminContentChaptersExport']>>
+>
+export type GetApiV1AdminContentChaptersExportTemplateResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminContentChaptersExportTemplate']>>
+>
+export type PostApiV1AdminEventsReplayResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminEventsReplay']>>
+>
 export type GetApiV1AdminOperationLogsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminOperationLogs']>>
 >
@@ -7910,17 +9936,89 @@ export type GetApiV1AdminPermissionsCodeResult = NonNullable<
 export type PutApiV1AdminPermissionsCodeResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1AdminPermissionsCode']>>
 >
-export type GetApiV1AdminQuotaUserIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminQuotaUserId']>>
+export type GetApiV1AdminQuotaAlertsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminQuotaAlerts']>>
 >
-export type PutApiV1AdminQuotaUserIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1AdminQuotaUserId']>>
+export type GetApiV1AdminQuotaAlertsIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminQuotaAlertsId']>>
 >
-export type PostApiV1AdminQuotaUserIdActivateResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminQuotaUserIdActivate']>>
+export type PutApiV1AdminQuotaAlertsIdAcknowledgeResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1AdminQuotaAlertsIdAcknowledge']>>
 >
-export type PostApiV1AdminQuotaUserIdSuspendResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminQuotaUserIdSuspend']>>
+export type PutApiV1AdminQuotaAlertsIdIgnoreResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1AdminQuotaAlertsIdIgnore']>>
+>
+export type PutApiV1AdminQuotaAlertsIdResolveResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1AdminQuotaAlertsIdResolve']>>
+>
+export type PostApiV1AdminQuotaBatchActivateResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminQuotaBatchActivate']>>
+>
+export type PostApiV1AdminQuotaBatchRechargeResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminQuotaBatchRecharge']>>
+>
+export type PostApiV1AdminQuotaBatchSuspendResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminQuotaBatchSuspend']>>
+>
+export type PostApiV1AdminQuotaBatchUpdateResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminQuotaBatchUpdate']>>
+>
+export type GetApiV1AdminQuotaDashboardResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminQuotaDashboard']>>
+>
+export type PostApiV1AdminQuotaDashboardRefreshResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminQuotaDashboardRefresh']>>
+>
+export type GetApiV1AdminQuotaPoliciesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminQuotaPolicies']>>
+>
+export type PostApiV1AdminQuotaPoliciesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminQuotaPolicies']>>
+>
+export type DeleteApiV1AdminQuotaPoliciesIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1AdminQuotaPoliciesId']>>
+>
+export type GetApiV1AdminQuotaPoliciesIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminQuotaPoliciesId']>>
+>
+export type PutApiV1AdminQuotaPoliciesIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1AdminQuotaPoliciesId']>>
+>
+export type PostApiV1AdminQuotaPoliciesInitializeResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminQuotaPoliciesInitialize']>>
+>
+export type GetApiV1AdminQuotaStatisticsGlobalResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminQuotaStatisticsGlobal']>>
+>
+export type GetApiV1AdminQuotaStatisticsReconciliationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminQuotaStatisticsReconciliation']>>
+>
+export type PostApiV1AdminQuotaStatisticsReconciliationCheckResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminQuotaStatisticsReconciliationCheck']>>
+>
+export type GetApiV1AdminQuotaStatisticsTrendResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminQuotaStatisticsTrend']>>
+>
+export type GetApiV1AdminQuotaUsersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminQuotaUsers']>>
+>
+export type GetApiV1AdminQuotaUsersUserIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminQuotaUsersUserId']>>
+>
+export type PutApiV1AdminQuotaUsersUserIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1AdminQuotaUsersUserId']>>
+>
+export type PostApiV1AdminQuotaUsersUserIdActivateResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminQuotaUsersUserIdActivate']>>
+>
+export type PostApiV1AdminQuotaUsersUserIdRechargeResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminQuotaUsersUserIdRecharge']>>
+>
+export type GetApiV1AdminQuotaUsersUserIdReconciliationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminQuotaUsersUserIdReconciliation']>>
+>
+export type PostApiV1AdminQuotaUsersUserIdSuspendResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminQuotaUsersUserIdSuspend']>>
 >
 export type GetApiV1AdminRolesResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminRoles']>>
@@ -7951,6 +10049,9 @@ export type GetApiV1AdminStatsResult = NonNullable<
 >
 export type GetApiV1AdminUsersResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminUsers']>>
+>
+export type PostApiV1AdminUsersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminUsers']>>
 >
 export type DeleteApiV1AdminUsersIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1AdminUsersId']>>
@@ -7985,14 +10086,29 @@ export type GetApiV1AdminUsersUserIdRolesResult = NonNullable<
 export type PostApiV1AdminUsersUserIdRolesResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminUsersUserIdRoles']>>
 >
+export type PostApiV1AdminUsersBatchAssignRoleResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminUsersBatchAssignRole']>>
+>
+export type PostApiV1AdminUsersBatchCreateResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminUsersBatchCreate']>>
+>
 export type PostApiV1AdminUsersBatchDeleteResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminUsersBatchDelete']>>
+>
+export type PostApiV1AdminUsersBatchRevokeRoleResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminUsersBatchRevokeRole']>>
 >
 export type PostApiV1AdminUsersBatchUpdateStatusResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AdminUsersBatchUpdateStatus']>>
 >
 export type GetApiV1AdminUsersCountByStatusResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminUsersCountByStatus']>>
+>
+export type GetApiV1AdminUsersExportResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminUsersExport']>>
+>
+export type GetApiV1AdminUsersExportTemplateResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminUsersExportTemplate']>>
 >
 export type GetApiV1AdminUsersSearchResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AdminUsersSearch']>>
@@ -8060,6 +10176,21 @@ export type GetApiV1AiQuotaStatisticsResult = NonNullable<
 export type GetApiV1AiQuotaTransactionsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AiQuotaTransactions']>>
 >
+export type PostApiV1AiRagRetrieveResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AiRagRetrieve']>>
+>
+export type GetApiV1AiRagSearchResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AiRagSearch']>>
+>
+export type GetApiV1AiStoryContextPreviewResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1AiStoryContextPreview']>>
+>
+export type PostApiV1AiStoryGenerateResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AiStoryGenerate']>>
+>
+export type PutApiV1AiStorySceneStateIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1AiStorySceneStateId']>>
+>
 export type PostApiV1AiWritingContinueResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1AiWritingContinue']>>
 >
@@ -8111,20 +10242,8 @@ export type PostApiV1BookstoreBannersIdClickResult = NonNullable<
 export type GetApiV1BookstoreBooksResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooks']>>
 >
-export type PostApiV1BookstoreBooksResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1BookstoreBooks']>>
->
-export type DeleteApiV1BookstoreBooksIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1BookstoreBooksId']>>
->
 export type GetApiV1BookstoreBooksIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksId']>>
->
-export type PutApiV1BookstoreBooksIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1BookstoreBooksId']>>
->
-export type GetApiV1BookstoreBooksIdAverageRatingResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksIdAverageRating']>>
 >
 export type GetApiV1BookstoreBooksIdChaptersResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksIdChapters']>>
@@ -8156,38 +10275,14 @@ export type GetApiV1BookstoreBooksIdChaptersStatisticsResult = NonNullable<
 export type GetApiV1BookstoreBooksIdDetailResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksIdDetail']>>
 >
-export type PostApiV1BookstoreBooksIdLikeResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1BookstoreBooksIdLike']>>
->
-export type DeleteApiV1BookstoreBooksIdRatingResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1BookstoreBooksIdRating']>>
->
 export type GetApiV1BookstoreBooksIdRatingResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksIdRating']>>
->
-export type PostApiV1BookstoreBooksIdRatingResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1BookstoreBooksIdRating']>>
->
-export type PutApiV1BookstoreBooksIdRatingResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1BookstoreBooksIdRating']>>
->
-export type GetApiV1BookstoreBooksIdRatingDistributionResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksIdRatingDistribution']>>
->
-export type GetApiV1BookstoreBooksIdRatingsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksIdRatings']>>
 >
 export type GetApiV1BookstoreBooksIdSimilarResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksIdSimilar']>>
 >
-export type GetApiV1BookstoreBooksIdStatisticsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksIdStatistics']>>
->
 export type GetApiV1BookstoreBooksIdTrialChaptersResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksIdTrialChapters']>>
->
-export type PostApiV1BookstoreBooksIdUnlikeResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1BookstoreBooksIdUnlike']>>
 >
 export type PostApiV1BookstoreBooksIdViewResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1BookstoreBooksIdView']>>
@@ -8195,17 +10290,8 @@ export type PostApiV1BookstoreBooksIdViewResult = NonNullable<
 export type GetApiV1BookstoreBooksIdVipChaptersResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksIdVipChapters']>>
 >
-export type GetApiV1BookstoreBooksCategoryResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksCategory']>>
->
 export type GetApiV1BookstoreBooksFeaturedResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksFeatured']>>
->
-export type GetApiV1BookstoreBooksLatestResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksLatest']>>
->
-export type GetApiV1BookstoreBooksPopularResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksPopular']>>
 >
 export type GetApiV1BookstoreBooksRecommendedResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksRecommended']>>
@@ -8221,6 +10307,12 @@ export type GetApiV1BookstoreBooksSearchTitleResult = NonNullable<
 >
 export type GetApiV1BookstoreBooksStatusResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksStatus']>>
+>
+export type GetApiV1BookstoreBooksStreamResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksStream']>>
+>
+export type GetApiV1BookstoreBooksStreamBatchResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksStreamBatch']>>
 >
 export type GetApiV1BookstoreBooksTagsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreBooksTags']>>
@@ -8282,9 +10374,6 @@ export type GetApiV1BookstoreRankingsRealtimeResult = NonNullable<
 export type GetApiV1BookstoreRankingsWeeklyResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreRankingsWeekly']>>
 >
-export type GetApiV1BookstoreRatingsUserIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1BookstoreRatingsUserId']>>
->
 export type DeleteApiV1CharactersCharacterIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1CharactersCharacterId']>>
 >
@@ -8299,6 +10388,44 @@ export type PostApiV1CharactersRelationsResult = NonNullable<
 >
 export type DeleteApiV1CharactersRelationsRelationIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1CharactersRelationsRelationId']>>
+>
+export type GetApiV1CharactersRelationsRelationIdTimelineResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1CharactersRelationsRelationIdTimeline']>>
+>
+export type PostApiV1CharactersRelationsRelationIdTimelineResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1CharactersRelationsRelationIdTimeline']>>
+>
+export type DeleteApiV1CharactersRelationsTimelineEventsEventIdResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getApi>['deleteApiV1CharactersRelationsTimelineEventsEventId']>
+  >
+>
+export type PutApiV1CharactersRelationsTimelineEventsEventIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1CharactersRelationsTimelineEventsEventId']>>
+>
+export type GetApiV1CommunityPostsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1CommunityPosts']>>
+>
+export type PostApiV1CommunityPostsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1CommunityPosts']>>
+>
+export type DeleteApiV1CommunityPostsIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1CommunityPostsId']>>
+>
+export type GetApiV1CommunityPostsIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1CommunityPostsId']>>
+>
+export type PutApiV1CommunityPostsIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1CommunityPostsId']>>
+>
+export type DeleteApiV1CommunityPostsIdLikeResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1CommunityPostsIdLike']>>
+>
+export type PatchApiV1CommunityPostsIdLikeResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['patchApiV1CommunityPostsIdLike']>>
+>
+export type PostApiV1CommunityPostsIdLikeResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1CommunityPostsIdLike']>>
 >
 export type GetApiV1DocumentsDocumentIdVersionsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1DocumentsDocumentIdVersions']>>
@@ -8329,23 +10456,11 @@ export type PostApiV1DocumentsIdAuditResult = NonNullable<
 export type GetApiV1DocumentsIdAuditResultResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1DocumentsIdAuditResult']>>
 >
-export type PostApiV1DocumentsIdAutosaveResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1DocumentsIdAutosave']>>
->
-export type GetApiV1DocumentsIdContentResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1DocumentsIdContent']>>
->
-export type PutApiV1DocumentsIdContentResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1DocumentsIdContent']>>
->
 export type PutApiV1DocumentsIdMoveResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1DocumentsIdMove']>>
 >
-export type GetApiV1DocumentsIdSaveStatusResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1DocumentsIdSaveStatus']>>
->
-export type PostApiV1DocumentsIdWordCountResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1DocumentsIdWordCount']>>
+export type PostApiV1ErrorsReportResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1ErrorsReport']>>
 >
 export type GetApiV1FilesResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1Files']>>
@@ -8470,11 +10585,56 @@ export type PostApiV1FinanceWalletWithdrawResult = NonNullable<
 export type GetApiV1FinanceWalletWithdrawalsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1FinanceWalletWithdrawals']>>
 >
+export type GetApiV1InternalAiConceptsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1InternalAiConcepts']>>
+>
+export type PostApiV1InternalAiConceptsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1InternalAiConcepts']>>
+>
+export type DeleteApiV1InternalAiConceptsIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1InternalAiConceptsId']>>
+>
+export type GetApiV1InternalAiConceptsIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1InternalAiConceptsId']>>
+>
+export type PutApiV1InternalAiConceptsIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1InternalAiConceptsId']>>
+>
+export type PostApiV1InternalAiConceptsBatchResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1InternalAiConceptsBatch']>>
+>
+export type GetApiV1InternalAiDocumentsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1InternalAiDocuments']>>
+>
+export type PostApiV1InternalAiDocumentsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1InternalAiDocuments']>>
+>
+export type DeleteApiV1InternalAiDocumentsIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1InternalAiDocumentsId']>>
+>
+export type GetApiV1InternalAiDocumentsIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1InternalAiDocumentsId']>>
+>
+export type PostApiV1InternalAiDocumentsBatchResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1InternalAiDocumentsBatch']>>
+>
+export type GetApiV1InternalDocumentsIdContentResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1InternalDocumentsIdContent']>>
+>
+export type GetApiV1InternalProjectsIdCharactersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1InternalProjectsIdCharacters']>>
+>
+export type GetApiV1InternalProjectsIdContextResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1InternalProjectsIdContext']>>
+>
+export type GetApiV1InternalProjectsIdOutlineResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1InternalProjectsIdOutline']>>
+>
+export type GetApiV1InternalProjectsIdRelationsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1InternalProjectsIdRelations']>>
+>
 export type GetApiV1NotificationsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1Notifications']>>
->
-export type PostApiV1NotificationsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1Notifications']>>
 >
 export type DeleteApiV1NotificationsIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1NotificationsId']>>
@@ -8482,14 +10642,17 @@ export type DeleteApiV1NotificationsIdResult = NonNullable<
 export type GetApiV1NotificationsIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1NotificationsId']>>
 >
-export type PutApiV1NotificationsIdReadResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1NotificationsIdRead']>>
+export type PostApiV1NotificationsIdReadResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1NotificationsIdRead']>>
 >
 export type PostApiV1NotificationsIdResendResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1NotificationsIdResend']>>
 >
-export type DeleteApiV1NotificationsBatchDeleteResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1NotificationsBatchDelete']>>
+export type PostApiV1NotificationsBatchDeleteResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1NotificationsBatchDelete']>>
+>
+export type PostApiV1NotificationsBatchReadResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1NotificationsBatchRead']>>
 >
 export type PostApiV1NotificationsClearReadResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1NotificationsClearRead']>>
@@ -8497,11 +10660,11 @@ export type PostApiV1NotificationsClearReadResult = NonNullable<
 export type DeleteApiV1NotificationsDeleteAllResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1NotificationsDeleteAll']>>
 >
-export type PutApiV1NotificationsMarkReadResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1NotificationsMarkRead']>>
->
 export type GetApiV1NotificationsPreferencesResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1NotificationsPreferences']>>
+>
+export type PatchApiV1NotificationsPreferencesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['patchApiV1NotificationsPreferences']>>
 >
 export type PutApiV1NotificationsPreferencesResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1NotificationsPreferences']>>
@@ -8518,8 +10681,8 @@ export type PostApiV1NotificationsPushRegisterResult = NonNullable<
 export type DeleteApiV1NotificationsPushUnregisterDeviceIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1NotificationsPushUnregisterDeviceId']>>
 >
-export type PutApiV1NotificationsReadAllResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1NotificationsReadAll']>>
+export type PostApiV1NotificationsReadAllResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1NotificationsReadAll']>>
 >
 export type GetApiV1NotificationsStatsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1NotificationsStats']>>
@@ -8571,6 +10734,12 @@ export type PutApiV1ProjectsProjectIdDocumentsReorderResult = NonNullable<
 >
 export type GetApiV1ProjectsProjectIdDocumentsTreeResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ProjectsProjectIdDocumentsTree']>>
+>
+export type GetApiV1RatingsTargetTypeTargetIdStatsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1RatingsTargetTypeTargetIdStats']>>
+>
+export type GetApiV1RatingsTargetTypeTargetIdUserRatingResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1RatingsTargetTypeTargetIdUserRating']>>
 >
 export type PostApiV1ReaderAnnotationsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1ReaderAnnotations']>>
@@ -8638,6 +10807,9 @@ export type DeleteApiV1ReaderBookmarksIdResult = NonNullable<
 export type GetApiV1ReaderBookmarksIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderBookmarksId']>>
 >
+export type PatchApiV1ReaderBookmarksIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['patchApiV1ReaderBookmarksId']>>
+>
 export type PutApiV1ReaderBookmarksIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1ReaderBookmarksId']>>
 >
@@ -8696,6 +10868,9 @@ export type PutApiV1ReaderBooksBookIdStatusResult = NonNullable<
 export type PostApiV1ReaderBooksIdBuyAllResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1ReaderBooksIdBuyAll']>>
 >
+export type PostApiV1ReaderBooksBatchLikeResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1ReaderBooksBatchLike']>>
+>
 export type PutApiV1ReaderBooksBatchStatusResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1ReaderBooksBatchStatus']>>
 >
@@ -8741,6 +10916,9 @@ export type PostApiV1ReaderCollectionsResult = NonNullable<
 export type DeleteApiV1ReaderCollectionsIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1ReaderCollectionsId']>>
 >
+export type PatchApiV1ReaderCollectionsIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['patchApiV1ReaderCollectionsId']>>
+>
 export type PutApiV1ReaderCollectionsIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1ReaderCollectionsId']>>
 >
@@ -8750,8 +10928,11 @@ export type DeleteApiV1ReaderCollectionsIdShareResult = NonNullable<
 export type PostApiV1ReaderCollectionsIdShareResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1ReaderCollectionsIdShare']>>
 >
-export type GetApiV1ReaderCollectionsCheckBookIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderCollectionsCheckBookId']>>
+export type PostApiV1ReaderCollectionsIdShareUrlResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1ReaderCollectionsIdShareUrl']>>
+>
+export type PostApiV1ReaderCollectionsBatchResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1ReaderCollectionsBatch']>>
 >
 export type GetApiV1ReaderCollectionsFoldersResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderCollectionsFolders']>>
@@ -8762,11 +10943,17 @@ export type PostApiV1ReaderCollectionsFoldersResult = NonNullable<
 export type DeleteApiV1ReaderCollectionsFoldersIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1ReaderCollectionsFoldersId']>>
 >
+export type PatchApiV1ReaderCollectionsFoldersIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['patchApiV1ReaderCollectionsFoldersId']>>
+>
 export type PutApiV1ReaderCollectionsFoldersIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1ReaderCollectionsFoldersId']>>
 >
 export type GetApiV1ReaderCollectionsPublicResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderCollectionsPublic']>>
+>
+export type GetApiV1ReaderCollectionsSharedShareIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderCollectionsSharedShareId']>>
 >
 export type GetApiV1ReaderCollectionsStatsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderCollectionsStats']>>
@@ -8800,6 +10987,9 @@ export type DeleteApiV1ReaderCommentsIdResult = NonNullable<
 >
 export type GetApiV1ReaderCommentsIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderCommentsId']>>
+>
+export type PatchApiV1ReaderCommentsIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['patchApiV1ReaderCommentsId']>>
 >
 export type PutApiV1ReaderCommentsIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1ReaderCommentsId']>>
@@ -8849,6 +11039,9 @@ export type PostApiV1ReaderProgressResult = NonNullable<
 export type GetApiV1ReaderProgressBookIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderProgressBookId']>>
 >
+export type GetApiV1ReaderProgressDevicesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderProgressDevices']>>
+>
 export type GetApiV1ReaderProgressFinishedResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderProgressFinished']>>
 >
@@ -8882,8 +11075,8 @@ export type GetApiV1ReaderProgressWsResult = NonNullable<
 export type GetApiV1ReaderPurchasesResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderPurchases']>>
 >
-export type GetApiV1ReaderPurchasesBookIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderPurchasesBookId']>>
+export type GetApiV1ReaderPurchasesIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderPurchasesId']>>
 >
 export type DeleteApiV1ReaderReadingHistoryResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1ReaderReadingHistory']>>
@@ -8903,6 +11096,9 @@ export type GetApiV1ReaderReadingHistoryStatsResult = NonNullable<
 export type GetApiV1ReaderSettingsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderSettings']>>
 >
+export type PatchApiV1ReaderSettingsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['patchApiV1ReaderSettings']>>
+>
 export type PostApiV1ReaderSettingsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1ReaderSettings']>>
 >
@@ -8911,6 +11107,21 @@ export type PutApiV1ReaderSettingsResult = NonNullable<
 >
 export type PostApiV1ReaderSettingsFontResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1ReaderSettingsFont']>>
+>
+export type GetApiV1ReaderStatisticsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderStatistics']>>
+>
+export type GetApiV1ReaderStatisticsHeatmapResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderStatisticsHeatmap']>>
+>
+export type GetApiV1ReaderStatisticsOverviewResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderStatisticsOverview']>>
+>
+export type GetApiV1ReaderStatisticsReadingTimeResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderStatisticsReadingTime']>>
+>
+export type GetApiV1ReaderStatisticsTrendsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderStatisticsTrends']>>
 >
 export type GetApiV1ReaderThemesResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReaderThemes']>>
@@ -8956,15 +11167,6 @@ export type GetApiV1ReadingBooksBookIdStatisticsResult = NonNullable<
 >
 export type PostApiV1ReadingBooksBookIdViewResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1ReadingBooksBookIdView']>>
->
-export type PostApiV1ReadingRatingsIdLikeResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1ReadingRatingsIdLike']>>
->
-export type PostApiV1ReadingRatingsIdUnlikeResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1ReadingRatingsIdUnlike']>>
->
-export type GetApiV1ReadingRatingsSearchResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReadingRatingsSearch']>>
 >
 export type GetApiV1ReadingStatisticsAggregatedResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1ReadingStatisticsAggregated']>>
@@ -9038,9 +11240,6 @@ export type GetApiV1SearchHealthResult = NonNullable<
 export type PostApiV1SearchSearchResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1SearchSearch']>>
 >
-export type GetApiV1SearchSuggestResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1SearchSuggest']>>
->
 export type PostApiV1SharedAuthLoginResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1SharedAuthLogin']>>
 >
@@ -9058,6 +11257,9 @@ export type PostApiV1SharedAuthRegisterResult = NonNullable<
 >
 export type GetApiV1SharedAuthRolesResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1SharedAuthRoles']>>
+>
+export type PostApiV1SharedAuthSendVerificationCodeResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1SharedAuthSendVerificationCode']>>
 >
 export type PostApiV1SharedOauthProviderAuthorizeResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1SharedOauthProviderAuthorize']>>
@@ -9116,6 +11318,9 @@ export type DeleteApiV1SocialBooklistsIdResult = NonNullable<
 export type GetApiV1SocialBooklistsIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1SocialBooklistsId']>>
 >
+export type PatchApiV1SocialBooklistsIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['patchApiV1SocialBooklistsId']>>
+>
 export type PutApiV1SocialBooklistsIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1SocialBooklistsId']>>
 >
@@ -9127,6 +11332,9 @@ export type PostApiV1SocialBooklistsIdForkResult = NonNullable<
 >
 export type PostApiV1SocialBooklistsIdLikeResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1SocialBooklistsIdLike']>>
+>
+export type GetApiV1SocialCollectionsCheckResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1SocialCollectionsCheck']>>
 >
 export type DeleteApiV1SocialFollowUserIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1SocialFollowUserId']>>
@@ -9222,6 +11430,18 @@ export type GetApiV1SocialUsersUserIdFollowingResult = NonNullable<
 export type DeleteApiV1SocialUsersUserIdUnfollowResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1SocialUsersUserIdUnfollow']>>
 >
+export type GetApiV1SystemHealthResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1SystemHealth']>>
+>
+export type GetApiV1SystemHealthServiceResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1SystemHealthService']>>
+>
+export type GetApiV1SystemMetricsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1SystemMetrics']>>
+>
+export type GetApiV1SystemMetricsServiceResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1SystemMetricsService']>>
+>
 export type GetApiV1UserManagementEmailNotificationsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1UserManagementEmailNotifications']>>
 >
@@ -9237,8 +11457,14 @@ export type PutApiV1UserManagementSmsNotificationsResult = NonNullable<
 export type PostApiV1UserAuthLoginResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1UserAuthLogin']>>
 >
+export type PostApiV1UserAuthLogoutResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1UserAuthLogout']>>
+>
 export type PostApiV1UserAuthRegisterResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1UserAuthRegister']>>
+>
+export type PostApiV1UserAvatarResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1UserAvatar']>>
 >
 export type PostApiV1UserEmailSendCodeResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1UserEmailSendCode']>>
@@ -9261,17 +11487,8 @@ export type GetApiV1UserProfileResult = NonNullable<
 export type PutApiV1UserProfileResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1UserProfile']>>
 >
-export type GetApiV1UserShortcutsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1UserShortcuts']>>
->
-export type PutApiV1UserShortcutsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1UserShortcuts']>>
->
-export type GetApiV1UserShortcutsHelpResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1UserShortcutsHelp']>>
->
-export type PostApiV1UserShortcutsResetResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1UserShortcutsReset']>>
+export type PostApiV1UserRoleDowngradeResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1UserRoleDowngrade']>>
 >
 export type GetApiV1UserStatsMyResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1UserStatsMy']>>
@@ -9293,6 +11510,9 @@ export type GetApiV1UserUsersIdBooksResult = NonNullable<
 >
 export type GetApiV1UserUsersIdProfileResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1UserUsersIdProfile']>>
+>
+export type GetApiV1UserUsersBatchResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1UserUsersBatch']>>
 >
 export type GetApiV1UsersUserIdViolationSummaryResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1UsersUserIdViolationSummary']>>
@@ -9339,6 +11559,9 @@ export type PostApiV1WriterBatchOperationsIdCancelResult = NonNullable<
 export type PostApiV1WriterBatchOperationsIdUndoResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1WriterBatchOperationsIdUndo']>>
 >
+export type GetApiV1WriterBooksResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterBooks']>>
+>
 export type GetApiV1WriterBooksBookIdDailyStatsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterBooksBookIdDailyStats']>>
 >
@@ -9359,6 +11582,12 @@ export type GetApiV1WriterBooksBookIdStatsResult = NonNullable<
 >
 export type GetApiV1WriterBooksBookIdTopChaptersResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterBooksBookIdTopChapters']>>
+>
+export type GetApiV1WriterChangeRequestsRequestIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterChangeRequestsRequestId']>>
+>
+export type PutApiV1WriterChangeRequestsRequestIdStatusResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1WriterChangeRequestsRequestIdStatus']>>
 >
 export type GetApiV1WriterChaptersChapterIdStatsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterChaptersChapterIdStats']>>
@@ -9387,6 +11616,15 @@ export type PostApiV1WriterCommentsBatchDeleteResult = NonNullable<
 export type GetApiV1WriterCommentsThreadsThreadIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterCommentsThreadsThreadId']>>
 >
+export type GetApiV1WriterDashboardStatsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterDashboardStats']>>
+>
+export type PostApiV1WriterDocumentsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1WriterDocuments']>>
+>
+export type PostApiV1WriterDocumentsIdAutosaveResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1WriterDocumentsIdAutosave']>>
+>
 export type GetApiV1WriterDocumentsIdCommentsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterDocumentsIdComments']>>
 >
@@ -9398,6 +11636,12 @@ export type GetApiV1WriterDocumentsIdCommentsSearchResult = NonNullable<
 >
 export type GetApiV1WriterDocumentsIdCommentsStatsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterDocumentsIdCommentsStats']>>
+>
+export type GetApiV1WriterDocumentsIdContentResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterDocumentsIdContent']>>
+>
+export type PutApiV1WriterDocumentsIdContentResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1WriterDocumentsIdContent']>>
 >
 export type PostApiV1WriterDocumentsIdDuplicateResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1WriterDocumentsIdDuplicate']>>
@@ -9429,6 +11673,15 @@ export type PostApiV1WriterDocumentsIdPublishResult = NonNullable<
 export type PutApiV1WriterDocumentsIdPublishStatusResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1WriterDocumentsIdPublishStatus']>>
 >
+export type GetApiV1WriterDocumentsIdSaveStatusResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterDocumentsIdSaveStatus']>>
+>
+export type PostApiV1WriterDocumentsIdWordCountResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1WriterDocumentsIdWordCount']>>
+>
+export type PutApiV1WriterEntitiesEntityIdStateFieldsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1WriterEntitiesEntityIdStateFields']>>
+>
 export type DeleteApiV1WriterExportsIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1WriterExportsId']>>
 >
@@ -9441,11 +11694,58 @@ export type PostApiV1WriterExportsIdCancelResult = NonNullable<
 export type GetApiV1WriterExportsIdDownloadResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterExportsIdDownload']>>
 >
+export type DeleteApiV1WriterOutlinesOutlineIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['deleteApiV1WriterOutlinesOutlineId']>>
+>
+export type GetApiV1WriterOutlinesOutlineIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterOutlinesOutlineId']>>
+>
+export type PutApiV1WriterOutlinesOutlineIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1WriterOutlinesOutlineId']>>
+>
+export type GetApiV1WriterProjectsIdChaptersChapterIdChangeRequestsResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getApi>['getApiV1WriterProjectsIdChaptersChapterIdChangeRequests']>
+  >
+>
+export type GetApiV1WriterProjectsIdChaptersChapterIdContextResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterProjectsIdChaptersChapterIdContext']>>
+>
+export type PostApiV1WriterProjectsIdChaptersChapterIdRebuildProjectionResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getApi>['postApiV1WriterProjectsIdChaptersChapterIdRebuildProjection']
+    >
+  >
+>
+export type PostApiV1WriterProjectsIdChaptersChapterIdTriggerIndexResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getApi>['postApiV1WriterProjectsIdChaptersChapterIdTriggerIndex']>
+  >
+>
+export type GetApiV1WriterProjectsIdConceptsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterProjectsIdConcepts']>>
+>
+export type GetApiV1WriterProjectsIdConceptsConceptIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterProjectsIdConceptsConceptId']>>
+>
+export type GetApiV1WriterProjectsIdConceptsSearchResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterProjectsIdConceptsSearch']>>
+>
+export type PostApiV1WriterProjectsIdDocumentsBatchPublishResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1WriterProjectsIdDocumentsBatchPublish']>>
+>
+export type GetApiV1WriterProjectsIdExportResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterProjectsIdExport']>>
+>
 export type PostApiV1WriterProjectsIdExportResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1WriterProjectsIdExport']>>
 >
 export type GetApiV1WriterProjectsIdPublicationStatusResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterProjectsIdPublicationStatus']>>
+>
+export type GetApiV1WriterProjectsIdPublicationsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterProjectsIdPublications']>>
 >
 export type PostApiV1WriterProjectsIdPublishResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1WriterProjectsIdPublish']>>
@@ -9453,22 +11753,50 @@ export type PostApiV1WriterProjectsIdPublishResult = NonNullable<
 export type PostApiV1WriterProjectsIdUnpublishResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1WriterProjectsIdUnpublish']>>
 >
-export type PostApiV1WriterProjectsProjectIdDocumentsBatchPublishResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getApi>['postApiV1WriterProjectsProjectIdDocumentsBatchPublish']>
-  >
+export type GetApiV1WriterProjectsProjectIdEntitiesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterProjectsProjectIdEntities']>>
+>
+export type GetApiV1WriterProjectsProjectIdEntitiesGraphResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterProjectsProjectIdEntitiesGraph']>>
 >
 export type GetApiV1WriterProjectsProjectIdExportsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterProjectsProjectIdExports']>>
 >
-export type GetApiV1WriterProjectsProjectIdPublicationsResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterProjectsProjectIdPublications']>>
+export type GetApiV1WriterProjectsProjectIdOutlinesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterProjectsProjectIdOutlines']>>
+>
+export type PostApiV1WriterProjectsProjectIdOutlinesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1WriterProjectsProjectIdOutlines']>>
+>
+export type GetApiV1WriterProjectsProjectIdOutlinesChildrenResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterProjectsProjectIdOutlinesChildren']>>
+>
+export type GetApiV1WriterProjectsProjectIdOutlinesTreeResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterProjectsProjectIdOutlinesTree']>>
+>
+export type PostApiV1WriterProjectsImportResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1WriterProjectsImport']>>
 >
 export type GetApiV1WriterPublicationsIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterPublicationsId']>>
 >
 export type GetApiV1WriterSearchDocumentsResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterSearchDocuments']>>
+>
+export type GetApiV1WriterStatsChaptersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterStatsChapters']>>
+>
+export type GetApiV1WriterStatsOverviewResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterStatsOverview']>>
+>
+export type GetApiV1WriterStatsSubscribersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterStatsSubscribers']>>
+>
+export type GetApiV1WriterStatsTodayResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterStatsToday']>>
+>
+export type GetApiV1WriterStatsViewsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterStatsViews']>>
 >
 export type GetApiV1WriterTemplatesResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterTemplates']>>
@@ -9487,4 +11815,16 @@ export type PutApiV1WriterTemplatesIdResult = NonNullable<
 >
 export type PostApiV1WriterTemplatesIdApplyResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1WriterTemplatesIdApply']>>
+>
+export type GetApiV1WriterUserShortcutsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterUserShortcuts']>>
+>
+export type PutApiV1WriterUserShortcutsResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['putApiV1WriterUserShortcuts']>>
+>
+export type GetApiV1WriterUserShortcutsHelpResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['getApiV1WriterUserShortcutsHelp']>>
+>
+export type PostApiV1WriterUserShortcutsResetResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getApi>['postApiV1WriterUserShortcutsReset']>>
 >
