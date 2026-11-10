@@ -37,9 +37,16 @@ jobs:
             mkdir -p ../packages
             ln -sfn "$GITHUB_WORKSPACE/.shared-editor/packages/editor-shared" ../packages/editor-shared
             echo "已链接 packages/editor-shared"
-          else
-            echo "::warning::没能取到 packages/editor-shared（MAIN_REPO_TOKEN 缺失或无权限），@editor-shared 的引用会报 TS2307"
+            exit 0
           fi
+          # 直接停在这里：继续跑 vue-tsc 只会吐八条一模一样的 TS2307，
+          # 看着像代码问题，实际是凭据问题。
+          echo "::error::取不到父仓的 packages/editor-shared。"
+          echo "::error::@editor-shared/* 在 tsconfig 里指向 ../packages/editor-shared/src，那个包住在"
+          echo "::error::yukin371/QingYu（前端与 Qingyu-Editor 共用），单独检出本仓时不存在。"
+          echo "::error::修复：更新本仓 secret MAIN_REPO_TOKEN，值要是能读 QingYu 的 PAT。"
+          echo "::error::不要为此改 tsconfig、加类型 stub 或删掉这个 job —— 那只是把检查关掉。"
+          exit 1
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v5
